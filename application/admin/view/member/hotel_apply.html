@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+{include file="public:header"}
+
+<body class="no-skin">
+<!--头部-->
+{include file="public:nav"}
+
+<div class="main-container ace-save-state" id="main-container">
+  <!--菜单-->
+  <script type="text/javascript">
+  try{ace.settings.loadState('main-container')}catch(e){}
+</script>
+
+{include file="public:left"}
+
+  <div class="main-content">
+    <div class="main-content-inner">
+      <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+          <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="{:url('Index/index')}">首页</a>
+          </li>
+          <li class="active">会员管理</li>
+        
+          <li class="active">入住酒店申请列表</li>
+        </ul><!-- /.breadcrumb -->
+
+      </div>
+      <div id="sidebar2" class="sidebar h-sidebar navbar-collapse collapse ace-save-state">
+        <ul class="nav nav-list header-nav" id="header-nav">
+            <li>
+                <a href="{:url('Member/hotel_apply')}">
+                  <o class="font12 {empty name='status'}rigbg {/empty}">全部</o>
+                </a>
+              <b class="arrow"></b>
+            </li>
+            <li>
+              <a href="{:url('Member/hotel_apply',array('status'=>1))}">
+                 <o class="font12 {if condition='$status eq 1'} rigbg {/if}">已通过</o>                                                      
+                </a>
+              <b class="arrow"></b>
+            </li>
+
+            <li>
+              <a href="{:url('Member/hotel_apply',array('status'=>2))}">
+                 <o class="font12 {if condition='$status eq 2'} rigbg {/if}">已驳回</o>                                                      
+                </a>
+              <b class="arrow"></b>
+            </li>
+         
+            					
+        </ul>
+      </div>
+
+      <div class="page-content">
+        {include file="public:set"}
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="col-sm-10 col-sm-offset-1">
+              <div class="page-header">
+                <div class="row">
+                <div class="col-sm-4">
+                <!-- <a class="btn btn-success btn-white btn-bold" href="{:url('News/add')}">
+                  <i class="ace-icon fa fa-plus icon-only"></i>
+                  添加</a>
+                <button id="change" class="btn btn-warning btn-white btn-bold">
+                  <i class="fa fa-exchange"></i>
+                  排序
+                </button>
+                <button class="btn btn-danger btn-white btn-bold del-btn">
+                  <i class="ace-icon fa fa-trash-o icon-only"></i>
+                  删除
+                </button> -->
+                </div>
+
+                 <!-- <div class="col-sm-8 clearfix">
+                  <form class="form-inline pull-right" action="{:url('News/lister')}">
+                
+                    <div class="form-group">
+                      <div class="input-group">
+									<span class="input-group-addon">
+										<i class="ace-icon fa fa-check"></i>
+									</span>
+                        <input type="text" name="key"  class="form-control search-query" value="" placeholder="请输入需查询的关键字">
+                        <span class="input-group-btn">
+										<button type="submit" class="btn btn-info btn-sm ajax-search-form">
+											<span class="ace-icon fa fa-search icon-on-right bigger-120"></span> 搜索
+									</button>
+									</span>
+                      </div>
+                    </div>
+                  </form>
+                </div> -->
+                </div>
+              </div>
+              <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  
+                  <th>ID</th>                
+                  <th>用户昵称</th>                               
+                  <th>法人姓名</th>
+                  <th>身份证号码</th>
+                  <th>酒店名称</th>
+                  <th>详细地址</th>
+                  <th>所属类型</th>
+                  <th>联系方式</th>
+                  <th>申请时间</th>
+                  <th>操作</th>
+                
+                </tr>
+                </thead>
+                
+                <tbody>
+                {volist name="list" id="v"}
+                <tr class="ace-thumbnails">
+                
+                  <td><span class="badge badge-grey">{$v.id}</span></td>   
+                  <td>{$v.nickname} </td>
+                  <td>{$v.username} </td>
+                  <td>{$v.idcode} </td>
+                  <td>{$v.name} </td>
+                  <td>{$v.addr} </td>
+                  <td>{$v.genre} </td>
+                  <td>{$v.u_phone} </td>
+                  <td>{$v.u_time|date="Y-m-d H:i:s",###}</td>
+                 <td>
+                 {if condition="$v.u_status eq 0"}
+                  <button class="btn btn-xs btn-info" type="button" onclick="change({$v.id})" title="通过">
+                    通过
+                  </button> 
+                  <button class="btn btn-xs btn-danger" type="button" onclick="bo({$v.id})" title="驳回">
+                    驳回
+                  </button> 
+                  {/if}
+                  {if condition="$v.u_status eq 1"}<span style="color:seagreen">已通过</span>{/if}
+                  {if condition="$v.u_status eq 2"}<span style="color:red">已驳回</span>{/if}
+                 </td>
+                </tr>
+                {/volist}
+                {empty name="list"}<tr><td colspan="15" class="text-center">暂无数据</td></tr>{/empty}
+                </tbody>
+               
+              </table>
+              <div class="text-center">
+                {$list->render()}
+              </div>
+            </div>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.page-content -->
+    </div>
+  </div><!-- /.main-content -->
+
+{include file="public:footer"}
+
+<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+  <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+</a>
+</div><!-- /.main-container -->
+
+<script>
+  jQuery(function($) {
+    $('[data-rel=tooltip]').tooltip();
+
+    $( "#hide-option" ).tooltip({
+      hide: {
+        effect: "explode",
+        delay: 250
+      }
+    });
+
+  })
+</script>
+<script type="text/javascript">
+		function dels(id){
+			layer.confirm('你确定删除吗？', {icon: 3}, function(index){
+		    layer.close(index);
+		    window.location.href="__URL__/delete/id/"+id;
+		  });
+	    }
+		</script>
+<script>
+	function change(id){
+			layer.confirm('你确定通过吗？', {icon: 3}, function(index){
+		    layer.close(index);
+		    window.location.href="__URL__/changes/id/"+id;
+		  });
+	    }
+</script>
+
+<script>
+	function bo(id) {
+      layer.prompt({
+        title: '请输入驳回原因',
+        formType: 3
+      }, function (text, index) {
+       
+          $.ajax({
+            type: "post",
+            url: "__URL__/bos",
+            data: {
+              id: id,
+              rebut: text
+            },
+            datatype: "text",
+            success: function (re) {
+              if (re == 1) {
+                layer.close(index);
+                layer.msg("驳回成功");
+               location.reload();
+              } else {
+                layer.close(index);
+                layer.msg("系统繁忙，请稍后再试");
+               location.reload();
+              }
+
+            }
+          })
+        
+      })
+    }
+</script>
+
+
+  <script>
+  $("#change").click(function(){
+  	$("#sortForm").submit();
+  })
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+{include file="public:header"}
+
+<body class="no-skin">
+    <!--头部-->
+    {include file="public:nav"}
+
+    <div class="main-container ace-save-state" id="main-container">
+        <!--菜单-->
+        <script type="text/javascript">
+            try {
+                ace.settings.loadState('main-container')
+            } catch (e) {}
+        </script>
+
+        {include file="public:left"}
+
+        <div class="main-content">
+            <div class="main-content-inner">
+                <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+                    <ul class="breadcrumb">
+                        <li>
+                            <i class="ace-icon fa fa-home home-icon"></i>
+                            <a href="{:url('Index/index')}">首页</a>
+                        </li>
+                        <li class="active">意见反馈</li>
+                      
+                    </ul><!-- /.breadcrumb -->
+
+                </div>
+
+                <div class="page-content">
+                    {include file="public:set"}
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-sm-10 col-sm-offset-1">
+                                <div class="page-header">
+                                    <div class="col-sm-2">
+                                    </div>
+                                    <div class="row">
+                                       
+                                        <div class="col-sm-12 clearfix">
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+
+                                            <th>ID</th>
+
+                                            <th class="hidden-480">反馈内容</th>
+                                            
+                                            <th>反馈时间</th>
+                                        
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {volist name="list" id="v"}
+                                        <tr class="ace-thumbnails">
+
+                                            <td><span class="badge badge-grey">{$v.id}</span></td>
+
+                                          
+
+                                            <td>{$v.content}</td>
+                                          
+                                            <td>{$v.time|intval|date="Y-m-d H:i:s",###}</td>
+                                          
+
+                                            <td id="button{$v.id}">
+                                                <button class="btn btn-xs btn-danger" type="button" onclick="dels({$v['id']})" title="删除">
+                                                    <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                    </button>
+
+                                            </td>
+
+                                        </tr>
+                                        {/volist}
+                                        {empty name="list"}<tr>
+                                            <td colspan="15" class="text-center">暂无数据</td>
+                                        </tr>{/empty}
+                                    </tbody>
+                                </table>
+                                <div class="text-center">
+                                    {$list->render()}
+                                </div>
+                            </div>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.page-content -->
+            </div>
+        </div><!-- /.main-content -->
+
+        {include file="public:footer"}
+
+        <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+            <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+        </a>
+    </div><!-- /.main-container -->
+
+    <script>
+        jQuery(function ($) {
+            $('[data-rel=tooltip]').tooltip();
+
+            $("#hide-option").tooltip({
+                hide: {
+                    effect: "explode",
+                    delay: 250
+                }
+            });
+
+        })
+
+        jQuery(function ($) {
+
+            $('.input-daterange').datepicker({
+                autoclose: true,
+                language: "zh-CN",
+                format: "yyyy-mm-dd"
+            });
+
+            $('[data-rel=tooltip]').tooltip();
+
+            $("#hide-option").tooltip({
+                hide: {
+                    effect: "explode",
+                    delay: 250
+                }
+            });
+
+        })
+
+        $("#out").click(function () {
+            var status = $("#status").val();
+            var wx_account = $("#wx_account").val();
+            var wx_nickname = $("#wx_nickname").val();
+            var start = $("#start").val();
+            var end = $("#end").val();
+            location.href = "__URL__/balance_out/status/" + status + "/wx_account/" + wx_account + "/wx_nickname/" + wx_nickname + '/end/' + end + "/start/" + start;
+        })
+    </script>
+    <script type="text/javascript">
+        function pass(id, ftype) {
+            $.ajax({
+                url: "{:url('Member/balance_status')}",
+                type: 'post',
+                data: {
+                    id: id,
+                    ftype: ftype
+                },
+                success: function (data) {
+                    window.location.reload();
+                }
+            })
+        }
+
+        function dels(id) {
+    layer.confirm('你确定删除吗？', { icon: 3 }, function (index) {
+      layer.close(index);
+      $.ajax({
+        url: '__URL__/delete',
+        type: 'post',
+        data: { id: id },
+        success: function (data) {
+          if(data == 0){
+             layer.msg("删除成功");
+             location.reload();
+          }else{
+            layer.msg("系统繁忙，请稍后再试");
+            location.reload();
+          }
+        }
+      })
+    });
+  }
+    </script>
+
+
+    <script>
+        $("#change").click(function () {
+            $("#sortForm").submit();
+        })
+    </script>
+</body>
+
+</html>

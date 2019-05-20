@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+{include file="public:header"}
+
+<body class="no-skin">
+<!--头部-->
+{include file="public:nav"}
+
+<div class="main-container ace-save-state" id="main-container">
+  <!--菜单-->
+  <script type="text/javascript">
+  try{ace.settings.loadState('main-container')}catch(e){}
+</script>
+
+{include file="public:left"}
+
+  <div class="main-content">
+    <div class="main-content-inner">
+      <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+          <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="{:url('Index/index')}">首页</a>
+          </li>
+          <li class="active">会员列表</li>
+        </ul><!-- /.breadcrumb -->
+
+      </div>
+
+      <div class="page-content">
+        {include file="public:set"}
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="col-sm-10 col-sm-offset-1">
+              <div class="page-header">
+                <div class="row">
+                <div class="col-sm-4">
+              
+                </div>
+                </div>
+              </div>
+              <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>ID</th>           
+                  <th class="hidden-480">会员名</th>
+                  
+                  <th class="hidden-480">头像</th>
+                 
+                  <th class="hidden-480">注册时间</th>
+                  <th style="border-right:#ddd solid 1px;">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="list" id="v"}
+                <tr class="ace-thumbnails">
+              
+                  <td><span class="badge badge-grey">{$v.uid}</span></td>
+                  <td>{$v.nickname}</td>
+               
+                  <td class="ace-thumbnails hidden-480">
+                    <li><a href="{$v.image}" data-rel="colorbox">
+                      <img width="80" height="80" alt="150x150" src="{$v.image}"/>
+                      <div class="text">
+                        <div class="inner">点击放大</div>
+                      </div>
+                    </a></li>
+                  </td>
+                
+                  <td class="hidden-480">{$v.time|date="Y-m-d H:i:s",###}</td>
+                  <td>
+                   
+                   
+                    <button class="btn btn-xs btn-danger" type="button" onclick="dels({$v.uid})" title="删除">
+                      删除
+                    </button> 
+                  </td>
+                </tr>
+                {/volist}
+                {empty name="list"}<tr><td colspan="11" class="text-center">暂无数据</td></tr>{/empty}
+                </tbody>
+
+              </table>
+              <div class="text-center">
+                <ul class="pagination" id="result">
+                  {$page}
+                </ul>
+              </div>
+            </div>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.page-content -->
+    </div>
+  </div><!-- /.main-content -->
+
+{include file="public:footer"}
+
+<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+  <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+</a>
+</div><!-- /.main-container -->
+
+
+<script>
+  jQuery(function($) {
+    $('[data-rel=tooltip]').tooltip();
+
+    $( "#hide-option" ).tooltip({
+      hide: {
+        effect: "explode",
+        delay: 250
+      }
+    });
+
+  })
+</script>
+<script type="text/javascript">
+		function dels(id){
+			layer.confirm('你确定删除此会员吗？', {icon: 3}, function(index){
+		    layer.close(index);
+		    $.ajax({
+            type:"post",
+            url:"{:url('Member/delete')}",
+              data:{id:id},
+              datatype:"text",
+              success:function(re){
+                if(re == 2 || re==1){
+                    layer.msg("系统繁忙请稍后再试");
+                    setTimeout('location.reload()',2000);
+                }
+                
+                if(re == 0){
+                  layer.msg("删除成功")
+                  setTimeout('location.reload()',2000);
+                }
+              }
+          })
+		  });
+	    }
+
+      function level_change(type, uid){
+      $.ajax({
+        url: "{:url('Member/level_change')}",
+        type: "post",
+        data: {type: type, uid: uid},
+        success: function(data){
+          if(data.status == 1){
+            $("#level"+uid).html(data.data['level_name']);
+          }else{
+            layer.msg(data.msg);
+          }
+        }
+      })
+    }
+
+    function change_money(id) {
+      layer.prompt({
+        title: '请输入调整后的佣金',
+        formType: 3
+      }, function (text, index) {
+        var n = /^[1-9]\d*$/;
+        if (!n.test(text)) {
+          layer.alert('请输入正确数值的佣金');
+          return false;
+        } else {
+          $.ajax({
+            type: "post",
+            url: "__URL__/change_money",
+            data: {
+              id: id,
+              money: text
+            },
+            datatype: "text",
+            success: function (re) {
+              if (re == 1) {
+                layer.close(index);
+                layer.msg("调整成功");
+               location.reload();
+              } else {
+                layer.close(index);
+                layer.msg("系统繁忙，请稍后再试");
+               location.reload();
+              }
+
+            }
+          })
+        }
+      })
+    }
+
+   
+		</script>
+<script>
+function change(id,status){
+ if(status == 0){
+	layer.confirm('你确定激活此会员吗？', {icon: 3}, function(index){
+		    layer.close(index);
+		    $.ajax({
+            type:"post",
+            url:"{:url('Member/change')}",
+              data:{id:id},
+              datatype:"text",
+              success:function(re){
+                if(re == 2 || re==0){
+                    layer.msg("系统繁忙请稍后再试");
+                    location.href="{:url('Member/lister')}";
+                }
+                
+                if(re == 1){
+                  layer.msg("激活成功")
+                  location.href="{:url('Member/lister')}";
+                }
+              }
+          })
+		  });
+ }else{
+  layer.confirm('你确定关闭此会员吗？', {icon: 3}, function(index){
+		    layer.close(index);
+		    $.ajax({
+            type:"post",
+            url:"{:url('Member/changes')}",
+              data:{id:id},
+              datatype:"text",
+              success:function(re){
+                if(re == 2 || re==0){
+                    layer.msg("系统繁忙请稍后再试");
+                    location.href="{:url('Member/lister')}";
+                }
+                
+                if(re == 1){
+                  layer.msg("关闭成功")
+                  location.href="{:url('Member/lister')}";
+                }
+              }
+          })
+		  });
+ } 
+
+}
+
+</script>
+
+
+  <script>
+  $("#change").click(function(){
+  	$("#sortForm").submit();
+  })
+
+  </script>
+</body>
+</html>

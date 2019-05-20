@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+{include file="public:header"}
+
+<body class="no-skin">
+<!--头部-->
+{include file="public:nav"}
+
+<div class="main-container ace-save-state" id="main-container">
+  <!--菜单-->
+  <script type="text/javascript">
+  try{ace.settings.loadState('main-container')}catch(e){}
+</script>
+
+{include file="public:left"}
+
+  <div class="main-content">
+    <div class="main-content-inner">
+      <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+          <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="{:url('Index/index')}">首页</a>
+          </li>
+          <li class="active">客房列表</li>
+        </ul>
+
+      </div>
+
+      <div class="page-content">
+        {include file="public:set"}
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="col-sm-10 col-sm-offset-1">
+              <div class="page-header">
+                <div class="row">
+                <div class="col-sm-4">
+                <a class="btn btn-success btn-white btn-bold" href="{:url('Hotel/add_room',array('hid'=>$id))}">
+                  <i class="ace-icon fa fa-plus icon-only"></i>
+                  添加</a>
+                <button id="change" class="btn btn-warning btn-white btn-bold">
+                  <i class="fa fa-exchange"></i>
+                  排序
+                </button>
+             
+                </div>
+
+          
+                </div>
+              </div>
+              <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                 
+                  <th>ID</th>
+                  <th class="hidden-480">排序</th>
+                  <th>酒店名称</th>
+                  <th>客房类型</th>
+                  <th>客房名称</th>  
+                  <th>预定价格</th> 
+                  <th>面积</th>   
+                  <th>容纳人数</th>  
+                  <th class="hidden-480">缩略图</th>
+                  <th>上下架</th>
+                  <th>banner图</th>
+                  <th style="border-right:#ddd solid 1px;width:10%;" >操作</th>
+                </tr>
+                </thead>
+                <form id="logoForm" action="{:url('Hotel/sort_room')}" method="post"> 
+                <tbody>
+                {volist name="list" id="v"}
+                <tr class="ace-thumbnails">
+                
+                  <td><span class="badge badge-grey">{$v.id}</span></td>
+                  <td class="hidden-480"><input class="input-small" type="number" name="{$v.id}" value="{$v.room_sort}"></td>
+                  <td>{$v.name}</td>
+                  <td>{if condition="$v.room_type eq 1"}会议室 {else /}客房{/if}</td>
+                  <td>{$v.room_name}</td>
+                  <td>{$v.room_price}</td>
+                  <td>{$v.room_area}</td>
+                  <td>{$v.room_num}</td>
+                
+                  <td class="ace-thumbnails hidden-480">
+                   {notempty name="$v.room_image"} 
+                    <li><a href="{$v.room_image}" data-rel="colorbox">
+                      <img width="80" height="80" alt="150x150" src="{$v.room_image}"/>
+                      <div class="text">
+                        <div class="inner">点击放大</div>
+                      </div>
+                    </a></li>
+                    {/notempty}
+                  </td>
+                  <td>
+                    <label>
+                      <input id="statu" name="up" onclick="changeu({$v.id})" class="ace ace-switch ace-switch-6" type="checkbox" {if condition="$v.room_up eq 1"}checked{/if} />
+                      <span class="lbl"></span>
+                    </label>
+                  </td>
+              
+                
+                  <td>
+                    <a class="btn btn-xs btn-info" href="{:url('Hotel/room_img',array('id'=>$v['id']))}">
+                      查看图片
+                    </a>
+                    
+                  </td>
+
+                  
+                  <td>
+                    <a class="btn btn-xs btn-info" href="{:url('Hotel/modifys_room',array('id'=>$v['id']))}">
+                      修改
+                    </a>
+                    <button class="btn btn-xs btn-danger" type="button" onclick="dels({$v.id})">
+                      删除
+                    </button>
+                  </td>
+                </tr>
+                {/volist}
+                {empty name="list"}<tr><td colspan="18" class="text-center">暂无数据</td></tr>{/empty}
+                </tbody>
+                </form>
+              </table>
+              <div class="text-center">
+                {$page}
+              </div>
+            </div>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.page-content -->
+    </div>
+  </div><!-- /.main-content -->
+
+ {include file="public:footer"}
+
+<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+  <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+</a>
+</div><!-- /.main-container -->
+<script>
+    $(function(){
+      $('#logoForm').ajaxForm({
+        beforeSubmit: checkForm, // 此方法主要是提交前执行的方法，根据需要设置
+        success: complete, // 这是提交后的方法
+        dataType: 'json'
+      });
+      
+      function checkForm(){
+        
+        
+        }
+    
+      function complete(data){
+        if(data.code==1){
+          layer.alert(data.msg, {icon: 6}, function(index){
+           layer.close(index);
+           location.reload();
+          });
+          
+        }else{
+          layer.alert(data.msg, {icon: 5}, function(index){
+           layer.close(index);
+           location.reload();
+          });
+          
+        }
+      }
+     
+    });
+    
+    </script>
+<script>
+  jQuery(function($) {
+    $('[data-rel=tooltip]').tooltip();
+
+    $( "#hide-option" ).tooltip({
+      hide: {
+        effect: "explode",
+        delay: 250
+      }
+    });
+
+  })
+</script>
+<script type="text/javascript">
+		function dels(id){
+			layer.confirm('你确定删除吗？', {icon: 3}, function(index){
+		    layer.close(index);
+		    $.ajax({
+         type:"post",
+         url:"{:url('Hotel/delete_room')}",
+         data:{id:id},
+         success:function(re)
+         {
+            if(re == 1){
+              layer.msg("删除成功");
+              setTimeout('location.reload()',2000)
+            }else{
+              layer.msg("删除失败");
+              setTimeout('location.reload()',2000)
+            }
+         }
+      })
+		  });
+	    }
+		</script>
+<script>
+function changes(id){
+	$.ajax({
+		type:"post",
+		url:"__URL__/changes",
+	    data:{id:id},
+	    datatype:"text",
+	    success:function(){
+	    	
+	    }
+	})
+}
+function changeu(id){
+	$.ajax({
+		type:"post",
+		url:"__URL__/change_r",
+	    data:{id:id},
+	    datatype:"text",
+	    success:function(){
+	    	
+	    }
+	})
+}
+function changea(id){
+	$.ajax({
+		type:"post",
+		url:"__URL__/changea",
+	    data:{id:id},
+	    datatype:"text",
+	    success:function(){
+	    	
+	    }
+	})
+}
+function changel(id){
+	$.ajax({
+		type:"post",
+		url:"__URL__/changel",
+	    data:{id:id},
+	    datatype:"text",
+	    success:function(){
+	    	
+	    }
+	})
+}
+function changess(id){
+	$.ajax({
+		type:"post",
+		url:"__URL__/changess",
+	    data:{id:id},
+	    datatype:"text",
+	    success:function(){
+	    	
+	    }
+	})
+}
+function changeh(id){
+	$.ajax({
+		type:"post",
+		url:"__URL__/changeh",
+	    data:{id:id},
+	    datatype:"text",
+	    success:function(){
+	    	
+	    }
+	})
+}
+function changek(id){
+	$.ajax({
+		type:"post",
+		url:"__URL__/changek",
+	    data:{id:id},
+	    datatype:"text",
+	    success:function(){
+	    	
+	    }
+	})
+}
+</script>
+
+
+  <script>
+  $("#change").click(function(){
+  	$("#logoForm").submit();
+  })
+
+  </script>
+</body>
+</html>
