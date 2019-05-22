@@ -28,7 +28,8 @@ function deleteImg($oldImg){
  * **/
 function uploads($image){
     $file = request()->file("$image");
-    $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads');
+    $info = $file->validate(['size'=>31457280,'ext'=>'jpg,png,gif'])->move(ROOT_PATH . 'public' . DS . 'uploads');
+
     $pa=$info->getSaveName();
     $path=str_replace("\\", "/", $pa);
     $paths='/uploads/'.$path;
@@ -36,6 +37,8 @@ function uploads($image){
     $images->save(ROOT_PATH.'/public'.$paths,null,60,true);
 
     return $paths;
+   
+    
 }
 /**
  * 检测目录读写权限
@@ -70,7 +73,7 @@ function Post($phone,$code){
     $post_data['userid'] = 18799;
     $post_data['account'] = '会管家';
     $post_data['password'] = '123456';
-    $post_data['content'] = '【会管家】您的验证码为'.$code.'，请您在5分钟内完成操作。'; //短信内容需要用urlencode编码下
+    $post_data['content'] = '【象眼旅游】您的验证码为'.$code.'，请您在5分钟内完成操作。'; //短信内容需要用urlencode编码下
     $post_data['mobile'] = "$phone";
     $post_data['sendtime'] = ''; //不定时发送，值为0，定时发送，输入格式YYYYMMDDHHmmss的日期值
     

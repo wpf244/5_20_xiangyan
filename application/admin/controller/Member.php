@@ -8,9 +8,8 @@ class Member extends BaseAdmin
 {
     public function lister()
     {
-        $list=db("user")->where(['is_delete'=>0])->order("uid desc")->paginate(10);
+        $list=db("user")->order("uid desc")->paginate(10);
         
-    
         $this->assign("list",$list);
         $page=$list->render();
         $this->assign("page",$page);   

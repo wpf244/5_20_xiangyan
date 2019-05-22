@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="pad_btm">
+
+	<!-- 公共顶部 -->
+{include file="public:top"}
+
+	<!-- banner -->
+	{include file="public:lb"}
+
+	<!-- 搜索框 -->
+<div class="search_box p_12 bg_normal">
+	<div class="flex_normal">
+		<div class="search_wrap pad_12 flex_1 bg_white bd_radius am-text-sm flex_between">
+			<div class="search_location flex_normal pad_rt_12 mar_rt_12 col_main">
+				<img class="mar_rt_6" src="__HOME__/img/icon_location.png" width="16" height="16" alt=""><span>郑州</span>
+			</div>
+			<input class="flex_1" type="text" placeholder="请输入搜索关键词">
+			<img class="mar_lt_12" src="__HOME__/img/icon_search.png" width="16" height="16" alt="">
+		</div>
+		<button class="mar_lt_12">搜索</button>
+	</div>
+</div>
+
+	<!-- 分类导航 -->
+	<div class="bd_btm_10">
+		<div data-am-widget="tabs" class="am-tabs am-tabs-default">
+			<div class="am-tabs-bd">
+				<div data-tab-panel-0 class="am-tab-panel am-active">
+					<div class="flex_normal flex_wrap am-g">
+						<a href="{:url('Rural/index')}" class="am-u-sm-3 am-text-center mar_btm_12">
+							<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_1.png" width="42" height="42" alt="">
+							<h6 class="am-text-truncate">乡村旅游</h6>
+						</a>
+						<a href="culture.html" class="am-u-sm-3 am-text-center mar_btm_12">
+							<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_2.png" width="42" height="42" alt="">
+							<h6 class="am-text-truncate">区域文化</h6>
+						</a>
+						<a href="hotel_book.html" class="am-u-sm-3 am-text-center mar_btm_12">
+							<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_3.png" width="42" height="42" alt="">
+							<h6 class="am-text-truncate">民宿</h6>
+						</a>
+						<a href="hot_scenic.html" class="am-u-sm-3 am-text-center mar_btm_12">
+							<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_4.png" width="42" height="42" alt="">
+							<h6 class="am-text-truncate">热门景区</h6>
+						</a>
+						<a href="wineshop.html" class="am-u-sm-3 am-text-center mar_btm_12">
+							<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_5.png" width="42" height="42" alt="">
+							<h6 class="am-text-truncate">酒店</h6>
+						</a>
+						<a href="question.html" class="am-u-sm-3 am-text-center mar_btm_12">
+							<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_6.png" width="42" height="42" alt="">
+							<h6 class="am-text-truncate">问答</h6>
+						</a>
+						<a href="group.html" class="am-u-sm-3 am-text-center mar_btm_12">
+							<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_7.png" width="42" height="42" alt="">
+							<h6 class="am-text-truncate">跟团</h6>
+						</a>
+						<a href="tickets.html" class="am-u-sm-3 am-text-center mar_btm_12">
+							<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_8.png" width="42" height="42" alt="">
+							<h6 class="am-text-truncate">车票机票</h6>
+						</a>
+					</div>
+				</div>
+				<div data-tab-panel-1 class="am-tab-panel ">
+					<div class="flex_normal flex_wrap am-g">
+						<a href="piao.html" class="am-u-sm-3 am-text-center mar_btm_12">
+							<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_9.png" width="42" height="42" alt="">
+							<h6 class="am-text-truncate">门票抢购</h6>
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<ul class="am-tabs-nav am-cf">
+				<li class="am-active"><a href="[data-tab-panel-0]"></a></li>
+				<li class=""><a href="[data-tab-panel-1]"></a></li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- 热门景区 -->
+	<a href="hot_scenic.html" class="flex_between p_12 bg_white">
+		<div class="title_left flex_normal">
+			<img class="mar_rt_6" src="__HOME__/img/video.png" width="18" height="18" alt=""><span>热门景区</span>
+		</div>
+		<div class="flex_normal">
+			<span class="col_nine am-text-sm mar_rt_6">更多</span><img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</div>
+	</a>
+	<div class="list_box pad_lt_12 pad_btm_12">
+		<a class="mar_rt_12" href="scenic_detail.html"><img class="bd_radius" src="__HOME__/img/banner.png" width="186" height="74" alt=""></a>
+		<a class="mar_rt_12" href="scenic_detail.html"><img class="bd_radius" src="__HOME__/img/banner.png" width="186" height="74" alt=""></a>
+		<a class="mar_rt_12" href="scenic_detail.html"><img class="bd_radius" src="__HOME__/img/banner.png" width="186" height="74" alt=""></a>
+	</div>
+
+	<!-- 区域文化 -->
+	<a href="culture.html" class="flex_between p_12 bg_white">
+		<div class="title_left flex_normal">
+			<img class="mar_rt_6" src="__HOME__/img/video.png" width="18" height="18" alt=""><span>区域文化</span>
+		</div>
+		<div class="flex_normal">
+			<span class="col_nine am-text-sm mar_rt_6">更多</span><img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</div>
+	</a>
+	<div class="list_box pad_lt_12 pad_btm_12">
+		<a class="mar_rt_12" href="scenic_detail.html">
+	<img class="bd_radius mar_btm_6" src="__HOME__/img/banner.png" width="186" height="74" alt="">
+	<h4 class="am-text-truncate">滇西密境大理丽...</h4>
+	<div class="col_main">
+		<span class="am-text-xs">￥</span><span class="am-text-lg mar_lt_6 mar_rt_6">3660</span><span
+			class="col_nine am-text-sm">起</span>
+	</div>
+</a>
+		<a class="mar_rt_12" href="scenic_detail.html">
+	<img class="bd_radius mar_btm_6" src="__HOME__/img/banner.png" width="186" height="74" alt="">
+	<h4 class="am-text-truncate">滇西密境大理丽...</h4>
+	<div class="col_main">
+		<span class="am-text-xs">￥</span><span class="am-text-lg mar_lt_6 mar_rt_6">3660</span><span
+			class="col_nine am-text-sm">起</span>
+	</div>
+</a>
+		<a class="mar_rt_12" href="scenic_detail.html">
+	<img class="bd_radius mar_btm_6" src="__HOME__/img/banner.png" width="186" height="74" alt="">
+	<h4 class="am-text-truncate">滇西密境大理丽...</h4>
+	<div class="col_main">
+		<span class="am-text-xs">￥</span><span class="am-text-lg mar_lt_6 mar_rt_6">3660</span><span
+			class="col_nine am-text-sm">起</span>
+	</div>
+</a>
+		<a class="mar_rt_12" href="scenic_detail.html">
+	<img class="bd_radius mar_btm_6" src="__HOME__/img/banner.png" width="186" height="74" alt="">
+	<h4 class="am-text-truncate">滇西密境大理丽...</h4>
+	<div class="col_main">
+		<span class="am-text-xs">￥</span><span class="am-text-lg mar_lt_6 mar_rt_6">3660</span><span
+			class="col_nine am-text-sm">起</span>
+	</div>
+</a>
+	</div>
+
+	<!-- 乡村旅游 -->
+	<a href="travel_index.html" class="flex_between p_12 bg_white">
+		<div class="title_left am-text-lg">
+			乡村旅游
+		</div>
+		<div class="flex_normal">
+			<span class="col_nine am-text-sm mar_rt_6">更多</span><img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</div>
+	</a>
+
+	<div class="p_6">
+		<div class="am-g">
+			<div class="am-u-sm-6">
+				<div class="box_shadow bg_white bd_radius mar_btm_12">
+	<a href="travel_detail.html" class="am-block pic_big bg_cover" style="background-image: url(__HOME__/img/common_pic.jpg);"></a>
+	<div class="p_12">
+		<h3 class="pic_title am-text-sm mar_btm_6"><a href="travel_detail.html">鸡蛋岛很适合小孩子或者不会游泳的人。海岸边及脚踝处</a></h3>
+		<div class="flex_between">
+			<div class="flex_normal">
+				<img class="bd_radius_50 mar_rt_6" src="__HOME__/img/common_pic.jpg" width="20" height="20" alt="">
+				<span class="am-text-xs">课程表</span>
+			</div>
+			<div class="pic_zan am-text-xs">1451</div>
+		</div>
+	</div>
+</div>
+				<div class="box_shadow bg_white bd_radius mar_btm_12">
+	<a href="travel_detail.html" class="am-block pic_big bg_cover" style="background-image: url(__HOME__/img/common_pic.jpg);"></a>
+	<div class="p_12">
+		<h3 class="pic_title am-text-sm mar_btm_6"><a href="travel_detail.html">鸡蛋岛很适合小孩子或者不会游泳的人。海岸边及脚踝处</a></h3>
+		<div class="flex_between">
+			<div class="flex_normal">
+				<img class="bd_radius_50 mar_rt_6" src="__HOME__/img/common_pic.jpg" width="20" height="20" alt="">
+				<span class="am-text-xs">课程表</span>
+			</div>
+			<div class="pic_zan am-text-xs">1451</div>
+		</div>
+	</div>
+</div>
+				<div class="box_shadow bg_white bd_radius mar_btm_12">
+	<a href="travel_detail.html" class="am-block square pic_big bg_cover" style="background-image: url(__HOME__/img/common_pic.jpg);"></a>
+	<div class="p_12">
+		<h3 class="pic_title am-text-sm mar_btm_6"><a href="travel_detail.html">鸡蛋岛很适合小孩子或者不会游泳的人。海岸边及脚踝处</a></h3>
+		<div class="flex_between">
+			<div class="flex_normal">
+				<img class="bd_radius_50 mar_rt_6" src="__HOME__/img/common_pic.jpg" width="20" height="20" alt="">
+				<span class="am-text-xs">课程表</span>
+			</div>
+			<div class="pic_zan am-text-xs">1451</div>
+		</div>
+	</div>
+</div>
+			</div>
+			<div class="am-u-sm-6">
+				<a href="travel_detail.html" class="am-block mar_btm_12 pic_big bg_cover box_shadow bd_radius" style="background-image: url(__HOME__/img/common_pic.jpg);">
+	<div class="pic_txt col_white am-text-center">
+		<h4 class="am-text-truncate mar_btm_6">记录乡村美一刻</h4>
+		<div class="am-text-truncate am-text-sm">好玩自然风景介绍</div>
+	</div>
+</a>
+				<div class="box_shadow bg_white bd_radius mar_btm_12">
+	<a href="travel_detail.html" class="am-block pic_big bg_cover" style="background-image: url(__HOME__/img/common_pic.jpg);"></a>
+	<div class="p_12">
+		<h3 class="pic_title am-text-sm mar_btm_6"><a href="travel_detail.html">鸡蛋岛很适合小孩子或者不会游泳的人。海岸边及脚踝处</a></h3>
+		<div class="flex_between">
+			<div class="flex_normal">
+				<img class="bd_radius_50 mar_rt_6" src="__HOME__/img/common_pic.jpg" width="20" height="20" alt="">
+				<span class="am-text-xs">课程表</span>
+			</div>
+			<div class="pic_zan am-text-xs">1451</div>
+		</div>
+	</div>
+</div>
+				<a href="travel_detail.html" class="am-block mar_btm_12 pic_big bg_cover box_shadow bd_radius" style="background-image: url(__HOME__/img/common_pic.jpg);">
+	<div class="pic_txt col_white am-text-center">
+		<h4 class="am-text-truncate mar_btm_6">记录乡村美一刻</h4>
+		<div class="am-text-truncate am-text-sm">好玩自然风景介绍</div>
+	</div>
+</a>
+			</div>
+		</div>
+	</div>
+
+	<!-- 底部导航 -->
+{include file="public:footer"}
+
+</body>
+
+</html>

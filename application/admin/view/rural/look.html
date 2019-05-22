@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+{include file="public:header"}
+
+<body class="no-skin">
+<!--头部-->
+{include file="public:nav"}
+
+<div class="main-container ace-save-state" id="main-container">
+  <!--菜单-->
+  <script type="text/javascript">
+  try{ace.settings.loadState('main-container')}catch(e){}
+</script>
+
+{include file="public:left"}
+
+  <div class="main-content">
+    <div class="main-content-inner">
+      <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+          <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="{:url('Index/index')}">首页</a>
+          </li>
+          <li class="active">旅拍详情</li>
+        </ul><!-- /.breadcrumb -->
+
+      </div>
+
+      <div class="page-content">
+        {include file="public:set"}
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="col-sm-10 col-sm-offset-1">
+              
+              <table class="table table-bordered see">
+									<caption class="orange bigger-200 mar-b10">旅拍详情</caption>
+									<tbody>
+										<tr>
+											<td class="col-xs-2">旅拍分类</td>
+											<td class="col-xs-4">{$re.name}</td>
+											
+										</tr>
+										
+										<tr>
+											
+											<td class="col-xs-2">拍摄城市</td>
+											
+											<td class="col-xs-4">{$re.addr}</td>
+										</tr>
+										
+										<tr>
+											<td class="col-xs-2">拍摄日期</td>
+											<td class="col-xs-4">{$re.dates}</td>
+											
+										</tr>
+
+										<tr>
+												<td class="col-xs-2">标题</td>
+												<td class="col-xs-4">{$re.title}</td>
+												
+											</tr>
+
+											<tr>
+													<td class="col-xs-2">详情</td>
+													<td class="col-xs-4">{$re.content}</td>
+													
+												</tr>
+										
+										<tr>
+											
+											<td class="col-xs-2">发布时间</td>
+											<td class="col-xs-4">{$re.time|date="Y-m-d",###}</td>
+										</tr>
+										
+										<tr>
+										
+											<td class="col-xs-2">图片</td>
+											<td class="ace-thumbnails hidden-480">
+											{volist name="arr" id="v"}	
+											
+											
+											<a href="{$v}" data-rel="colorbox">
+						                      <img width="80" height="80" alt="150x150" src="{$v}"/>
+						                      
+						                    </a>
+															
+																{/volist}
+															</td>
+										</tr>
+									
+									</tbody>
+								</table>
+								
+								
+             
+            </div>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.page-content -->
+    </div>
+  </div><!-- /.main-content -->
+
+ {include file="public:footer"}
+
+<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+  <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+</a>
+</div><!-- /.main-container -->
+
+<script>
+  jQuery(function($) {
+    $('[data-rel=tooltip]').tooltip();
+
+    $( "#hide-option" ).tooltip({
+      hide: {
+        effect: "explode",
+        delay: 250
+      }
+    });
+
+  })
+</script>
+<script type="text/javascript">
+		function dels(id){
+			layer.confirm('你确定删除吗？', {icon: 3}, function(index){
+		    layer.close(index);
+		    window.location.href="__URL__/deletes/id/"+id;
+		  });
+	    }
+		</script>
+<script>
+function change(id){
+	$.ajax({
+		type:"post",
+		url:"__URL__/change",
+	    data:{id:id},
+	    datatype:"text",
+	    success:function(){
+	    	
+	    }
+	})
+}
+
+</script>
+
+
+  <script>
+  $("#change").click(function(){
+  	$("#sortForm").submit();
+  })
+
+  </script>
+</body>
+</html>

@@ -49,7 +49,8 @@
                   <th>ID</th>
                   <th>用户昵称</th>
                   <th>手机号码</th>
-                  <th>评价内容</th>
+                  <th>反馈内容</th>
+                  <th>反馈类型</th>
                   <th>反馈时间</th>
                   <th style="border-right:#ddd solid 1px;">操作</th>
                 </tr>
@@ -67,6 +68,11 @@
                   <td>{$v.name}</td>
                   <td>{$v.phone}</td>
                   <td>{$v.content}</td>
+                  <td>
+                    {if condition="$v.type eq 1"}功能问题{/if}
+                    {if condition="$v.type eq 2"}体验问题{/if}
+                    {if condition="$v.type eq 3"}其他问题{/if}
+                  </td>
                   <td>{$v.time|date="Y-m-d H:i:s",###}</td>
                   <td>
                    
