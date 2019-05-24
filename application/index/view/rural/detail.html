@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="">
+
+		<div class="back_box">
+				旅拍详情
+				<a class="back_icon" href="javascript:history.back(-1)">
+					<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+				</a>		
+			</div>
+
+	<!-- 公共顶部 -->
+{include file="public:top"}
+
+	<!-- banner -->
+	<div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}'>
+		<ul class="am-slides">
+			{volist name="banner" id="v"}
+			<li class="travel_item" style="background-image: url({$v})"></li>
+			{/volist}
+		</ul>
+	</div>
+
+	<div class="p_12">
+		<h3 class="am-text-lg mar_btm_12 font_bold">{$re.title}</h3>
+		<div class="flex_between">
+			<div class="pic_scan am-text-xs">{$re.looks}</div>
+			<div class="flex_normal">
+				<img class="bd_radius_50 mar_rt_6" src="{$user.image}" width="20" height="20" alt="">
+				<span class="am-text-xs">{$user.nickname}</span>
+			</div>
+		</div>
+		<div class="detail_box">
+			{$re.content}
+		</div>
+	</div>
+
+	<div class="pad_12 mar_btm_12 bg_white">
+		<span>附近好玩儿</span>
+	</div>
+	<div class="list_box pad_lt_12 pad_btm_12">
+		<a href="scenic_detail.html" class="mar_rt_12 mar_btm_12">
+			<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url(__HOME__/img/common_pic.jpg);"><span class="kind_tag">top1</span></div>
+<div class="flex_normal">
+	<h5 class="flex_1 am-text-truncate am-text-sm">滇西密境大理丽...</h5>
+	<span class="mar_lt_6 am-text-xs col_deputy">舒适</span>
+</div>
+<ul class="am-text-xs col_nine">
+	<li>实时人数：3999</li>
+	<li>最佳容量：1.5万</li>
+	<li>最大容量：2.5万</li>
+</ul>
+
+		</a>
+		<a href="scenic_detail.html" class="mar_rt_12 mar_btm_12">
+			<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url(__HOME__/img/common_pic.jpg);"><span class="kind_tag">top1</span></div>
+<div class="flex_normal">
+	<h5 class="flex_1 am-text-truncate am-text-sm">滇西密境大理丽...</h5>
+	<span class="mar_lt_6 am-text-xs col_deputy">舒适</span>
+</div>
+<ul class="am-text-xs col_nine">
+	<li>实时人数：3999</li>
+	<li>最佳容量：1.5万</li>
+	<li>最大容量：2.5万</li>
+</ul>
+
+		</a>
+		<a href="scenic_detail.html" class="mar_rt_12 mar_btm_12">
+			<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url(__HOME__/img/common_pic.jpg);"><span class="kind_tag">top1</span></div>
+<div class="flex_normal">
+	<h5 class="flex_1 am-text-truncate am-text-sm">滇西密境大理丽...</h5>
+	<span class="mar_lt_6 am-text-xs col_deputy">舒适</span>
+</div>
+<ul class="am-text-xs col_nine">
+	<li>实时人数：3999</li>
+	<li>最佳容量：1.5万</li>
+	<li>最大容量：2.5万</li>
+</ul>
+
+		</a>
+	</div>
+
+	<div class="pad_12 mar_btm_12 bg_white">
+		<span>附近特产</span>
+	</div>
+	<div class="list_box pad_lt_12 pad_btm_12">
+		<a href="scenic_detail.html" class="mar_rt_12 mar_btm_12">
+			<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url(__HOME__/img/common_pic.jpg);"><span class="kind_tag">top1</span></div>
+<div class="flex_normal">
+	<h5 class="flex_1 am-text-truncate am-text-sm">滇西密境大理丽...</h5>
+	<span class="mar_lt_6 am-text-xs col_deputy">舒适</span>
+</div>
+		</a>
+		<a href="scenic_detail.html" class="mar_rt_12 mar_btm_12">
+			<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url(__HOME__/img/common_pic.jpg);"><span class="kind_tag">top1</span></div>
+<div class="flex_normal">
+	<h5 class="flex_1 am-text-truncate am-text-sm">滇西密境大理丽...</h5>
+	<span class="mar_lt_6 am-text-xs col_deputy">舒适</span>
+</div>
+		</a>
+		<a href="scenic_detail.html" class="mar_rt_12 mar_btm_12">
+			<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url(__HOME__/img/common_pic.jpg);"><span class="kind_tag">top1</span></div>
+<div class="flex_normal">
+	<h5 class="flex_1 am-text-truncate am-text-sm">滇西密境大理丽...</h5>
+	<span class="mar_lt_6 am-text-xs col_deputy">舒适</span>
+</div>
+		</a>
+	</div>
+
+
+</body>
+
+</html>

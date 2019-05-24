@@ -5,11 +5,24 @@
 
 <body class="pad_btm">
 
+		<div class="back_box">
+				首页
+				<!-- <a class="back_icon" href="javascript:history.back(-1)">
+					<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+				</a>		 -->
+			</div>
+
 	<!-- 公共顶部 -->
 {include file="public:top"}
 
 	<!-- banner -->
-	{include file="public:lb"}
+	<div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}'>
+			<ul class="am-slides">
+			 {volist name="lb" id="vb"}	
+				<li><img src="{$vb.image}"></li>
+			{/volist}
+			</ul>
+		</div>
 
 	<!-- 搜索框 -->
 <div class="search_box p_12 bg_normal">
@@ -43,7 +56,7 @@
 							<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_3.png" width="42" height="42" alt="">
 							<h6 class="am-text-truncate">民宿</h6>
 						</a>
-						<a href="hot_scenic.html" class="am-u-sm-3 am-text-center mar_btm_12">
+						<a href="{:url('Spot/index')}" class="am-u-sm-3 am-text-center mar_btm_12">
 							<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_4.png" width="42" height="42" alt="">
 							<h6 class="am-text-truncate">热门景区</h6>
 						</a>
@@ -59,7 +72,7 @@
 							<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_7.png" width="42" height="42" alt="">
 							<h6 class="am-text-truncate">跟团</h6>
 						</a>
-						<a href="tickets.html" class="am-u-sm-3 am-text-center mar_btm_12">
+						<a href="{$url.url}" class="am-u-sm-3 am-text-center mar_btm_12">
 							<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_8.png" width="42" height="42" alt="">
 							<h6 class="am-text-truncate">车票机票</h6>
 						</a>
@@ -153,74 +166,27 @@
 
 	<div class="p_6">
 		<div class="am-g">
+
+			{volist name="rural" id="vr"}
+
 			<div class="am-u-sm-6">
 				<div class="box_shadow bg_white bd_radius mar_btm_12">
-	<a href="travel_detail.html" class="am-block pic_big bg_cover" style="background-image: url(__HOME__/img/common_pic.jpg);"></a>
+	<a href="{:url('Rural/detail',array('id'=>$vr['id']))}" class="am-block pic_big bg_cover" style="background-image: url({$vr.image});"></a>
 	<div class="p_12">
-		<h3 class="pic_title am-text-sm mar_btm_6"><a href="travel_detail.html">鸡蛋岛很适合小孩子或者不会游泳的人。海岸边及脚踝处</a></h3>
+		<h3 class="pic_title am-text-sm mar_btm_6"><a href="{:url('Rural/detail',array('id'=>$vr['id']))}">{$vr.title}</a></h3>
 		<div class="flex_between">
 			<div class="flex_normal">
-				<img class="bd_radius_50 mar_rt_6" src="__HOME__/img/common_pic.jpg" width="20" height="20" alt="">
-				<span class="am-text-xs">课程表</span>
+				<img class="bd_radius_50 mar_rt_6" src="{$vr.photo}" width="20" height="20" alt="">
+				<span class="am-text-xs">{$vr.nickname}</span>
 			</div>
-			<div class="pic_zan am-text-xs">1451</div>
-		</div>
-	</div>
-</div>
-				<div class="box_shadow bg_white bd_radius mar_btm_12">
-	<a href="travel_detail.html" class="am-block pic_big bg_cover" style="background-image: url(__HOME__/img/common_pic.jpg);"></a>
-	<div class="p_12">
-		<h3 class="pic_title am-text-sm mar_btm_6"><a href="travel_detail.html">鸡蛋岛很适合小孩子或者不会游泳的人。海岸边及脚踝处</a></h3>
-		<div class="flex_between">
-			<div class="flex_normal">
-				<img class="bd_radius_50 mar_rt_6" src="__HOME__/img/common_pic.jpg" width="20" height="20" alt="">
-				<span class="am-text-xs">课程表</span>
-			</div>
-			<div class="pic_zan am-text-xs">1451</div>
-		</div>
-	</div>
-</div>
-				<div class="box_shadow bg_white bd_radius mar_btm_12">
-	<a href="travel_detail.html" class="am-block square pic_big bg_cover" style="background-image: url(__HOME__/img/common_pic.jpg);"></a>
-	<div class="p_12">
-		<h3 class="pic_title am-text-sm mar_btm_6"><a href="travel_detail.html">鸡蛋岛很适合小孩子或者不会游泳的人。海岸边及脚踝处</a></h3>
-		<div class="flex_between">
-			<div class="flex_normal">
-				<img class="bd_radius_50 mar_rt_6" src="__HOME__/img/common_pic.jpg" width="20" height="20" alt="">
-				<span class="am-text-xs">课程表</span>
-			</div>
-			<div class="pic_zan am-text-xs">1451</div>
+			<div class="pic_scan am-text-xs">{$vr.looks}</div>
 		</div>
 	</div>
 </div>
 			</div>
-			<div class="am-u-sm-6">
-				<a href="travel_detail.html" class="am-block mar_btm_12 pic_big bg_cover box_shadow bd_radius" style="background-image: url(__HOME__/img/common_pic.jpg);">
-	<div class="pic_txt col_white am-text-center">
-		<h4 class="am-text-truncate mar_btm_6">记录乡村美一刻</h4>
-		<div class="am-text-truncate am-text-sm">好玩自然风景介绍</div>
-	</div>
-</a>
-				<div class="box_shadow bg_white bd_radius mar_btm_12">
-	<a href="travel_detail.html" class="am-block pic_big bg_cover" style="background-image: url(__HOME__/img/common_pic.jpg);"></a>
-	<div class="p_12">
-		<h3 class="pic_title am-text-sm mar_btm_6"><a href="travel_detail.html">鸡蛋岛很适合小孩子或者不会游泳的人。海岸边及脚踝处</a></h3>
-		<div class="flex_between">
-			<div class="flex_normal">
-				<img class="bd_radius_50 mar_rt_6" src="__HOME__/img/common_pic.jpg" width="20" height="20" alt="">
-				<span class="am-text-xs">课程表</span>
-			</div>
-			<div class="pic_zan am-text-xs">1451</div>
-		</div>
-	</div>
-</div>
-				<a href="travel_detail.html" class="am-block mar_btm_12 pic_big bg_cover box_shadow bd_radius" style="background-image: url(__HOME__/img/common_pic.jpg);">
-	<div class="pic_txt col_white am-text-center">
-		<h4 class="am-text-truncate mar_btm_6">记录乡村美一刻</h4>
-		<div class="am-text-truncate am-text-sm">好玩自然风景介绍</div>
-	</div>
-</a>
-			</div>
+
+     {/volist}
+
 		</div>
 	</div>
 

@@ -28,7 +28,7 @@ class Publish extends BaseUser
                 $path=str_replace("\\", "/", $pa);
                 $paths='/uploads/'.$path;
                 $images=\think\Image::open(ROOT_PATH.'/public'.$paths);
-                $images->save(ROOT_PATH.'/public'.$paths,null,60,true);
+                $images->thumb(414,210,\think\Image::THUMB_CENTER)->save(ROOT_PATH.'/public'.$paths);
                 $arr[]=$paths;
             }else{
                 // 上传失败获取错误信息

@@ -64,6 +64,7 @@
                   <th>拍摄日期</th>
                   <th>标题</th>
                   <th>封面图</th>
+                  <th>首页推荐</th>
                   <th>发布时间</th>
               
                   <th style="border-right:#ddd solid 1px;">操作</th>
@@ -93,7 +94,12 @@
                       </a></li>
                       {/notempty}
                     </td>
-               
+                    <td>
+                        <label>
+                          <input class="ace ace-switch ace-switch-6" onclick="changes({$v.id})" type="checkbox" {if condition="$v.recom eq 1" }checked{/if} />
+                          <span class="lbl"></span>
+                        </label>
+                      </td>
                   <td>{$v.time|date="Y-m-d H:i:s",###}</td>
                 
                   <td>

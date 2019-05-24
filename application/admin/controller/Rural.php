@@ -145,6 +145,24 @@ class Rural extends BaseAdmin
             $this->redirect('index');
         }
     }
+    public function changes()
+    {
+        $id=\input('id');
+        $re=db("rural")->where("id=$id")->find();
+        if($re){
+            if($re['recom'] == 1){
+                $res=db("rural")->where("id=$id")->setField("recom",0);
+            }
+           
+            if($re['recom'] == 0){
+                $res=db("rural")->where("id=$id")->setField("recom",1);
+            }
+
+            echo '0';
+        }else{
+            echo '1';
+        }
+    }
     public function change_all()
     {
         $id=\input('id');
@@ -262,7 +280,7 @@ class Rural extends BaseAdmin
             $path=str_replace("\\", "/", $pa);
             $paths='/uploads/'.$path;
             $images=\think\Image::open(ROOT_PATH.'/public'.$paths);
-            $images->save(ROOT_PATH.'/public'.$paths,null,60,true);
+            $images->thumb(414,210,\think\Image::THUMB_CENTER)->save(ROOT_PATH.'/public'.$paths);
             $data['response'] =$paths;
             return json($data);
         }else{

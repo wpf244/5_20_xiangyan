@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="webkit_box">
+
+		<div class="back_box">
+				热门景区
+				<a class="back_icon" href="javascript:history.back(-1)">
+					<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+				</a>		
+			</div>
+
+	<!-- 公共顶部 -->
+{include file="public:top"}
+
+	<!-- 搜索框 -->
+<div class="search_box p_12 bg_normal">
+	<div class="flex_normal">
+		<div class="search_wrap pad_12 flex_1 bg_white bd_radius am-text-sm flex_between">
+			<div class="search_location flex_normal pad_rt_12 mar_rt_12 col_main">
+				<img class="mar_rt_6" src="__HOME__/img/icon_location.png" width="16" height="16" alt=""><span>郑州</span>
+			</div>
+			<input class="flex_1" type="text" placeholder="请输入搜索关键词">
+			<img class="mar_lt_12" src="__HOME__/img/icon_search.png" width="16" height="16" alt="">
+		</div>
+		<button class="mar_lt_12">搜索</button>
+	</div>
+</div>
+
+	<div class="kind_box webkit_cont">
+		<ul class="kind_menu am-text-sm">
+		  {volist name="res" id="v" key="k"}	
+			<li {if condition="$k eq 1"} class="kind_item active" {else /} class="kind_item" {/if} >{$v.name}</li>
+		  {/volist}
+		</ul>
+		<div class="kind_wrap">
+				{volist name="res" id="v" key="k"}
+			<div {if condition="$k eq 1"} class="kind_cont active p_12" {else /} class="kind_cont p_12" {/if} >
+				<div class="kind_banner bg_cover bd_radius mar_btm_12" style="background-image: url({$v.image});">
+				</div>
+				<div class="am-g">
+                 {volist name="$v['list']" id="p" key="kp"}
+					<a href="{:url('Spot/detail',array('id'=>$p['id']))}" class="am-u-sm-6 am-block mar_btm_12">
+						<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url({$p.image});"><span class="kind_tag">top{$kp}</span></div>
+<div class="flex_normal">
+	<h5 class="flex_1 am-text-truncate am-text-sm">{$p.name}...</h5>
+	<span class="mar_lt_6 am-text-xs col_deputy">{$p.comfort}</span>
+</div>
+<ul class="am-text-xs col_nine">
+	<li>实时人数：{$p.number}</li>
+	<li>最佳容量：{$p.opti}</li>
+	<li>最大容量：{$p.max}</li>
+</ul>
+
+					</a>
+					{/volist}
+					<!-- <a href="scenic_detail.html" class="am-u-sm-6 am-block mar_btm_12">
+						<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url(__HOME__/img/common_pic.jpg);"><span class="kind_tag">top1</span></div>
+<div class="flex_normal">
+	<h5 class="flex_1 am-text-truncate am-text-sm">滇西密境大理丽...</h5>
+	<span class="mar_lt_6 am-text-xs col_deputy">舒适</span>
+</div>
+<ul class="am-text-xs col_nine">
+	<li>实时人数：3999</li>
+	<li>最佳容量：1.5万</li>
+	<li>最大容量：2.5万</li>
+</ul>
+
+					</a>
+					<a href="scenic_detail.html" class="am-u-sm-6 am-block mar_btm_12">
+						<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url(__HOME__/img/common_pic.jpg);"><span class="kind_tag">top1</span></div>
+<div class="flex_normal">
+	<h5 class="flex_1 am-text-truncate am-text-sm">滇西密境大理丽...</h5>
+	<span class="mar_lt_6 am-text-xs col_deputy">舒适</span>
+</div>
+<ul class="am-text-xs col_nine">
+	<li>实时人数：3999</li>
+	<li>最佳容量：1.5万</li>
+	<li>最大容量：2.5万</li>
+</ul>
+
+					</a> -->
+				</div>
+			</div>
+			{/volist}
+			<!-- <div class="kind_cont p_12">
+				<div class="kind_banner bg_cover bd_radius mar_btm_12" style="background-image: url(__HOME__/img/banner.png);">
+				</div>
+				<div class="am-g">
+					<a href="scenic_detail.html" class="am-u-sm-6 am-block mar_btm_12">
+						<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url(__HOME__/img/common_pic.jpg);"><span class="kind_tag">top1</span></div>
+<div class="flex_normal">
+	<h5 class="flex_1 am-text-truncate am-text-sm">滇西密境大理丽...</h5>
+	<span class="mar_lt_6 am-text-xs col_deputy">舒适</span>
+</div>
+<ul class="am-text-xs col_nine">
+	<li>实时人数：3999</li>
+	<li>最佳容量：1.5万</li>
+	<li>最大容量：2.5万</li>
+</ul>
+
+					</a>
+					<a href="scenic_detail.html" class="am-u-sm-6 am-block mar_btm_12">
+						<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url(__HOME__/img/common_pic.jpg);"><span class="kind_tag">top1</span></div>
+<div class="flex_normal">
+	<h5 class="flex_1 am-text-truncate am-text-sm">滇西密境大理丽...</h5>
+	<span class="mar_lt_6 am-text-xs col_deputy">舒适</span>
+</div>
+<ul class="am-text-xs col_nine">
+	<li>实时人数：3999</li>
+	<li>最佳容量：1.5万</li>
+	<li>最大容量：2.5万</li>
+</ul>
+
+					</a>
+				</div>
+			</div>
+			<div class="kind_cont p_12">
+				<div class="kind_banner bg_cover bd_radius mar_btm_12" style="background-image: url(__HOME__/img/banner.png);">
+				</div>
+				<div class="am-g">
+					<a href="scenic_detail.html" class="am-u-sm-6 am-block mar_btm_12">
+						<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url(__HOME__/img/common_pic.jpg);"><span class="kind_tag">top1</span></div>
+<div class="flex_normal">
+	<h5 class="flex_1 am-text-truncate am-text-sm">滇西密境大理丽...</h5>
+	<span class="mar_lt_6 am-text-xs col_deputy">舒适</span>
+</div>
+<ul class="am-text-xs col_nine">
+	<li>实时人数：3999</li>
+	<li>最佳容量：1.5万</li>
+	<li>最大容量：2.5万</li>
+</ul>
+
+					</a>
+				</div>
+			</div> -->
+		</div>
+	</div>
+
+	<script>
+		$(function () {
+			$('.kind_item').click(function () {
+				commonTab($(this), $('.kind_cont'), 'active')
+			})
+		})
+	</script>
+
+</body>
+
+</html>
