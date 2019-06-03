@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="">
+
+	<!-- 返回 -->
+	<div class="back_box">
+		美食详情
+		<a class="back_icon" href="javascript:history.back(-1)">
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+	</div>
+
+	<!-- banner -->
+	<div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}'>
+		<ul class="am-slides">
+			<li class="hotel_item travel_item hotel_banner" style="background-image: url({$re.image})"></li>
+		
+		</ul>
+	</div>
+
+	<div class="pad_12 bd_btm_10">
+		<div class="pd_12 bd_btm">
+			<div class="flex_normal">
+				<h4 class="am-text-lg mar_rt_12">{$re.name}</h4>
+				<div class="flex_1 am-text-right col_deputy am-text-sm">{$type.name} {$re.marray}</div>
+			</div>
+			<div class="flex_between">
+				<span class="am-text-sm col_nine">{$re.times}</span>
+				<div class="col_nine am-text-sm"><span class="col_main mar_rt_6 am-text-default">￥{$re.price}</span>/人</div>
+			</div>
+		</div>
+		<a class="pd_12 bd_btm flex_between bg_white" href="javascript:;">
+			<div class="flex_normal">
+				<img class="mar_rt_12" src="__HOME__/img/icon_mall_position.png" width="16" height="16" alt=""><span class="am-block am-text-truncate">{$re.addr}</span>
+			</div>
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+		<a class="pd_12 bd_btm flex_between bg_white" href="tel:{$re.phone}">
+			<div class="flex_normal">
+				<img class="mar_rt_12" src="__HOME__/img/icon_tousu.png" width="16" height="16" alt=""><span class="am-block am-text-truncate">{$re.phone}</span>
+			</div>
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+	</div>
+
+	<div class="bd_btm_10">
+		<div class="p_12 bg_white">
+			<div class="title_left">
+				推荐菜品
+			</div>
+		</div>
+		<div class="list_box pad_lt_12 pad_btm_12">
+		 {volist name="res" id="v"}
+			<a href="javascript:;" class="mar_rt_12">
+	<img class="bd_radius mar_btm_6" src="{$v.image}" width="186" height="84" alt="">
+	<h4 class="am-text-truncate">{$v.title}</h4>
+</a>
+		{/volist}
+		</div>
+	</div>
+
+	<div class="pad_12">
+		<h5 class="am-text-lg pad_top_12">附近热门</h5>
+		{volist name="list" id="vl"}
+		<a href="{:url('Food/detail',array('id'=>$vl['id']))}" class="flex_normal pd_12 bd_btm">
+	<img class="bd_radius mar_rt_12" src="{$vl.image}" width="130" height="90" alt="">
+	<div class="flex_1">
+		<div class="hotel_wrap">
+			<div class="flex_1">
+				<h3 class="am-text-truncate">{$vl.name}</h3>
+				<div class="am-text-sm col_nine col_deputy">{$vl.tname}   {$vl.marray}</div>
+			</div>
+			<div class="col_nine am-text-sm"><span class="col_main mar_rt_6 am-text-default">￥{$vl.price}</span>/人</div>
+		</div>
+	</div>
+</a>
+	{/volist}
+	</div>
+
+	<div class="no_data">没有更多数据~</div>
+
+</body>
+
+</html>

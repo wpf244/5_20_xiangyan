@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="">
+
+	<!-- 返回 -->
+	<div class="back_box">
+		团体定制详情
+		<a class="back_icon" href="javascript:history.back(-1)">
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+	</div>
+
+	<!-- 公共顶部 -->
+{include file="public:top"}
+
+	<div class="made_top group">
+		<div class="am-text-xl font_bold">{$lb.name}</div>
+		<div class="am-text-sm">{$lb.desc}</div>
+	</div>
+
+	<div class="p_12">
+		<div class="font_bold pad_btm_12 bd_btm">出游基本信息</div>
+		<a class="flex_normal pd_12 bd_btm" href="javascript:;">
+			<label class="made_lb">出发城市</label>
+			<input class="flex_1 lg" type="text" value="{$re.start_place}" readonly>
+		</a>
+		<a class="flex_normal pd_12 bd_btm" href="javascript:;">
+			<label class="made_lb">目的地</label>
+			<input class="flex_1 lg" type="text" value="{$re.end_place}" readonly>
+		</a>
+		<a class="flex_normal pd_12 bd_btm" href="javascript:;">
+			<label class="made_lb">出游日期</label>
+			<input class="flex_1 lg" type="text" value="{$re.start_time}" readonly>
+		</a>
+		<a class="flex_normal pd_12 bd_btm" href="javascript:;">
+			<label class="made_lb">归来日期</label>
+			<input class="flex_1 lg" type="text" value="{$re.end_time}" readonly>
+		</a>
+		<div class="pd_12" style="display:flex;">
+			<div class="made_lb">出游人数</div>
+			<div class="am-g flex_1">
+				<div class="am-u-sm-6">
+					<h6 class="mar_btm_6">{$re.nums}成人</h6>
+				</div>
+				<div class="am-u-sm-6">
+					<h6 class="mar_btm_6">{$re.num}儿童</h6>
+				</div>
+			</div>
+		</div>
+
+		<div class="font_bold pd_12 bd_btm">更多定制需求</div>
+		<a class="flex_between pd_12 bd_btm" href="javascript:;">
+			<label class="made_lb">人均预算</label>
+			<input class="flex_1 lg" type="text" value="{$re.money}" readonly>
+			<span class="mar_lt_12">元/人</span>
+		</a>
+		<a class="flex_normal pd_12 bd_btm" href="javascript:;">
+			<label class="made_lb">住宿标准</label>
+			<input class="flex_1 lg" value="{$re.hotel}" readonly>
+		</a>
+		<a class="flex_normal pd_12 bd_btm" href="javascript:;">
+			<label class="made_lb">交通方式</label>
+			<input class="flex_1 lg" value="{$re.car}" readonly>
+		</a>
+		<a class="flex_between pd_12 bd_btm" href="javascript:;">
+			<label class="made_lb">用餐标准</label>
+			<input class="flex_1 lg" type="text" value="{$re.dining}" readonly>
+			<span class="mar_lt_12">元/餐/人</span>
+		</a>
+		<div class="pd_12 bd_btm" style="display:flex;">
+			<div class="made_lb">其他要求</div>
+			<div class="flex_1">
+				<textarea style="height:120px;">{$re.content}</textarea>
+			</div>
+		</div>
+
+		<div class="font_bold pd_12 bd_btm">联系人信息</div>
+		<div class="flex_normal pd_12 bd_btm">
+			<label class="made_lb">联系人</label>
+			<input class="flex_1 lg" type="text" value="{$re.username}" readonly>
+		</div>
+		<div class="flex_normal pd_12 bd_btm">
+			<label class="made_lb">公司名称</label>
+			<input class="flex_1 lg" type="text" value="{$re.company}" readonly>
+		</div>
+		<div class="flex_normal pd_12 bd_btm">
+			<label class="made_lb">手机号码</label>
+			<input class="flex_1 lg" type="text" value="{$re.phone}" readonly>
+		</div>
+		<div class="flex_normal pd_12 bd_btm">
+			<label class="made_lb">邮箱</label>
+			<input class="flex_1 lg" type="text" value="{$re.email}" readonly>
+		</div>
+
+	</div>
+	
+	<script>
+	$(function () {
+		//商品数量加减
+		var $plus = $('.num_plus'),
+			$reduce = $('.num_minus'),
+			$all_sum = $('.num_ipt');
+
+		$plus.click(function () {
+			var $inputVal = $(this).prev('input'),
+				$count = parseInt($inputVal.val()) + 1,
+				$obj = $(this).parents('.num_form').find('.num_minus');
+			$inputVal.val($count);
+		})
+
+		$reduce.click(function () {
+			var $inputVal = $(this).next('input'),
+				$count = parseInt($inputVal.val()) - 1;
+			if ($inputVal.val() <= 1) {
+				return;
+			}
+			$inputVal.val($count);
+		})
+	})
+</script>
+	
+</body>
+
+</html>

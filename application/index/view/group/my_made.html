@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="" style="padding-bottom: 76px;">
+
+	<!-- 返回 -->
+	<div class="back_box">
+		我的定制
+		<a class="back_icon" href="{:url('Group/index')}">
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+	</div>
+
+	<!-- 公共顶部 -->
+{include file="public:top"}
+
+	<div class="flex_between p_12 bd_btm">
+		<h6>私人定制<span class="am-text-sm col_nine"> | 处理中</span></h6>
+		<!-- <div class="am-text-sm col_nine">1个方案</div> -->
+	</div>
+
+	<ul>
+	   {volist name="person" id="v"}
+		<li class="flex_between p_12 bd_btm">
+			<div class="flex_1">
+				<h5 class="mar_btm_6 am-text-truncate">{$v.start_place}-{$v.end_place}{$v.days}定制游（个人）</h5>
+				<div class="am-text-sm">
+					<span>{$v.num}人   {$v.start_time}出发</span>
+				</div>
+			</div>
+			<a class="am-text-sm col_nine mar_lt_12" href="{:url('Group/person_detail',array('id'=>$v['id']))}">查看详情</a>
+		</li>
+       {/volist}
+	   {volist name="team" id="vt"}
+		<li class="flex_between p_12 bd_btm">
+			<div class="flex_1">
+				<h5 class="mar_btm_6 am-text-truncate">{$vt.start_place}-{$vt.end_place}定制游（团队）</h5>
+				<div class="am-text-sm">
+					<span>{$vt.nums}成人 {$vt.num}儿童   {$vt.start_time}出发</span>
+				</div>
+			</div>
+			<a class="am-text-sm col_nine mar_lt_12" href="{:url('Group/team_detail',array('id'=>$vt['id']))}">查看详情</a>
+		</li>
+		{/volist}
+	</ul>
+
+	<div class="no_data">没有更多定制~</div>
+
+	<div class="confirm_wrap p_12">
+		<a href="{:url('Group/index')}" class="confirm_btn" id="confirm_btn">定制新的行程</a>
+	</div>
+	
+</body>
+
+</html>

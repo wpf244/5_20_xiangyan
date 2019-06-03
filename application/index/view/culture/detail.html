@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="">
+
+		<div class="back_box">
+				区域文化详情
+				<a class="back_icon" href="javascript:history.back(-1)">
+					<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+				</a>
+			</div>
+
+	<!-- 公共顶部 -->
+{include file="public:top"}
+
+  {notempty name="$re['image']"}	
+   <div class="pd_12">
+		<div class="travel_banner bg_cover" style="background-image: url({$re.image});"></div>
+	</div>
+  {/notempty}
+	<div class="p_12">
+		<h3 class="am-text-lg mar_btm_12 font_bold">{$re.title}</h3>
+		<div class="flex_between">
+			<div class="pic_scan am-text-xs">{$re.looks}</div>
+			<div class="flex_normal">
+			
+				<span class="am-text-xs">{$re.writer}</span>
+			</div>
+		</div>
+		<div class="detail_box">
+			{$re.content}
+		</div>
+	</div>
+
+	<a href="javascript:;" class="am-block pad_12 bg_white">
+		<div class="title_left am-text-lg">
+			图片集
+		</div>
+	</a>
+
+	<div class="am-g pd_12">
+	 {volist name="res" id="v"}
+		<div class="am-u-sm-6">
+			<div class="culture_pic bg_cover" style="background-image: url({$v.image});">
+				<div class="culture_desc">{$v.title}</div>
+			</div>
+		</div>
+	  {/volist}
+	</div>
+
+</body>
+
+</html>

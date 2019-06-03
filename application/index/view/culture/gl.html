@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="">
+
+	<!-- 返回 -->
+	<div class="back_box">
+		游玩攻略
+		<a class="back_icon" href="javascript:history.back(-1)">
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+	</div>
+
+	<!-- 公共顶部 -->
+<div class="top_box flex_between bg_white pad_12 bd_btm">
+	<a href="index.html">
+		<img src="__HOME__/img/logo.png" width="91" height="30" alt="">
+	</a>
+	<div class="am-text-sm col_main" id="weather"></div>
+</div>
+
+	<div class="detail_box">
+		<p><img src="{$re.image}" alt=""></p>
+		{$re.desc}
+	</div>
+
+</body>
+
+</html>

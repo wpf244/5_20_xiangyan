@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+{include file="public:header"}
+
+<body class="no-skin">
+<!--头部-->
+{include file="public:nav"}
+
+<div class="main-container ace-save-state" id="main-container">
+  <!--菜单-->
+  <script type="text/javascript">
+  try{ace.settings.loadState('main-container')}catch(e){}
+</script>
+
+{include file="public:left"}
+
+  <div class="main-content">
+    <div class="main-content-inner">
+      <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+          <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="{:url('Index/index')}">首页</a>
+          </li>
+          <li class="active">已完成列表</li>
+        </ul>
+
+      </div>
+
+      <div id="sidebar2" class="sidebar h-sidebar navbar-collapse collapse ace-save-state">
+					<ul class="nav nav-list header-nav" id="header-nav">
+							<li>
+									<a href="{:url('Group/person')}">
+										<o class="font12 {if condition='ACTION_NAME eq "person" '} rigbg {/if}">个人定制</o>
+									</a>
+								<b class="arrow"></b>
+							</li>
+							<li>
+									<a href="{:url('Group/persons')}">
+										<o class="font12 {if condition='ACTION_NAME eq "persons" '} rigbg {/if}">已完成列表</o>
+									</a>
+								<b class="arrow"></b>
+							</li>
+					
+	
+																	
+					</ul>
+				</div>
+
+      <div class="page-content">
+        {include file="public:set"}
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="col-sm-10 col-sm-offset-1">
+              <div class="page-header">
+                <div class="row">
+                <div class="col-sm-4">
+                    
+                      <button class="btn btn-danger btn-white btn-bold del-btns">
+                      
+                        删除
+                      </button>
+             
+                </div>
+
+              
+                </div>
+              </div>
+              <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th class="center">
+                    <label class="pos-rel">
+                      <input type="checkbox" class="ace checkAll">
+                      <span class="lbl"></span>
+                    </label>
+                  </th>
+                  <th>ID</th>
+                  <th>联系人姓名</th>
+                  <th>联系人电话</th>
+                  <th>出发地</th>
+                  <th>目的地</th>
+                  <th>出发时间</th>
+                  <th>返回时间</th>
+                  <th>出行人数</th>
+                  <th>提交时间</th>
+                
+                  <th style="border-right:#ddd solid 1px;">操作</th>
+                </tr>
+                </thead>
+               
+                <tbody>
+                {volist name="list" id="v"}
+                <tr class="ace-thumbnails">
+                  <td class="center"><label class="pos-rel">
+                    <input type="checkbox" class="ace check" value="{$v.id}">
+                    <span class="lbl"></span>
+                  </label>
+                  </td>
+                  <td><span class="badge badge-grey">{$v.id}</span></td>
+                  <td>{$v.username}</td>
+                  <td>{$v.phone}
+                  </td>
+                  <td>{$v.start_place}</td>
+                  <td>{$v.end_place}</td>
+                  <td>{$v.start_time}</td>
+                  <td>{$v.end_time}</td>
+                  <td>{$v.num}</td>
+                
+                  <td>{$v.time|date="Y-m-d H:i:s",###}</td>
+                
+                  <td>
+                      <a class="btn btn-xs btn-success" href="{:url('Group/look',array('id'=>$v['id']))}">
+                          查看详情
+                        </a>
+                
+                    <button class="btn btn-xs btn-danger" type="button" onclick="dels({$v.id})">
+                      删除
+                    </button>
+                  </td>
+                </tr>
+                {/volist}
+                {empty name="list"}<tr><td colspan="18" class="text-center">暂无数据</td></tr>{/empty}
+                </tbody>
+              
+              </table>
+              <div class="text-center">
+                {$page}
+              </div>
+            </div>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.page-content -->
+    </div>
+  </div><!-- /.main-content -->
+
+{include file="public:footer"}
+
+<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+  <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+</a>
+</div><!-- /.main-container -->
+
+<script>
+  jQuery(function($) {
+    $('[data-rel=tooltip]').tooltip();
+
+    $( "#hide-option" ).tooltip({
+      hide: {
+        effect: "explode",
+        delay: 250
+      }
+    });
+
+  })
+  $(".del-btns").on(ace.click_event,function(){
+	var valarr = [];
+	var checkitem = $(".check:checked")
+    var len = checkitem.length;
+    if(len>0){
+    	for(let i = 0; i < len;i++){
+    		valarr.push(checkitem.eq(i).val())
+    	}
+      layer.confirm('是否删除?',{icon: 3},function (index) {
+        layer.close(index);
+        window.location.href="delete_alls/id/"+valarr;
+      });
+    }else{
+      layer.msg("请先选择数据");
+    }
+  });
+</script>
+<script type="text/javascript">
+		function dels(id) {
+    layer.confirm('你确定删除吗？', { icon: 3 }, function (index) {
+      layer.close(index);
+      $.ajax({
+        url: '__URL__/delete',
+        type: 'post',
+        data: { id: id },
+        success: function (data) {
+          if(data == 0){
+             layer.msg("删除成功");
+             location.reload();
+          }else{
+            layer.msg("系统繁忙，请稍后再试");
+            location.reload();
+          }
+        }
+      })
+    });
+  }
+		</script>
+<script type="text/javascript">
+		function change(id){
+			layer.confirm('你确定完成吗？', {icon: 3}, function(index){
+		    layer.close(index);
+		    window.location.href="__URL__/change/id/"+id;
+		  });
+	    }
+		</script>
+
+
+
+  <script>
+  $("#change").click(function(){
+  	$("#sortForm").submit();
+  })
+
+  </script>
+</body>
+</html>

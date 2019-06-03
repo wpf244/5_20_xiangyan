@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="">
+
+	<!-- 返回 -->
+	<div class="back_box">
+		区域文化
+		<a class="back_icon" href="javascript:history.back(-1)">
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+	</div>
+
+	<!-- 公共顶部 -->
+{include file="public:top"}
+
+	<div class="p_12">
+		<div class="travel_banner bd_radius bg_cover" style="background-image: url({$lb.image});"></div>
+	</div>
+
+	<a href="javascript:;" class="am-block pad_12 bg_white">
+		<div class="title_left am-text-lg">
+			区域文化
+		</div>
+	</a>
+
+	<div class="p_12">
+		<div class="culture_bg bd_radius p_12">
+			<ul class="flex_normal flex_wrap am-text-sm">
+			 {volist name="res" id="v"}	
+				<li class="mar_rt_12 mar_btm_6"><a href="{:url('Culture/detail',array('id'=>$v['id']))}">{$v.title}</a></li>
+			{/volist}
+			</ul>
+		</div>
+	</div>
+
+</body>
+
+</html>

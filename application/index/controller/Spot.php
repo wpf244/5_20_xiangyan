@@ -90,4 +90,35 @@ class Spot extends BaseHome
 
         return $this->fetch();
     }
+    public function save()
+    {
+        $uid=session("userid");
+        if($uid){
+            $id=input("id");
+
+            $re=db("spot_ticket")->where("id",$id)->find();
+
+            if($re){
+
+                $sid=$re['sid'];
+
+                $spot=db("spot")->where("id",$sid)->find();
+
+                if($spot){
+
+                    
+
+                }else{
+                    echo '-1';
+                }
+
+            }else{
+                echo '-1';
+            }
+
+        }else{
+            echo '-2';
+        }
+    }
+
 }

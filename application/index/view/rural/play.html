@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="">
+
+	<!-- 返回 -->
+	<div class="back_box">
+		附近好玩儿
+		<a class="back_icon" href="javascript:history.back(-1)">
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+	</div>
+
+	<!-- 公共顶部 -->
+{include file="public:top"}
+
+	<div class="p_12">
+		<div class="travel_banner bd_radius bg_cover" style="background-image: url({$lb.image});"></div>
+	</div>
+
+	<div class="list_box pad_lt_12">
+	  {volist name="res" id="v" key="k" offset="0" length="3"}	
+		<a class="mar_rt_12" href="{:url('Spot/detail',array('id'=>$v['id']))}">
+			<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url(__HOME__/img/common_pic.jpg);"><span class="kind_tag">top{$k}</span></div>
+<div class="flex_normal">
+	<h5 class="flex_1 am-text-truncate am-text-sm">{$v.name}</h5>
+	<span class="mar_lt_6 am-text-xs col_deputy">{$v.comfort}</span>
+</div>
+<ul class="am-text-xs col_nine">
+	<li>实时人数：{$v.number}</li>
+	<li>最佳容量：{$v.opti}</li>
+	<li>最大容量：{$v.max}</li>
+</ul>
+
+		</a>
+		{/volist}
+	</div>
+
+	<div class="pad_12">
+			{volist name="res" id="v" key="k" offset="3" length="5"}		
+		<a class="flex_normal pd_12 bd_btm" href="{:url('Spot/detail',array('id'=>$v['id']))}">
+			<div class="kind_width bg_cover mar_rt_12 bd_radius" style="background-image: url(__HOME__/img/common_pic.jpg);"></div>
+<div class="flex_1">
+	<div class="flex_normal">
+		<h5 class="flex_1 am-text-truncate am-text-sm">{$v.name}</h5>
+		<span class="mar_lt_6 am-text-xs col_deputy">{$v.comfort}</span>
+	</div>
+	<ul class="am-text-xs col_nine">
+		<li>实时人数：{$v.number}</li>
+		<li>最佳容量：{$v.opti}</li>
+		<li>最大容量：{$v.max}</li>
+	</ul>
+</div>
+		</a>
+		{/volist}
+	
+	</div>
+
+	<div class="no_data">没有更多数据~</div>
+
+</body>
+
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="">
+
+	<!-- 返回 -->
+	<div class="back_box">
+		跟团定制
+		<a class="back_icon" href="javascript:history.back(-1)">
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+	</div>
+
+{include file="public:top"}
+
+	<!-- 搜索框 -->
+<!-- <div class="search_box p_12 bg_normal">
+	<div class="flex_normal">
+		<div class="search_wrap pad_12 flex_1 bg_white bd_radius am-text-sm flex_between">
+			<div class="search_location flex_normal pad_rt_12 mar_rt_12 col_main">
+				<img class="mar_rt_6" src="__HOME__/img/icon_location.png" width="16" height="16" alt=""><span>郑州</span>
+			</div>
+			<input class="flex_1" type="text" placeholder="请输入搜索关键词">
+			<img class="mar_lt_12" src="__HOME__/img/icon_search.png" width="16" height="16" alt="">
+		</div>
+		<button class="mar_lt_12">搜索</button>
+	</div>
+</div> -->
+
+	<ul class="order_hd flex_around bd_btm">
+		<li class="order_item active tab_item">定制游</li>
+		<li class="order_item tab_item">跟团游</li>
+	</ul>
+
+	<div class="tab_wrap">
+		<div class="tab_cont active">
+			<div class="p_12">
+				<div class="group_banner mar_btm_12 bg_cover bd_radius" style="background-image:url({$lb.image});"></div>
+				<div class="flex_between mar_btm_12">
+				   
+					{volist name="flow" key="k" id="v"}
+                    {if condition="$k neq 1"}
+					<img class="group_arrow" src="__HOME__/img/icon_arrow_big.png" width="16" height="16" alt="">
+                   {/if}
+					<div class="group_made am-text-center">
+						<img src="{$v['image']}" width="40" height="40" alt="">
+						<div class="am-text-sm col_nine">{$v['name']}</div>
+					</div>
+					
+				   {/volist}
+				</div>
+				<a href="{:url('Group/my_made')}" class="flex_between">
+					<h6>我的定制</h6><img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+				</a>
+			</div>
+
+			<div class="group_person flex_between bg_cover pad_12 mar_btm_12">
+				<div class="col_white am-text-sm">
+					<div class="mar_btm_6"><span class="am-text-lg font_bold">个人定制</span>
+						{volist name="personal" id="vp" offset="0" length="2"}
+						
+						<span class="mar_lt_6">{$vp.name}</span>
+						
+						{/volist}
+					</div>
+					<div class="flex_normal">
+						{volist name="personal" id="vp" offset="2" length="3"}
+						<div class="flex_normal mar_rt_6">
+							<img src="__HOME__/img/icon_checked.png" width="14" height="14" alt=""><span class="mar_lt_6">{$vp.name}</span>
+						</div>
+						{/volist}
+					</div>
+				</div>
+				<a href="{:url('Group/made_person')}" class="group_btn red">立即定制</a>
+			</div>
+
+			<div class="group_person group flex_between bg_cover pad_12">
+				<div class="col_white am-text-sm">
+					<div class="mar_btm_6"><span class="am-text-lg font_bold">团队定制</span>
+						{volist name="team" id="vt" offset="0" length="2"}
+						
+						<span class="mar_lt_6">{$vt.name}</span>
+						
+						{/volist}
+					</div>
+					<div class="flex_normal">
+							{volist name="team" id="vt" offset="2" length="3"}
+							<div class="flex_normal mar_rt_6">
+								<img src="__HOME__/img/icon_checked.png" width="14" height="14" alt=""><span class="mar_lt_6">{$vt.name}</span>
+							</div>
+							{/volist}
+					</div>
+				</div>
+				<a href="{:url('Group/made_team')}" class="group_btn blue">立即定制</a>
+			</div>
+
+
+		</div>
+		<div class="tab_cont">
+			<ul class="p_12">
+				<li class="group_item">
+	<a href="group_detail.html">
+		<div class="group_pic bd_radius bg_cover mar_btm_6" style="background-image:url(__HOME__/img/group_pic.png);"></div>
+		<h4 class="am-text-truncate mar_btm_6">高铁时代：大理 丽江 动车4日休闲右</h4>
+		<div class="am-text-sm am-text-truncate col_nine">360°全视觉美景:邀您一同感受大美云南的四季风情 丽江玉</div>
+	</a>
+</li>
+				<li class="group_item">
+	<a href="group_detail.html">
+		<div class="group_pic bd_radius bg_cover mar_btm_6" style="background-image:url(__HOME__/img/group_pic.png);"></div>
+		<h4 class="am-text-truncate mar_btm_6">高铁时代：大理 丽江 动车4日休闲右</h4>
+		<div class="am-text-sm am-text-truncate col_nine">360°全视觉美景:邀您一同感受大美云南的四季风情 丽江玉</div>
+	</a>
+</li>
+				<li class="group_item">
+	<a href="group_detail.html">
+		<div class="group_pic bd_radius bg_cover mar_btm_6" style="background-image:url(__HOME__/img/group_pic.png);"></div>
+		<h4 class="am-text-truncate mar_btm_6">高铁时代：大理 丽江 动车4日休闲右</h4>
+		<div class="am-text-sm am-text-truncate col_nine">360°全视觉美景:邀您一同感受大美云南的四季风情 丽江玉</div>
+	</a>
+</li>
+			</ul>
+			<div class="no_data">没有更多消息~</div>
+		</div>
+	</div>	
+
+</body>
+
+</html>

@@ -60,7 +60,7 @@
                         icon: 6
                     }, function (index) {
                         layer.close(index);
-                        window.location.href = data.url;
+                        window.history.back();
                     });
 
                 } else {
@@ -68,7 +68,7 @@
                         icon: 5
                     }, function (index) {
                         layer.close(index);
-                        window.location.href = data.url;
+                        window.location.reload();
                     });
 
                 }

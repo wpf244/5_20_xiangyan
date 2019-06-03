@@ -10,7 +10,15 @@ class Rural extends BaseHome
 
         $res=db("rural_type")->where(["status"=>1])->order(["sort asc","id desc"])->select();
 
+        foreach($res as $k => $v){
+            $res[$k]['list']=db("rural")->where(["tid"=>$v['id'],"status"=>1,"recom"=>1])->order("id desc")->select();
+        }
+
         $this->assign("res",$res);
+
+        $lb=db("lb")->where("fid",6)->find();
+
+        $this->assign("lb",$lb);
 
         return $this->fetch();
     }
@@ -65,6 +73,31 @@ class Rural extends BaseHome
         $this->assign("user",$user);
 
         db("rural")->where("id",$id)->setInc("looks",1);
+
+        
+        return $this->fetch();
+    }
+    /**
+    * 附近好玩
+    *
+    * @return void
+    */
+    public function play()
+    {
+        //banner图
+        $lb=db("lb")->where("fid",7)->find();
+
+        $this->assign("lb",$lb);
+
+        $id=input("id");
+
+        $re=db("rural")->where("id",$id)->find();
+
+        $addr=$re['addr'];
+
+        $res=db("spot")->where(["status"=>1,"addr"=>["like","%".$addr."%"]])->order(["sort asc","id desc"])->select();
+
+        $this->assign("res",$res);
 
         
         return $this->fetch();

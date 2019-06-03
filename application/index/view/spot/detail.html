@@ -155,8 +155,8 @@
 		<div class="ticket_btn transparent">{$ticket.marray}</div>
 	</div>
 	<div class="ticket_buy am-text-center">
-		<div class="ticket_price">￥<span class="am-text-xxl font_bold">{$ticket.price}</span></div>
-		<a class="ticket_btn" href="ticket_buy.html">购买</a>
+		<div class="ticket_price">￥<span class="am-text-xl font_bold">{$ticket.price}</span></div>
+		<a class="ticket_btn" id="go_buy" >购买</a>
 	</div>
 </li>
 			</ul>
@@ -165,6 +165,25 @@
 		{/notempty}
 
 	</div>
+
+	<!-- <script>
+
+		$("#go_buy").click(function(){
+         var id = {$ticket['id']};
+
+				 $.ajax({
+					 type:"post",
+					 url:"{:url('Spot/save')}",
+					 data:{id:id},
+           dataType:"text",
+					 success:function(){
+						  
+					 }
+				 })
+
+		})
+	 
+	</script> -->
 
 	<script>
 		function showMore(ele1, ele2) {

@@ -84,7 +84,7 @@ class News extends BaseAdmin{
         $this->assign('fid',$fid);
         $this->assign('title',$title);
 
-        $list = db('news')->alias('a')->join("news_type b","a.fid = b.ty_id")->where($map)->order(['sort'=>'asc','id'=>'desc'])->paginate(10);
+        $list = db('news')->alias('a')->join("news_type b","a.fid = b.ty_id")->where($map)->order(['sort'=>'asc','id'=>'desc'])->paginate(10,false,['query'=>request()->param()]);;
         // print_r($list);
         //$list = db('news')->alias('a')->join("news_type b","a.fid = b.ty_id")->order(['sort'=>'asc','id'=>'desc'])->paginate(10);
         $this->assign("list",$list);

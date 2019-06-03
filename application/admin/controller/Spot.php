@@ -175,7 +175,7 @@ class Spot extends BaseAdmin
             $map =[];
         }
 
-        $list=db("spot")->alias("a")->field("a.*,b.name")->where($map)->join("spot_city b","a.cid = b.id")->order(["a.sort asc","a.id desc"])->paginate(20);
+        $list=db("spot")->alias("a")->field("a.*,b.name as cname")->where($map)->join("spot_city b","a.cid = b.id")->order(["a.sort asc","a.id desc"])->paginate(20,false,['query'=>request()->param()]);
 
         $this->assign("list",$list);
 
@@ -320,6 +320,24 @@ class Spot extends BaseAdmin
            
             if($re['status'] == 0){
                 $res=db("spot")->where("id=$id")->setField("status",1);
+            }
+
+            echo '0';
+        }else{
+            echo '1';
+        }
+    }
+    public function changes()
+    {
+        $id=\input('id');
+        $re=db("spot")->where("id=$id")->find();
+        if($re){
+            if($re['recome'] == 1){
+                $res=db("spot")->where("id=$id")->setField("recome",0);
+            }
+           
+            if($re['recome'] == 0){
+                $res=db("spot")->where("id=$id")->setField("recome",1);
             }
 
             echo '0';

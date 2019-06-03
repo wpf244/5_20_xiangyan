@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="bg_normal">
+        <div class="back_box">
+				回答
+				<a class="back_icon" href="javascript:history.back(-1)">
+					<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+				</a>		
+			</div>
+	<!-- 公共顶部 -->
+{include file="public:top"}
+<form id="logoForm" action="{:url('Question/saves')}" method="POST" enctype="multipart/form-data" >
+	<div class="p_12 bd_btm flex_normal bg_white">
+		<div class="">{$re.title}</div>
+	</div>
+	<div class="p_12 bg_white">
+		<textarea class="form_area am-block am-text-sm" name="content" style="resize:none;width: 100%;height: 120px;" placeholder="详细真实作答：指导性分条意见 更易获得 更易被采纳..."></textarea>
+	</div>
+
+	<input name="qid" type="hidden" value="{$re.id}" />
+
+	<div class="confirm_wrap p_12">
+		<button class="confirm_btn"  type="submit">提交</button>
+    </div>
+</form>
+
+<script>
+
+        $('#logoForm').ajaxForm({
+                beforeSubmit: checkForm, // 此方法主要是提交前执行的方法，根据需要设置
+                success: complete, // 这是提交后的方法
+                dataType: 'json'
+            });
+        
+            function checkForm() {
+                                 
+                    var content = $('textarea[name=content]').val();
+        
+                    if($.trim(content).length > 500 || $.trim(content).length == 0){
+                        layer.msg("内容不得为空或超过500字");
+                        return false;
+                    }
+        
+            }
+        
+            function complete(data) {
+                if (data.code == 1) {
+                    layer.alert(data.msg, {
+                        icon: 6
+                    }, function (index) {
+                        layer.close(index);
+                        location.href=document.referrer;
+                    });
+        
+                } else {
+                    layer.alert(data.msg, {
+                        icon: 5
+                    }, function (index) {
+                        layer.close(index);
+                        location.href=document.referrer;
+                    });
+        
+                }
+            }
+        
+        
+        </script>
+
+	<script type="text/javascript">
+
+        function imgChange(obj1, obj2) {
+            //获取点击的文本框
+            var file = document.getElementById("file");
+            //存放图片的父级元素
+            var imgContainer = document.getElementsByClassName(obj1)[0];
+            //获取的图片文件
+            var fileList = file.files;
+            //文本框的父级元素
+            var input = document.getElementsByClassName(obj2)[0];
+            var imgArr = [];
+            //遍历获取到得图片文件
+            for (var i = 0; i < fileList.length; i++) {
+                var imgUrl = window.URL.createObjectURL(file.files[i]);
+                imgArr.push(imgUrl);
+                var img = document.createElement("img");
+                img.setAttribute("src", imgArr[i]);
+                var imgAdd = document.createElement("div");
+                imgAdd.setAttribute("class", "z_addImg");
+                imgAdd.appendChild(img);
+                imgContainer.appendChild(imgAdd);
+            };
+            imgRemove();
+        };
+
+        function imgRemove() {
+            var imgList = document.getElementsByClassName("z_addImg");
+            var mask = document.getElementsByClassName("z_mask")[0];
+            var cancel = document.getElementsByClassName("z_cancel")[0];
+            var sure = document.getElementsByClassName("z_sure")[0];
+            for (var j = 0; j < imgList.length; j++) {
+                imgList[j].index = j;
+                imgList[j].onclick = function() {
+                    var t = this;
+                    mask.style.display = "block";
+                    cancel.onclick = function() {
+                        mask.style.display = "none";
+                    };
+                    sure.onclick = function() {
+                        mask.style.display = "none";
+                        t.remove();
+                    };
+
+                }
+            };
+        };
+
+    </script>
+
+</body>
+
+</html>

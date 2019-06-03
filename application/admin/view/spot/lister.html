@@ -92,7 +92,7 @@
                   <th class="hidden-480">缩略图</th>
                   <th class="hidden-480">发布时间</th>
                   <th>状态</th>
-               
+                  <th>推荐</th>
                   <th style="border-right:#ddd solid 1px;">操作</th>
                 </tr>
                 </thead>
@@ -108,7 +108,7 @@
                   <td><span class="badge badge-grey">{$v.id}</span></td>
                   <td class="hidden-480"><input class="input-small" type="number" name="{$v.id}" value="{$v.sort}"></td>
                   <td>{$v.name}</td>
-                  <td class="hidden-480">{$v.name}</td> 
+                  <td class="hidden-480">{$v.cname}</td> 
                   <td class="hidden-480">{$v.comfort}</td>
                   <td class="hidden-480">{$v.level}</td>
                   <td>
@@ -144,6 +144,13 @@
                       <span class="lbl"></span>
                     </label>
                   </td>
+
+                  <td>
+                      <label>
+                        <input id="statu" name="recome" onclick="changes({$v.id})" class="ace ace-switch ace-switch-6" type="checkbox" {if condition="$v.recome eq 1"}checked{/if} />
+                        <span class="lbl"></span>
+                      </label>
+                    </td>
              
                   <td>
                     <a class="btn btn-xs btn-info" href="{:url('modifys',array('id'=>$v['id']))}">

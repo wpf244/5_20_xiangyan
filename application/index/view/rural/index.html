@@ -3,29 +3,94 @@
 
 {include file="public:header"}
 
-<body class="bg_normal pad_btm">
+<body class="">
 
-		<div class="back_box">
-				乡村旅游
-				<!-- <a class="back_icon" href="javascript:history.back(-1)">
-					<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
-				</a>		 -->
-			</div>
+	<!-- 返回 -->
+	<div class="back_box">
+		乡村旅游
+		<a class="back_icon" href="javascript:history.back(-1)">
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+	</div>
+
 	<!-- 公共顶部 -->
 {include file="public:top"}
 
 	<div class="bd_btm_10"></div>
 	<div class="flex_normal flex_wrap">
-	  {volist name="res" id="v"}
-		<a href="{:url('Rural/lister',array('id'=>$v['id']))}" class="travel_tre bg_white am-text-center">
-			<img src="{$v.image}" width="30" height="30" alt="">
-			<div class="mar_top_6">{$v.name}</div>
-		</a>
-	 {/volist}
+			{volist name="res" id="v"}
+			  <a href="{:url('Rural/lister',array('id'=>$v['id']))}" class="travel_tre bg_white am-text-center">
+				  <img src="{$v.image}" width="30" height="30" alt="">
+				  <div class="mar_top_6">{$v.name}</div>
+			  </a>
+		   {/volist}
+		  </div>
+
+	<div class="p_12">
+		<div class="travel_banner bd_radius bg_cover" style="background-image: url({$lb.image});"></div>
 	</div>
 
-	<!-- 底部导航 -->
-{include file="public:footer"}
+	<div class="bd_btm_10">
+		<div class="travel_scroll">
+			{volist name="res" id="v" key="k"}
+			<a href="javascript:;" {if condition="$k eq 1"} class="tab_item active" {else /}  class="tab_item" {/if}>{$v.name}</a>
+           {/volist}
+			<!-- <a href="javascript:;" class="tab_item">果蔬采摘</a>
+			<a href="javascript:;" class="tab_item">农业观光</a>
+			<a href="javascript:;" class="tab_item">宗教文化</a>
+			<a href="javascript:;" class="tab_item">红色旅游</a>
+			<a href="javascript:;" class="tab_item">其他风光</a> -->
+		</div>
+	</div>
+
+	<div class="tab_wrap">
+			{volist name="res" id="v" key="k"}
+		<div {if condition="$k eq 1"} class="tab_cont active" {else /} class="tab_cont" {/if}>
+			<!-- 自然风光推荐 -->
+			<div class="bd_btm_10">
+				<div class="p_12 bg_white">
+					<div class="title_left">
+						{$v.name}推荐
+					</div>
+				</div>
+				<div class="list_box pad_lt_12 pad_btm_12">
+                 {volist name="$v['list']" id="p" offset="0" length="3"}
+					<a class="mar_rt_12" href="{:url('Rural/detail',array('id'=>$p['id']))}">
+						<img class="bd_radius mar_btm_6" src="{$p.image}" width="186" height="74" alt="">
+						<h4 class="am-text-truncate">{$p.title}</h4>
+					</a>
+                 {/volist}
+					<!-- <a class="mar_rt_12" href="travel_detail.html">
+	<img class="bd_radius mar_btm_6" src="__HOME__/img/banner.png" width="186" height="74" alt="">
+	<h4 class="am-text-truncate">滇西密境大理丽...</h4>
+</a>
+					<a class="mar_rt_12" href="travel_detail.html">
+	<img class="bd_radius mar_btm_6" src="__HOME__/img/banner.png" width="186" height="74" alt="">
+	<h4 class="am-text-truncate">滇西密境大理丽...</h4>
+</a> -->
+				</div>
+			</div>
+			<div class="p_12">
+				{volist name="$v['list']" id="o" offset="3" length="5"}
+				<a href="{:url('Rural/detail',array('id'=>$o['id']))}" class="flex_normal pd_12 bd_btm">
+	<img class="bd_radius mar_rt_12" src="{$o.image}" width="130" height="90" alt="">
+	<div class="flex_1">
+		<div class="hotel_wrap">
+			<div class="flex_1">
+				<h3 class="am-text-truncate">{$o.title}</h3>
+				<div class="am-text-sm col_nine">{$o.addr}</div>
+			</div>
+		
+		</div>
+	</div>
+</a>
+			{/volist}	
+			</div>
+			<div class="no_data">没有更多推荐~</div>
+			<!-- 自然风光推荐 -->
+		</div>
+		{/volist}
+	</div>
 
 </body>
 

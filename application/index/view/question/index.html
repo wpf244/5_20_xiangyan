@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="">
+		<div class="back_box">
+				问答
+				<a class="back_icon" href="{:url('Index/index')}">
+					<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+				</a>		
+			</div>
+	<!-- 公共顶部 -->
+{include file="public:top"}
+
+	<div class="p_12">
+		<div class="travel_banner bd_radius bg_cover" style="background-image: url({$lb.image});"></div>
+	</div>
+
+	<div class="flex_between p_12 bg_white bd_btm">
+		<div class="title_left am-text-lg">问答</div>
+		<ul class="ques_menu flex_normal am-text-sm">
+			<li {if condition="$id eq 0"} class="active" {else /} class="" {/if} ><a class="am-block" href="{:url('Question/index')}">全部</a></li>
+			<li {if condition="$id eq 1"} class="active" {else /} class="" {/if} ><a class="am-block" href="{:url('Question/index',array('id'=>1))}">最新</a></li>
+		</ul>
+	</div>
+
+	<div class="ques_wrap">
+		<ul class="ques_list">
+			{volist name="res" id="v"}
+			
+			<li class="ques_item">
+				<a class="am-block p_12 bd_btm" href="{:url('Question/detail',array('id'=>$v['id']))}">
+	<h3 class="am-text-truncate mar_btm_6">{$v.title}</h3>
+	<div class="ques_cont mar_btm_6">
+		<span>详情</span>{$v.content}</div>
+	<div class="flex_between">
+		<div class="flex_normal">
+          {empty name="$v.nickname"}
+			<img class="bd_radius_50 mar_rt_6" src="__HOME__/img/common_pic.jpg" width="30" height="30" alt=""><span>匿名</span>
+			{else /}
+			<img class="bd_radius_50 mar_rt_6" src="{$v.image}" width="30" height="30" alt=""><span>{$v.nickname}</span>
+          {/empty}
+		</div>
+		<div class="flex_normal"><span class="mar_rt_6 col_main">（{$v.cou}个回答）</span><span class="am-text-sm col_nine">{$v.time|date="Y-m-d",###}</span></div>
+	</div>
+</a>
+			</li>
+			
+			{/volist}
+		</ul>
+		<div class="no_data">没有更多提问~</div>
+	</div>
+
+	<!-- 提问图片 -->
+	<a class="pic_position pic_ask am-block"  href="{:url('Question/ask')}"><img src="__HOME__/img/ask_pic.png" width="60" height="60" alt=""></a>
+   
+  
+
+</body>
+
+</html>
