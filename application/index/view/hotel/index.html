@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="">
+
+	<!-- 返回 -->
+	<div class="back_box">
+		酒店民宿
+		<a class="back_icon" href="javascript:history.back(-1)">
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+	</div>
+
+	<!-- 公共顶部 -->
+{include file="public:top"}
+
+	<!-- 搜索框 -->
+<div class="search_box p_12 bg_normal">
+	<div class="flex_normal">
+		<div class="search_wrap pad_12 flex_1 bg_white bd_radius am-text-sm flex_between">
+			<div class="search_location flex_normal pad_rt_12 mar_rt_12 col_main">
+				<img class="mar_rt_6" src="__HOME__/img/icon_location.png" width="16" height="16" alt=""><span>郑州</span>
+			</div>
+			<input class="flex_1" type="text" placeholder="请输入搜索关键词">
+			<img class="mar_lt_12" src="__HOME__/img/icon_search.png" width="16" height="16" alt="">
+		</div>
+		<button class="mar_lt_12">搜索</button>
+	</div>
+</div>
+
+	<ul class="order_hd flex_around bd_btm">
+		<li class="order_item active tab_item">酒店</li>
+		<li class="order_item tab_item">民宿</li>
+	</ul>
+
+	<ul class="tab_wrap">
+		<li class="tab_cont active">
+			<!-- 酒店 -->
+			<a href="javascript:;" class="am-block p_12 bg_white">
+				<div class="title_left am-text-lg font_bold">{$hotel_lb.name}</div>
+				<div class="title_desc am-text-sm col_nine">{$hotel_lb.desc}</div>
+			</a>
+			<div class="list_box pad_lt_12 pad_btm_12 bd_btm">
+			{volist name="hotel" id="v"}
+				<a class="mar_rt_12" href="{:url('Hotel/detail',array('id'=>$v['id']))}">
+	<img class="bd_radius mar_btm_6" src="{$v.image}" width="186" height="74" alt="">
+	<h4 class="am-text-truncate">{$v.name}</h4>
+	<div class="col_main">
+		<span class="am-text-xs">￥</span><span class="am-text-lg mar_lt_6 mar_rt_6">{$v.money}</span>
+	</div>
+</a>
+		{/volist}		
+			</div>
+
+			<h5 class="p_12 am-text-lg">热销推荐</h5>
+			<div class="pad_12">
+			{volist name="hotels" id="vs"}	
+				<a href="{:url('Hotel/detail',array('id'=>$vs['id']))}" class="flex_normal pd_12 bd_btm">
+	<img class="bd_radius mar_rt_12" src="{$vs.image}" width="130" height="90" alt="">
+	<div class="flex_1">
+		<div class="hotel_wrap">
+			<div class="flex_1">
+				<h3 class="am-text-truncate">{$vs.name}</h3>
+				<div class="am-text-sm col_nine">{$vs.addr}</div>
+			</div>			
+			<div class="flex_between">
+				<span class="col_deputy">{$vs.score}诚信分</span>
+				<div class="col_nine am-text-sm"><span class="col_main mar_rt_6 am-text-default">￥{$vs.money}</span>/人</div>
+			</div>
+		</div>
+	</div>
+</a>
+		{/volist}		
+			</div>
+
+			<div class="no_data">暂无更多记录~</div>
+
+		</li>
+
+		<li class="tab_cont">
+			<!-- 民宿 -->
+			<a href="javascript:;" class="am-block p_12 bg_white">
+				<div class="title_left am-text-lg font_bold">{$home_lb.name}</div>
+				<div class="title_desc am-text-sm col_nine">{$home_lb.desc}</div>
+			</a>
+			<div class="list_box pad_lt_12 pad_btm_12 bd_btm">
+				{volist name="home" id="vh"}
+				<a class="mar_rt_12" href="{:url('Hotel/detail',array('id'=>$vh['id']))}">
+	<img class="bd_radius mar_btm_6" src="{$vh.image}" width="186" height="74" alt="">
+	<h4 class="am-text-truncate">{$vh.name}</h4>
+	<div class="col_main">
+		<span class="am-text-xs">￥</span><span class="am-text-lg mar_lt_6 mar_rt_6">{$vh.money}</span>
+	</div>
+</a>
+		{/volist}
+			</div>
+
+			<h5 class="p_12 am-text-lg">热销推荐</h5>
+			<div class="pad_12">
+				{volist name="homes" id="p"}	
+				<a href="{:url('Hotel/detail',array('id'=>$p['id']))}" class="flex_normal pd_12 bd_btm">
+	<img class="bd_radius mar_rt_12" src="{$p.image}" width="130" height="90" alt="">
+	<div class="flex_1">
+		<div class="hotel_wrap">
+			<div class="flex_1">
+				<h3 class="am-text-truncate">{$p.name}</h3>
+				<div class="am-text-sm col_nine">{$p.addr}</div>
+			</div>			
+			<div class="flex_between">
+				<span class="col_deputy">{$p.score}诚信分</span>
+				<div class="col_nine am-text-sm"><span class="col_main mar_rt_6 am-text-default">￥{$p.money}</span>/人</div>
+			</div>
+		</div>
+	</div>
+</a>
+		{/volist}	
+			</div>
+
+			<div class="no_data">暂无更多记录~</div>
+		
+		</li>
+	</ul>
+
+	<!-- 优惠券弹窗 -->	
+	{if condition="$re.open eq 1"}		
+	<div class="wine_tan">
+		<img class="wine_close" src="__HOME__/img/icon_close_white.png" width="24" height="24" alt="">
+		<div class="wine_man">满{$re.moneys}元可用</div>
+		<div class="wine_price">{$re.money}</div>
+		<a class="wine_btn" href="javascript:;">立即领取</a>
+	</div>
+	<!-- 背景蒙版 -->
+	<div class="common_bg" id="common_bg" style="z-index: 999"></div>
+{/if}
+	
+
+	<script>
+		$(function () {
+			// 优惠券弹窗
+			setTimeout(function () {
+				$('#common_bg').fadeIn(600)
+				$('.wine_tan').fadeIn(600)
+			}, 1500)
+
+			// 背景蒙版点击
+			$('#common_bg').click(function () {
+				$('#common_bg').fadeOut(600)
+				$('.wine_tan').fadeOut(600)
+			})
+
+			// 弹窗关闭按钮
+			$('.wine_close').click(function () {
+				$('#common_bg').fadeOut(600)
+				$('.wine_tan').fadeOut(600)
+			})
+
+			// 领取成功
+			$('.wine_btn').click(function () {
+				console.log('领取成功！')
+			})
+
+		})
+	</script>
+
+
+</body>
+
+</html>

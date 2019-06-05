@@ -23,7 +23,7 @@
             <a href="{:url('Index/index')}">首页</a>
           </li>
           
-          <li class="active">团游列表</li>
+          <li class="active">酒店民宿</li>
         </ul><!-- /.breadcrumb -->
 
       </div>
@@ -36,7 +36,7 @@
               <div class="page-header">
                 <div class="row">
                 <div class="col-sm-4">
-                <a class="btn btn-success btn-white btn-bold" href="{:url('Package/add')}">
+                <a class="btn btn-success btn-white btn-bold" href="{:url('Hotel/add')}">
                   <i class="ace-icon fa fa-plus icon-only"></i>
                   添加</a>
                 <button id="change" class="btn btn-warning btn-white btn-bold">
@@ -58,7 +58,7 @@
 									<span class="input-group-addon">
 										<i class="ace-icon fa fa-check"></i>
 									</span>
-                        <input type="text" name="title" class="form-control search-query" value="" placeholder="请输入需查询的标题关键字">
+                        <input type="text" name="title" id="key" class="form-control search-query" value="" placeholder="请输入需查询的标题关键字">
                         <span class="input-group-btn">
 										<button type="submit" class="btn btn-info btn-sm ajax-search-form">
 											<span class="ace-icon fa fa-search icon-on-right bigger-120"></span> 搜索
@@ -82,16 +82,18 @@
                   </th>
                   <th>ID</th>
                   <th class="hidden-480">排序</th>
-                  <th class="hidden-480">标题</th>
-                  <th class="hidden-480">起价</th>
-                 
-                 
-                  <th class="hidden-480">门票名称</th>
-                  <th class="hidden-480">门票价格</th>
+                  <th>酒店名称</th>
+                  <th class="hidden-480">酒店评分</th>
+                  <th class="hidden-480">人均消费</th>
+                  <th class="hidden-480">地址</th>
+                  <th class="hidden-480">联系方式</th>
+                  <th class="hidden-480">酒店类型</th>
+                  <th class="hidden-480">酒店房间</th>
+                  <th class="hidden-480">banner图</th>
                   <th class="hidden-480">缩略图</th>
                  
                   <th>状态</th>
-                  <th class="hidden-480">发布时间</th>
+                  <th>推荐</th>
                   <th style="border-right:#ddd solid 1px;">操作</th>
                 </tr>
                 </thead>
@@ -106,12 +108,24 @@
                   </td>
                   <td><span class="badge badge-grey">{$v.id}</span></td>
                   <td class="hidden-480"><input class="input-small" type="number" name="{$v.id}" value="{$v.sort}"></td>
-                  <td class="hidden-480">{$v.title}</td> 
-                  <td class="hidden-480">{$v.qprice}</td> 
-                
-                  <td class="hidden-480">{$v.ticket}</td>
-                  <td class="hidden-480">{$v.price}</td>
-                
+                  <td>{$v.name}</td>
+                  <td class="hidden-480">{$v.score}</td> 
+                  <td class="hidden-480">{$v.money}</td>
+                  <td class="hidden-480">{$v.addr}</td>
+                  <td class="hidden-480">{$v.phone}</td>
+                  <td class="hidden-480">{if condition="$v.type eq 1"}酒店 {else /}民宿{/if}</td>
+                    <td>
+                        <a class="btn btn-xs btn-info" href="{:url('room',array('id'=>$v['id']))}">
+                          查看
+                        </a>
+                        
+                      </td>
+                      <td>
+                        <a class="btn btn-xs btn-info" href="{:url('banner',array('id'=>$v['id']))}">
+                          查看
+                        </a>
+                        
+                      </td>
                   <td class="ace-thumbnails hidden-480">
                     <li><a href="{$v.image}" data-rel="colorbox">
                       <img width="80" height="80" alt="150x150" src="{$v.image}"/>
@@ -120,7 +134,7 @@
                       </div>
                     </a></li>
                   </td>
-                 
+                
                   <td>
                     <label>
                       <input id="statu" name="status" onclick="change({$v.id})" class="ace ace-switch ace-switch-6" type="checkbox" {if condition="$v.status eq 1"}checked{/if} />
@@ -128,7 +142,13 @@
                     </label>
                   </td>
 
-                  <td class="hidden-480">{$v.time|date="Y-m-d H:i:s",###}</td>
+                  <td>
+                      <label>
+                        <input id="statu" name="recome" onclick="changes({$v.id})" class="ace ace-switch ace-switch-6" type="checkbox" {if condition="$v.recome eq 1"}checked{/if} />
+                        <span class="lbl"></span>
+                      </label>
+                    </td>
+             
                   <td>
                     <a class="btn btn-xs btn-info" href="{:url('modifys',array('id'=>$v['id']))}">
                       <i class="ace-icon fa fa-pencil bigger-120"></i>

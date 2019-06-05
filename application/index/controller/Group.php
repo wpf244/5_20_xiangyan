@@ -26,6 +26,12 @@ class Group extends BaseUser
 
         $this->assign("team",$team);
 
+        //跟团游
+
+        $res=db("package")->where(["status"=>1])->order(["sort asc","id desc"])->select();
+
+        $this->assign("res",$res);
+
         return $this->fetch();
     }
     /**
@@ -174,5 +180,85 @@ class Group extends BaseUser
         $this->assign("re",$re);
         
         return $this->fetch();
+    }
+    /**
+    * 团游详情
+    *
+    * @return void
+    */
+    public function detail()
+    {
+        $id=input("id");
+
+        $re=db("package")->where("id",$id)->find();
+
+        $this->assign("re",$re);
+        
+        return $this->fetch();
+    }
+    /**
+    * 提交订单
+    *
+    * @return void
+    */
+    public function go_buy()
+    {
+        $id=input("id");
+
+        $re=db("package")->where("id",$id)->find();
+
+        $this->assign("re",$re);
+        
+        return $this->fetch();
+    }
+    /**
+    * 保存订单
+    *
+    * @return void
+    */
+    public function save_order()
+    {
+      
+
+        $id=input("id");
+
+        $uid=session("userid");
+
+        $num=input("num");
+
+        $re=db("package")->where("id",$id)->find();
+
+        if($re){
+            
+            $data['uid']=$uid;
+            $data['gid']=$id;
+            $data['num']=$num;
+            $data['price']=$num*$re['price'];
+            $data['name']=$re['ticket'];
+            $data['username']=input("username");
+            $data['phone']=input("phone");
+            $data['code']='ck-'.\uniqid();
+            $data['time']=time();
+            $data['type']=1;
+
+            $order=db("order")->where(["uid"=>$uid,"gid"=>$id,"type"=>1,"status"=>0])->find();
+
+            if($order){
+                db("order")->where("id",$order['id'])->delete();
+            }
+
+            $rea=db("order")->insert($data);
+
+            $did=db("order")->getLastInsID();
+
+            if($rea){
+                echo $did;
+            }else{
+                echo '0';
+            }
+
+        }else{
+            echo '0';
+        }
     }
 }

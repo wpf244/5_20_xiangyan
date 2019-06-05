@@ -156,7 +156,7 @@
 	</div>
 	<div class="ticket_buy am-text-center">
 		<div class="ticket_price">￥<span class="am-text-xl font_bold">{$ticket.price}</span></div>
-		<a class="ticket_btn" id="go_buy" >购买</a>
+		<a class="ticket_btn" href="{:url('Spot/go_buy',array('id'=>$ticket['id']))}" >购买</a>
 	</div>
 </li>
 			</ul>

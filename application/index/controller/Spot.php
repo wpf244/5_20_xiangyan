@@ -90,35 +90,65 @@ class Spot extends BaseHome
 
         return $this->fetch();
     }
-    public function save()
+    public function go_buy()
     {
+        $id=input("id");
+
+        $re=db("spot_ticket")->where("id",$id)->find();
+
+        $this->assign("re",$re);
+        
+        return $this->fetch();
+    }
+     /**
+    * 保存订单
+    *
+    * @return void
+    */
+    public function save_order()
+    {     
+        $id=input("id");
+
         $uid=session("userid");
-        if($uid){
-            $id=input("id");
 
-            $re=db("spot_ticket")->where("id",$id)->find();
+        $num=input("num");
 
-            if($re){
+        $re=db("spot_ticket")->where("id",$id)->find();
 
-                $sid=$re['sid'];
+        if($re){
+            $data['start_time']=input("start_time");
+            $data['end_time']=input("end_time");
+            $data['uid']=$uid;
+            $data['gid']=$id;
+            $data['num']=$num;
+            $data['price']=$num*$re['price'];
+            $data['name']=$re['title'];
+            $data['username']=input("username");
+            $data['phone']=input("phone");
+            $data['code']='ck-'.\uniqid();
+            $data['time']=time();
+            $data['type']=2;
 
-                $spot=db("spot")->where("id",$sid)->find();
+            $order=db("order")->where(["uid"=>$uid,"gid"=>$id,"type"=>2,"status"=>0])->find();
 
-                if($spot){
+            if($order){
+                db("order")->where("id",$order['id'])->delete();
+            }
 
-                    
+            $rea=db("order")->insert($data);
 
-                }else{
-                    echo '-1';
-                }
+            $did=db("order")->getLastInsID();
 
+            if($rea){
+                echo $did;
             }else{
-                echo '-1';
+                echo '0';
             }
 
         }else{
-            echo '-2';
+            echo '0';
         }
     }
+    
 
 }

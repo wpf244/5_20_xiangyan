@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="">
+
+	<!-- 返回 -->
+	<div class="back_box">
+		酒店详情
+		<a class="back_icon" href="javascript:history.back(-1)">
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+	</div>
+
+	<!-- 公共顶部 -->
+	{include file="public:top"}
+
+	<!-- banner -->
+	<div class="hotel_box">
+		<div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}'
+			data-am-flexslider="{controlNav: false}">
+			<ul class="am-slides">
+				<li class="hotel_item travel_item hotel_banner" style="background-image: url({$re.image})"></li>
+				{volist name="banner" id="vb"}
+				<li class="hotel_item travel_item hotel_banner" style="background-image: url({$vb.image})"></li>
+				{/volist}
+			</ul>
+		</div>
+		<span class="ticket_btn deputy hotel_score">{$re.score}诚信分</span>
+	</div>
+
+	<div class="pad_12 bd_btm_10">
+		<div class="pd_12 bd_btm am-text-lg font_bold">{$re.name}</div>
+		<a href="javascript:;" class="pd_12 bd_btm flex_between">
+			<div class="flex_normal">
+				<img class="mar_rt_6" src="__HOME__/img/icon_weizhi.png" width="22" height="22" alt="">
+				<span>{$re.addr}</span>
+			</div>
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+		<a href="tel:{$re.phone}" class="pd_12 flex_between">
+			<div class="flex_normal">
+				<img class="mar_rt_6" src="__HOME__/img/icon_dianhua.png" width="22" height="22" alt="">
+				<span>{$re.phone}</span>
+			</div>
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+	</div>
+
+
+	<div class="am-g am-text-center pd_12 bd_btm">
+		<div class="am-u-sm-6">
+			<div>入住日期</div><input id="my-start" value="{$today}" type="text" readonly style="margin-left: 60px;">
+		</div>
+		<div class="am-u-sm-6">
+			<div>离开日期</div><input id="my-end" value="{$tomorrow}" type="text" readonly style="margin-left: 60px;">
+		</div>
+		<input id="day" type="hidden" value="1" />
+	</div>
+
+	<div class="pad_12 bd_btm_10">
+		
+      {volist name="room" id="vm"}
+		<div  class="flex_normal pd_12 bd_btm">
+				<img class="bd_radius mar_rt_12" src="{$vm.image}" width="130" height="90" alt="">
+				<div class="flex_1">
+					<div class="hotel_wrap">
+						<div class="flex_1">
+							<h3 class="am-text-truncate">{$vm.name}</h3>
+							<div class="am-text-sm col_nine">{$vm.ad}</div>
+						</div>
+	
+						<div>
+							<div class="col_nine am-text-sm"><span class="col_main mar_rt_6 am-text-default">￥{$vm.price}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<a href="javascript:;" data-id="{$vm.id}" class="hotel_pay am-block am-text-center bd_radius go_buy">
+					<div class="bg_main col_white am-text-lg font_bold">订</div>
+					<div class="hotel_online am-text-sm col_main">在线付</div>
+				</a>
+			</div>
+			{/volist}
+			
+	</div>
+
+	<div class="p_12 bd_btm">
+		<div class="mar_btm_6">
+			<h4>设施详情</h4>
+		</div>
+		<div class="am-g am-text-sm">
+	     {volist name="res" id="v"}
+			<div class="am-u-sm-4">
+				<div class="flex_normal mar_btm_6">
+					<img class="mar_rt_6" src="{$v.sever_image}" width="14" height="14"
+						alt=""><span>{$v.sever_name}</span>
+				</div>
+			</div>
+	     {/volist}
+		</div>
+	</div>
+
+	<div class="p_12">
+		<div class="mar_btm_6">
+			<h4>温馨提示</h4>
+		</div>
+		<div class="am-text-sm">{$re.content}</div>
+	</div>
+
+	<script>
+		$(function () {
+			// 选择起止时间
+			var nowTemp = new Date();
+			var nowDay = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0).valueOf();
+			var nowMoth = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), 1, 0, 0, 0, 0).valueOf();
+			var nowYear = new Date(nowTemp.getFullYear(), 0, 1, 0, 0, 0, 0).valueOf();
+			var $myStart2 = $('#my-start');
+
+			var checkin = $myStart2.datepicker({
+				onRender: function (date, viewMode) {
+					// 默认 days 视图，与当前日期比较
+					var viewDate = nowDay;
+
+					switch (viewMode) {
+						// moths 视图，与当前月份比较
+						case 1:
+							viewDate = nowMoth;
+							break;
+							// years 视图，与当前年份比较
+						case 2:
+							viewDate = nowYear;
+							break;
+					}
+
+					return date.valueOf() < viewDate ? 'am-disabled' : '';
+				}
+			}).on('changeDate.datepicker.amui', function (ev) {
+				if (ev.date.valueOf() > checkout.date.valueOf()) {
+					var newDate = new Date(ev.date)
+					newDate.setDate(newDate.getDate() + 1);
+					checkout.setValue(newDate);
+				}
+				checkin.close();
+				$('#my-end')[0].focus();
+				//	console.log($('#my-start').val());
+
+				var start = $("#my-start").val();
+				var end = $('#my-end').val();
+				if (end != '') {
+					var start = new Date(start);
+					var end = new Date(end);
+					day = (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
+					$("#day").val(day);
+				}
+
+			}).data('amui.datepicker');
+
+			var checkout = $('#my-end').datepicker({
+				onRender: function (date, viewMode) {
+					var inTime = checkin.date;
+					var inDay = inTime.valueOf();
+					var inMoth = new Date(inTime.getFullYear(), inTime.getMonth(), 1, 0, 0, 0, 0)
+						.valueOf();
+					var inYear = new Date(inTime.getFullYear(), 0, 1, 0, 0, 0, 0).valueOf();
+
+					// 默认 days 视图，与当前日期比较
+					var viewDate = inDay;
+
+					switch (viewMode) {
+						// moths 视图，与当前月份比较
+						case 1:
+							viewDate = inMoth;
+							break;
+							// years 视图，与当前年份比较
+						case 2:
+							viewDate = inYear;
+							break;
+					}
+
+					return date.valueOf() <= viewDate ? 'am-disabled' : '';
+				}
+			}).on('changeDate.datepicker.amui', function (ev) {
+				checkout.close();
+				var start = $("#my-start").val();
+				var end = $('#my-end').val();
+				if (start != '') {
+					var start = new Date(start);
+					var end = new Date(end);
+					day = (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
+					$("#day").val(day);
+				}
+			}).data('amui.datepicker');
+			// 选择起止时间
+
+			$(".go_buy").click(function(){
+				var id = $(this).data("id");
+				var start = $("#my-start").val();
+				var end = $('#my-end').val();
+				var days = $("#day").val();
+
+				var hid = "{$re.id}";
+
+				$.ajax({
+					type:"post",
+					url:"{:url('Hotel/save')}",
+					data:{rid:id,hid:hid,start:start,end:end,days:days},
+					dataType:"text",
+					success:function(re){
+                        if(re == 0){
+							layer.msg("系统繁忙请稍后再试");
+
+							setTimeout("location.href=\"{:url('Index/index')}\"",1000);
+
+						}else{
+							location.href="{:url('Hotel/go_buy')}?oid="+re;
+						}
+					}
+				})
+				
+			})
+
+		})
+
+		
+	</script>
+
+
+</body>
+
+</html>

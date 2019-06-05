@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="bg_normal" style="padding-bottom:56px;">
+
+	<!-- 返回 -->
+	<div class="back_box">
+		酒店预订
+		<a class="back_icon" href="javascript:history.back(-1)">
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+	</div>
+
+	<div class="pad_12 bd_btm_10 bg_white">
+		<div class="am-text-lg pd_12 bd_btm">精品酒店推荐</div>
+		<div class="pd_12">
+			<div class="flex_normal mar_btm_6">
+				入住<span class="mar_rt_12 col_nine">2019-05-15</span>离店<span class="mar_rt_12 col_nine">2019-05-17</span>共2晚
+			</div>
+			<h6 class="mar_btm_6">郑州精品酒店</h6>
+			<div class="flex_between am-text-sm col_nine">
+				<span class="bd_all pad_6 bd_radius">不可取消</span>
+				<a class="flex_normal" href="javascript:;" data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 300, height: 225}">
+					<span class="mar_rt_6">取消规则</span><span class="bd_radius_50 bg_normal col_white pad_6">?</span>
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="bd_btm_10 bg_white">
+		<div  class="fang_select p_12 bd_btm flex_between">
+			<h6>房间数</h6>
+			<div class="num_form flex_between">
+				<!-- <span class="fang_num col_nine mar_rt_12">1间</span><img src="__HOME__/img/icon_right.png" width="6" height="11" alt=""> -->
+				<a href="javascript:;" class="num_minus">-</a>
+			<input type="number" name="" id="num" value="1" oninput="if(value.length>3)value=value.slice(0,3)" readonly class="num_ipt" />
+			<a href="javascript:;" class="num_plus">+</a>
+			</div>
+		</div>
+
+	
+	</div>
+
+	<div class="flex_normal p_12 bd_btm bg_white">
+		<label for="names" class="mar_rt_12">入住人</label>
+		<input type="text" id="names" class="flex_1 am-text-right lg" placeholder="需填1人姓名" required>
+	</div>
+
+	<div class="flex_normal p_12 bd_btm bg_white">
+		<label for="phones" class="mar_rt_12">联系手机</label>
+		<input id="phones" class="flex_1 am-text-right lg" type="number" oninput="if(value.length>11)value=value.slice(0,11)" placeholder="请输入手机号码" required onchange="validatemobile(this.value)" required>
+	</div>
+
+	<div class="hotel_fixed flex_normal bg_white bd_top">
+		<div class="pad_12 flex_1">
+			订单金额 ￥<span class="col_main am-text-lg font_bold">30.50</span>
+		</div>
+		<a id="qiang_gou" href="ticket_buy.html" class="am-btn am-btn-danger" style="line-height:36px;">去支付</a>
+	</div>
+
+	
+
+	<!-- 取消规则弹窗 -->
+	<div class="am-modal am-modal-no-btn" tabindex="-1" id="doc-modal-1">
+		<div class="am-modal-dialog">
+			<div class="am-modal-hd">取消规则
+				<a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+			</div>
+			<div class="am-modal-bd am-text-left" style="height: 174px;overflow-y:scroll;">
+				取消规则内容展示
+			</div>
+		</div>
+	</div>
+	<script>
+	//商品数量加减
+	var $plus = $('.num_plus'),
+			$reduce = $('.num_minus'),
+			$all_sum = $('.num_ipt');
+			price= 0;
+
+		$plus.click(function () {
+			var $inputVal = $(this).prev('input'),
+				$count = parseInt($inputVal.val()) + 1,
+				$obj = $(this).parents('.num_form').find('.num_minus');
+			$inputVal.val($count);
+
+
+			var prices = 0 ;
+
+			prices=price*$count;
+			$(".font_bold").text(prices);
+
+		})
+
+		$reduce.click(function () {
+			var $inputVal = $(this).next('input'),
+				$count = parseInt($inputVal.val()) - 1;
+			if ($inputVal.val() <= 1) {
+				return;
+			}
+			$inputVal.val($count);
+
+			
+
+			var prices = 0 ;
+
+			prices=price*$count;
+			$(".font_bold").text(prices);
+		})
+	</script>
+
+	<script>
+		var one, two;
+		// 
+		class Popup {
+			constructor(panel, bg) {
+				this.panel = panel;
+				this.bg = bg;
+				this._init();
+			}
+			_init() {
+				this.bg.click(() => {
+					this._hide()
+				})
+			}
+			_show() {
+				this.bg.fadeIn()
+				this.panel.slideDown()
+			}
+			_hide(cb) {
+				this.bg.fadeOut()
+				this.panel.slideUp()
+				typeof cb === 'function' && cb()
+			}
+		}
+
+		$(function () {
+
+			one = new Popup($('#fang_tan'), $('#common_bg'));
+			two = new Popup($('#time_tan'), $('#common_bg'));
+
+			$('.fang_select').click(function () {
+				one._show();
+			})
+			$('#fang_confirm').click(function () {
+				one._hide(function () {
+					let fang_num = $('input[name=fangjian]:checked').next('span').text()
+					$('.fang_num').text(fang_num)
+				});
+			})
+
+			// time
+			$('.time_select').click(function () {
+				two._show();
+			})
+			$('#time_confirm').click(function () {
+				two._hide(function () {
+					let fang_num = $('input[name=shijian]:checked').next('span').text()
+					$('.time_on').text(fang_num)
+				});
+			})
+		})
+	</script>
+
+</body>
+
+</html>
