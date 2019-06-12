@@ -19,7 +19,25 @@ class Hotel extends BaseUser
         //优惠券管理
         $re=db("coupon")->where("id",1)->find();
 
+        $uid=session("userid");
+
+        $coupon=db("user_coupon")->where(["uid"=>$uid,"status"=>0])->find();
+
+        if($coupon){
+            $re['open']=0;
+        }
+        $cou=db("user_coupon")->where(["uid"=>$uid])->count();
+
+        if($cou >= $re['num']){
+            $re['open']=0;
+        }
+
+
         $this->assign("re",$re);
+
+        
+
+
 
 
         //酒店推荐
@@ -42,6 +60,46 @@ class Hotel extends BaseUser
 
         
         return $this->fetch();
+    }
+    /**
+    * 领取优惠券
+    *
+    * @return void
+    */
+    public function save_coupon()
+    {
+        $re=db("coupon")->where("id",1)->find();
+
+        $uid=session("userid");
+
+        if($re['open'] == 1){
+           
+          $coupon=db("user_coupon")->where(["uid"=>$uid,"status"=>0])->find();
+
+          if(empty($coupon)){
+       
+            $data['uid']=session("userid");
+            $data['money']=$re['moneys'];
+            $data['coupon']=$re['money'];
+            $data['time']=time();
+
+            $rea=db("user_coupon")->insert($data);
+
+            if($rea){
+                echo '0';
+            }else{
+                echo '3';
+            }
+
+          }else{
+              echo '2';
+          }
+
+        }else{
+            echo '1';
+        }
+
+        
     }
     /**
     * 酒店详情
@@ -118,6 +176,137 @@ class Hotel extends BaseUser
     }
     public function go_buy()
     {
+        $uid=session("userid");
+
+        $coupon=db("user_coupon")->where(["uid"=>$uid,"status"=>0])->find();
+
+        $this->assign("coupon",$coupon);
+
+        $oid=input("oid");
+
+        $this->assign("oid",$oid);
+
+        $re=db("hotel_order")->where("id",$oid)->find();
+
+        $this->assign("re",$re);
+
+        $rid=$re['rid'];
+
+        $room=db("hotel_room")->where(["id"=>$rid])->find();
+
+        $this->assign("room",$room);
+
+        $hid=$re['hid'];
+
+        $hotel=db("hotel")->where(["id"=>$hid])->find();
+
+        $this->assign("hotel",$hotel);
+
+        $price=$re['days']*$room['price'];
+
+        $this->assign("price",$price);
+
+        $lb=db("lb")->where("fid",22)->find();
+
+        $this->assign("lb",$lb);
+        
         return $this->fetch();
+    }
+    /**
+    * 保存订单
+    *
+    * @return void
+    */
+    public function save_order()
+    {
+        $oid=input("oid");
+
+        $uid=session("userid");
+
+        $re=db("hotel_order")->where("id",$oid)->find();
+
+        if($re){
+
+            $rid=$re['rid'];
+
+            $room=db("hotel_room")->where(["id"=>$rid])->find();
+
+            $hid=$re['hid'];
+
+            $hotel=db("hotel")->where(["id"=>$hid])->find();
+
+            $price=$re['days']*$room['price'];
+
+            $num=input("num");
+
+            $prices=$price*$num;
+
+            $data['price']=$prices;
+
+            $data['old_price']=$prices;
+
+            $data['uid']=$uid;
+
+            $data['gid']=$rid;
+
+            $data['num']=$num;
+
+            $data['username']=input("username");
+
+            $data['phone']=input("phone");
+
+            $data['name']=$room['name'];
+
+            $data['code']='ck-'.uniqid();
+
+            $data['type']=3;
+
+            $data['time']=time();
+
+            $data['start_time']=$re['start'];
+
+            $data['end_time']=$re['end'];
+
+            $data['hotel_name']=$hotel['name'];
+
+            $data['days']=$re['days'];
+
+            $coupon=input("coupon");
+
+            if($coupon == 1){
+
+                $coupons=db("user_coupon")->where(["uid"=>$uid,"status"=>0])->find();
+
+                if($coupons){
+
+                    $data['coupon']=$coupons['coupon'];
+
+                    $data['cid']=$coupons['id'];
+
+                    $data['price']=$prices-$coupons['coupon'];
+                }
+
+            }
+
+            $old_dd=db("order")->where(["uid"=>$uid,"gid"=>$rid,"type"=>3,"status"=>0])->find();
+
+            if($old_dd){
+                db("order")->where("id",$old_dd['id'])->delete();
+            }
+            db("hotel_order")->where("id",$oid)->delete();
+
+            $re=db("order")->insert($data);
+
+            $did=db("order")->getLastInsID();
+
+            if($re){
+                echo $did;
+            }else{
+                echo '0';
+            }
+
+        }else{
+            echo '0';
+        }
     }
 }

@@ -30,7 +30,7 @@ $.ajax({
     data: 'version=v1&style=1001&city=',
     dataType: 'JSON',
     error: function () {
-        alert('网络错误');
+        // alert('网络错误');
     },
     success: function (res) {
         uptime = res.update_time.substring(11);

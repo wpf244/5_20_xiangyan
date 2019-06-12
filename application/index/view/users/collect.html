@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="">
+
+	<!-- 返回 -->
+	<div class="back_box">
+		收藏中心
+		<a class="back_icon" href="javascript:history.back(-1)">
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+	</div>
+{notempty name="$res"}
+	<!-- 有收藏商品时显示 -->
+	<div class="p_6">
+		<ul class="am-g">
+		{volist name="res" id="v"}
+			<li class="am-u-sm-6">
+				<div class="goods_item">
+	<a href="{:url('Goods/detail',array('id'=>$v['id']))}" class="goods_pic" style="background-image: url({$v.image});"></a>
+	<div class="goods_wrap">
+		<a href="{:url('Goods/detail',array('id'=>$v['id']))}" class="goods_title">{$v.name}</a>
+		<div class="goods_flex">
+			<span class="goods_price">￥{$v.xprice}</span>
+			<a class="goods_btn" href="{:url('Goods/detail',array('id'=>$v['id']))}">马上抢</a>
+		</div>
+	</div>
+</div>
+			</li>
+			
+			{/volist}
+			
+		</ul>
+	</div>
+{else /}
+	<!-- 没有内容时显示 -->
+	<div class="user_none" >
+		<img src="__HOME__/img/none_data.png" class="am-center" width="180" height="150" alt="">
+		<div class="am-text-center mar_btm_12 mar_top_12 am-text-sm">您还没有收藏品，快去挑选吧~</div>
+		<div class="am-text-center">
+			<a href="{:url('Goods/index')}" class="am-btn am-btn-danger am-round">去首页</a>
+		</div>		
+	</div>
+{/notempty}
+</body>
+
+</html>

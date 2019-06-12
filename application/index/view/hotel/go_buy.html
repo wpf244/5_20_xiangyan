@@ -14,14 +14,14 @@
 	</div>
 
 	<div class="pad_12 bd_btm_10 bg_white">
-		<div class="am-text-lg pd_12 bd_btm">精品酒店推荐</div>
+		<div class="am-text-lg pd_12 bd_btm">{$hotel.name}</div>
 		<div class="pd_12">
 			<div class="flex_normal mar_btm_6">
-				入住<span class="mar_rt_12 col_nine">2019-05-15</span>离店<span class="mar_rt_12 col_nine">2019-05-17</span>共2晚
+				入住<span class="mar_rt_12 col_nine">{$re.start}</span>离店<span class="mar_rt_12 col_nine">{$re.end}</span>共{$re.days}晚
 			</div>
-			<h6 class="mar_btm_6">郑州精品酒店</h6>
+			<h6 class="mar_btm_6">{$room.name}</h6>
 			<div class="flex_between am-text-sm col_nine">
-				<span class="bd_all pad_6 bd_radius">不可取消</span>
+				<span class="bd_all pad_6 bd_radius">{if condition="$room.cancel eq 0"}不可取消 {else /}可取消{/if}</span>
 				<a class="flex_normal" href="javascript:;" data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 300, height: 225}">
 					<span class="mar_rt_6">取消规则</span><span class="bd_radius_50 bg_normal col_white pad_6">?</span>
 				</a>
@@ -44,20 +44,35 @@
 	</div>
 
 	<div class="flex_normal p_12 bd_btm bg_white">
-		<label for="names" class="mar_rt_12">入住人</label>
-		<input type="text" id="names" class="flex_1 am-text-right lg" placeholder="需填1人姓名" required>
+		<label for="name" class="mar_rt_12">入住人</label>
+		<input type="text" id="name" class="flex_1 am-text-right lg" placeholder="需填1人姓名" required>
 	</div>
 
 	<div class="flex_normal p_12 bd_btm bg_white">
-		<label for="phones" class="mar_rt_12">联系手机</label>
-		<input id="phones" class="flex_1 am-text-right lg" type="number" oninput="if(value.length>11)value=value.slice(0,11)" placeholder="请输入手机号码" required onchange="validatemobile(this.value)" required>
+		<label for="phone" class="mar_rt_12">联系手机</label>
+		<input id="phone" class="flex_1 am-text-right lg" type="number" placeholder="请输入手机号码" >
 	</div>
+
+	{notempty name="coupon"}
+
+	<div class="flex_normal p_12 bd_btm bg_white" style="align-content: center;justify-content: space-between;">
+		<label for="coupon" class="mar_rt_12">优惠券</label>
+		<div class="coupons" style="float: right; {if condition='$price lt $coupon.money'} display: block; {else /} display: none;{/if}">		
+				<span style="color: red;">不可用原因:订单满{$coupon.money}可用</span>
+			</div>
+		<div class="coupon" style="float: right; {if condition='$price lt $coupon.money'} display: none; {/if}">
+			
+			￥{$coupon.coupon}&nbsp;&nbsp;<input class="flex_1 am-text-right lg" id="coupon" type="checkbox"  value="1">
+		</div>
+	</div>
+
+	{/notempty}
 
 	<div class="hotel_fixed flex_normal bg_white bd_top">
 		<div class="pad_12 flex_1">
-			订单金额 ￥<span class="col_main am-text-lg font_bold">30.50</span>
+			订单金额 ￥<span class="col_main am-text-lg font_bold">{$price}</span>
 		</div>
-		<a id="qiang_gou" href="ticket_buy.html" class="am-btn am-btn-danger" style="line-height:36px;">去支付</a>
+		<a id="go"  class="am-btn am-btn-danger" style="line-height:36px;">去支付</a>
 	</div>
 
 	
@@ -65,20 +80,70 @@
 	<!-- 取消规则弹窗 -->
 	<div class="am-modal am-modal-no-btn" tabindex="-1" id="doc-modal-1">
 		<div class="am-modal-dialog">
-			<div class="am-modal-hd">取消规则
+			<div class="am-modal-hd">{$lb.name}
 				<a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
 			</div>
 			<div class="am-modal-bd am-text-left" style="height: 174px;overflow-y:scroll;">
-				取消规则内容展示
+				{$lb.desc}
 			</div>
 		</div>
 	</div>
+
+	<script>
+	  $("#go").click(function(){
+
+		  var oid ="{$oid}";
+
+		  var num = $("#num").val();
+
+		  var username=$("#name").val();
+
+		  if($.trim(username) == ''){
+			  layer.msg("请输入入住人姓名");return false;
+		  }
+
+		  var phone = $("#phone").val();
+
+		  var phone_reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+			
+				if (!phone_reg.test(phone)) {
+					layer.msg("请输入正确的手机号码");
+					return false;
+				}
+
+		  var coupon = $('input[type=checkbox]:checked').val();
+
+		  if(!coupon){
+			  var coupon = 0;
+		  }
+
+		  $.ajax({
+			  type:"post",
+			  url:"{:url('Hotel/save_order')}",
+			  data:{oid:oid,num:num,username:username,phone:phone,coupon:coupon},
+			  dataType:"text",
+			  success:function(re){
+				if(re == 0){
+						layer.msg("系统繁忙,请稍后再试");
+						setTimeout("location.href=\"{:url('Index/index')}\"",1000);
+					}else{
+						location.href="{:url('Pay/pay')}?did="+re;
+					}
+			  }
+		  })
+		  
+	  })
+	
+	</script>
+
 	<script>
 	//商品数量加减
 	var $plus = $('.num_plus'),
 			$reduce = $('.num_minus'),
 			$all_sum = $('.num_ipt');
-			price= 0;
+			price= "{$price}";
+
+			money="{$coupon.money}";
 
 		$plus.click(function () {
 			var $inputVal = $(this).prev('input'),
@@ -86,11 +151,19 @@
 				$obj = $(this).parents('.num_form').find('.num_minus');
 			$inputVal.val($count);
 
-
 			var prices = 0 ;
 
 			prices=price*$count;
 			$(".font_bold").text(prices);
+
+			if(prices >= money){
+
+                $(".coupons").css("display","none");
+				$(".coupon").css("display","block");
+			}else{
+				$(".coupons").css("display","block");
+				$(".coupon").css("display","none");
+			}
 
 		})
 
@@ -101,13 +174,19 @@
 				return;
 			}
 			$inputVal.val($count);
-
-			
-
+		
 			var prices = 0 ;
 
 			prices=price*$count;
 			$(".font_bold").text(prices);
+
+			if(prices >= money){
+                $(".coupons").css("display","none");
+				$(".coupon").css("display","block");
+			}else{
+				$(".coupons").css("display","block");
+				$(".coupon").css("display","none");
+			}
 		})
 	</script>
 

@@ -158,7 +158,21 @@
 
 			// 领取成功
 			$('.wine_btn').click(function () {
-				console.log('领取成功！')
+				$.ajax({
+					type:"post",
+					url:"{:url('Hotel/save_coupon')}",
+					dataType:"text",
+					success:function(re){
+                         if(re == 0){
+							 layer.msg("领取成功");
+							 $('#common_bg').fadeOut(600)
+							 $('.wine_tan').fadeOut(600)
+						 }else{
+							 layer.msg("领取失败,请稍后再试");
+							 setTimeout("location.reload()",1000)
+						 }
+					}
+				})
 			})
 
 		})

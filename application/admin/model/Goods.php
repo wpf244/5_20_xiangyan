@@ -49,14 +49,21 @@ class Goods extends Model{
      * 删除一条数据
      * **/
     public function deleteGoods($id){
-        $re=db('goods')->where("gid=$id")->find();
+        $re=db('goods')->where("id=$id")->find();
         if($re){
-            $del=db('goods')->where("gid=$id")->delete();
+            $del=db('goods')->where("id=$id")->delete();
            
             $rei=db('goods_img')->where("g_id=$id")->select();
             if($rei){
                 $deli=db('goods_img')->where("g_id=$id")->delete();
             }
+
+            $cars=db("cars")->where("gid",$id)->find();
+
+            if($cars){
+                db("cars")->where("gid",$id)->delete();
+            }
+
             return $del;
         }else{
             return false;
@@ -67,13 +74,17 @@ class Goods extends Model{
      * */
     public function deleteAll($arr){
         foreach ($arr as $v){
-            $re=db('goods')->where("gid=$v")->find();
+            $re=db('goods')->where("id=$v")->find();
             if($re){
-                $del=db('goods')->where("gid=$v")->delete();
+                $del=db('goods')->where("id=$v")->delete();
                 
                 $rei=db('goods_img')->where("g_id=$v")->select();
                 if($rei){
                     $deli=db('goods_img')->where("g_id=$v")->delete();
+                }
+                $cars=db("cars")->where("gid",$v)->find();
+                if($cars){
+                    db("cars")->where("gid",$v)->delete();
                 }
             }else{
                 return false;

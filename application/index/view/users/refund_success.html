@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="bg_normal">
+
+	<!-- 返回 -->
+	<div class="back_box">
+		申请成功
+		<a class="back_icon" href="{:url('order_5')}">
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+	</div>
+
+	<div class="bg_white">
+		<div class="p_12 bd_btm">
+			申请记录
+		</div>
+		<ul class="p_12 bd_btm">
+			<li class="travel_wei">{$re.remarks} {$re.t_time|date="Y-m-d",###}</li>
+			<li class="travel_wei col_nine am-text-sm">退款说明 {$re.cencal}</li>
+			<li class="travel_wei col_nine am-text-sm">退款金额 ￥{$re.zprice}</li>
+		</ul>
+		<div class="travel_wei p_12 col_main">
+			等待卖家处理
+		</div>
+	</div>
+
+	<div class="p_12">
+		<a href="{:url('Goods/index')}" class="confirm_btn">返回首页</a>
+	</div>
+
+</body>
+
+</html>

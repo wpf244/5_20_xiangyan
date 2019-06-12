@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="pad_btm">
+
+	<!-- 返回 -->
+	<div class="back_box">
+		支付中心
+		<a class="back_icon" href="{:url('Users/order_1')}">
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+	</div>
+
+	<div class="ticket_tai bd_btm am-text-center am-text-lg font_bold">收银台</div>
+
+	<div class="flex_between p_12 bd_btm am-text-center">
+		<span>{$re.gname}</span>
+		<span class="col_main am-text-lg font_bold">￥{$re.zprice}</span>
+	</div>
+
+	<a href="javascript:;" class="flex_between p_12 bd_btm">
+		<div class="flex_normal">
+			<img class="mar_rt_12" src="__HOME__/img/icon_wechat.png" width="24" height="24" alt="">
+			<div class="flex_1">
+				<h4 class="mar_btm_6">微信支付</h4>
+				<div class="am-text-sm col_nine">亿万用户的选择，更快更安全</div>
+			</div>
+		</div>
+		<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+	</a>
+	
+	<div class="confirm_wrap p_12">
+		<a href="ticket_success.html" id="confirm_btn" class="confirm_btn mar_btm_12">立即支付</a>
+	</div>
+
+</body>
+
+</html>
