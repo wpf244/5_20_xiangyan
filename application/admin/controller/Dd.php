@@ -1,6 +1,14 @@
 <?php
 namespace app\admin\controller;
 \header("content-type:text/html;charset=utf-8;");
+
+use think\Loader;
+use think\Request;
+
+
+Loader::import('WxPay.WxPay', EXTEND_PATH, '.Api.php');
+Loader::import('WxPay.WxPay', EXTEND_PATH, '.JsApiPay.php');
+
 class Dd extends BaseAdmin
 {
     public function dai_dd()
@@ -992,12 +1000,30 @@ class Dd extends BaseAdmin
         $did=\input('id');
         $re=db("car_dd")->where("did=$did")->find();
         if($re['status'] == 5){
-            $res=db("car_dd")->where("did=$did")->setField("state",1);
-            $pay=$re['pay'];
-            $pays=\explode(",", $pay);
-            foreach ($pays as $v){
-                db("car_dd")->where("code='$v'")->setField("state",1);
-            }
+            // $res=db("car_dd")->where("did=$did")->setField("state",1);
+            // $pay=$re['pay'];
+            // $pays=\explode(",", $pay);
+            // foreach ($pays as $v){
+            //     db("car_dd")->where("code='$v'")->setField("state",1);
+            // }
+            
+            $out_trade_no=$re['code'];
+            $total_fee=$re['zprice']*100;
+            $refund_fee=$re['zprice']*100;
+
+            $data=db("payment")->where("id",1)->find();
+
+            $input = new \WxPayRefund();
+            $input->SetOut_trade_no($out_trade_no);
+            $input->SetTotal_fee($total_fee);
+            $input->SetRefund_fee($refund_fee);
+            $input->SetOut_refund_no("sdkphp".date("YmdHis"));
+            $input->SetOp_user_id($data['mchid']);
+
+            $order = \WxPayApi::refund($input,$data);
+
+            var_dump($order);exit;
+
             $this->redirect("tui_dd");
         }else{
             $this->redirect("tui_dd");
