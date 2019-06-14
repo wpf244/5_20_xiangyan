@@ -239,6 +239,27 @@ class Users extends BaseUser
         
         return $this->fetch();
      }
+     /**
+     * 已完成订单
+     *
+     * @return void
+     */
+     public function order_6()
+     {
+        $uid=session("userid");
+
+        $res=db("car_dd")->where(["uid"=>$uid,"gid"=>0,"status"=>4])->select();
+
+        foreach($res as $k => $v){
+            $pay=explode(",",$v['pay']);
+
+            $res[$k]['list']=db("car_dd")->where("code","in",$pay)->select();
+        }
+
+        $this->assign("res",$res); 
+        
+        return $this->fetch();
+     }
       /**
      * 退款售后
      *
@@ -261,6 +282,33 @@ class Users extends BaseUser
         return $this->fetch();
      }
      /**
+     * 取消退货退款
+     *
+     * @return void
+     */
+     public function cancel()
+     {
+         $id=input("id");
+
+         $re=db("car_dd")->where("did",$id)->find();
+
+         if($re['status'] == 5){
+            
+            $status=$re['old_status'];
+
+            $res=db("car_dd")->where("did",$id)->setField("status",$status);
+
+            if($res){
+                echo '0';
+            }else{
+                echo '2';
+            }
+
+         }else{
+             echo '1';
+         }
+     }
+     /**
      * 确定收货
      *
      * @return void
@@ -273,15 +321,44 @@ class Users extends BaseUser
             if($re['status'] == 2){
                 $data['status']=3;
                 $data['shou_time']=\time();
-                $res=db("car_dd")->where("did",$did)->update($data);
-                
+               
                 $pay=$re['pay'];
                 $arr=\explode(",", $pay);
                
-                db("car_dd")->where("code","in",$arr)->update($data);
+                $integ=db("integ")->where("id",1)->find();
                 
+                 // 启动事务
+                 Db::startTrans();
+                 try{
+                    db("car_dd")->where("did",$did)->update($data);
+                    db("car_dd")->where("code","in",$arr)->update($data);
+
+                    if($integ['open'] == 1){
+                        $num=$integ['num'];
+
+                        $integs=$re['zprice']*$num/100;
+
+                        $log['uid']=$re['uid'];
+                        $log['integ']=$integs;
+                        $log['type']=1;
+                        $log['content']="购物增加";
+                        $log['time']=time();
+
+                        db("integ_log")->insert($log);
+
+                        db("user")->where("uid",$re['uid'])->setInc("integ",$integs);
+                    }
+
+                    echo '0';
+                     // 提交事务
+                     Db::commit();    
+                 } catch (\Exception $e) {
+                     // 回滚事务
+                     Db::rollback();
+
+                     echo '3';
+                 }
                 
-                echo '0';
             }else{
                 echo '2';
             }
@@ -388,7 +465,56 @@ class Users extends BaseUser
      */
      public function refund_goods()
      {
-         return $this->fetch();
+        $did=input("did");
+        
+        $re=db("car_dd")->where("did",$did)->find();
+
+        $this->assign("re",$re); 
+        
+        return $this->fetch();
+     }
+      /**
+     * 提交申请
+     *
+     * @return void
+     */
+     public function save_goods()
+     {
+         $did=input("did");
+
+         $re=db("car_dd")->where("did",$did)->find();
+
+         if($re){
+            if($re['status'] == 1){
+                $data['remarks']="系统未发货,客户申请退货退款";
+            }else{
+               $data['remarks']="系统已发货,客户申请退货退款";
+            }
+            $data['status']=5;
+            $data['cencal']=input("content");
+            $data['t_time']=time();
+            $data['old_status']=$re['status'];
+            $data['state']=0;
+            $data['express']=input("express");
+            $data['number']=input("number");
+
+            $res=db("car_dd")->where("did",$did)->update($data);
+
+            $pay=explode(",",$re['pay']);
+
+            db("car_dd")->where("code","in",$pay)->update($data);
+
+            if($res){
+                echo '0';
+            }else{
+                echo '2';
+            }
+
+         }else{
+             echo '1';
+         }
+         
+
      }
      /**
      * 商品评价

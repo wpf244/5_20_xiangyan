@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="">
+
+	<!-- 返回 -->
+	<div class="back_box">
+		兑换记录
+		<a class="back_icon" href="{:url('Integ/index')}">
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+	</div>
+
+	<ul class="order_hd flex_around bd_btm">
+		<li class="order_item"><a href="{:url('Integ/mx')}">积分明细</a></li>
+		<li class="order_item active"><a href="javascript:;">兑换记录</a></li>
+	</ul>
+
+	<ul>
+	 {volist name="res" id="v"}	
+		<li class="flex_between p_12 bd_btm">
+			<div>
+				<h6 class="am-text-truncate mar_btm_6">{$v.name}</h6>
+				<div class="col_nine am-text-sm">单价：{$v.integ}积分</div>
+			</div>
+			{if condition="$v.status eq 0"}
+			<div class="col_main" style="color: cadetblue;">已兑换</div>
+			{elseif condition="$v.status eq 1" /}
+			<div class="col_main" style="color: aquamarine;">已完成</div>
+			{else /}
+			<div class="col_main">已驳回</div>
+			{/if}
+		</li>
+	 {/volist}
+	</ul>
+
+	<div class="no_data">没有更多兑换记录~</div>
+
+</body>
+
+</html>

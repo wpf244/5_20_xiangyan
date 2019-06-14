@@ -31,9 +31,15 @@ class Rural extends BaseHome
         $title=input("title");
 
         if($title){
+           
             $map['title']=array("like","%".$title."%");
+         
         }else{
             $map=[];
+        }
+
+        if(empty($id)){
+            $id=db("rural_type")->limit(1)->find()['id'];
         }
 
         $re=db("rural_type")->where("id",$id)->find();
@@ -100,6 +106,59 @@ class Rural extends BaseHome
         $this->assign("res",$res);
 
         
+        return $this->fetch();
+    }
+    /**
+    * 附近特产
+    *
+    * @return void
+    */
+    public function goods()
+    {
+        //banner图
+        $lb=db("lb")->where("fid",29)->find();
+
+        $this->assign("lb",$lb);
+
+        $id=input("id");
+
+        $re=db("rural")->where("id",$id)->find();
+
+        $addr=$re['addr'];
+
+        
+        $res=db("goods")->where(["up"=>1,"city"=>["like","%".$addr."%"]])->order(["sort asc","id desc"])->select();
+
+        $this->assign("res",$res);
+
+      //  var_dump($res);
+
+        return $this->fetch();
+    }
+    /**
+    * 附近民宿
+    *
+    * @return void
+    */
+    public function hotel()
+    {
+        //banner图
+        $lb=db("lb")->where("fid",30)->find();
+
+        $this->assign("lb",$lb);
+
+        $id=input("id");
+
+        $re=db("rural")->where("id",$id)->find();
+
+        $addr=$re['addr'];
+
+        $where['addr'] = ['like', "%".$addr."%"];
+        
+        $res=db("hotel")->where(["status"=>1])->where($where)->order(["sort asc","id desc"])->select();
+
+        $this->assign("res",$res);
+
         return $this->fetch();
     }
 }

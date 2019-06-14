@@ -22,7 +22,7 @@
 function showLocation(data) {
     console.log(data.content.address_detail.city);
 }
-$.getScript("http://api.map.baidu.com/location/ip?ak=xgcQYOzqj6P60i5LZVLBVtVewQliPyXe&callback=showLocation");
+$.getScript("http://api.map.baidu.com/location/ip?ak=BV04dK5lArS5E54VcYv6YH3GxmWzn2Yi&callback=showLocation");
 
 $.ajax({
     type: 'GET',
@@ -36,6 +36,8 @@ $.ajax({
         uptime = res.update_time.substring(11);
         uptime = uptime.substring(0,uptime.length-3);
        $('#weather').html('【' + res.city + '】' + res.data[0].wea + ' ' + res.data[0].tem1 + '/' + res.data[0].tem2);
+
+       $(".city").html(res.city);
     }
 });
 

@@ -45,7 +45,8 @@ $(function(){
     </div>
   </div><!-- /.sidebar-shortcuts -->
 
-  <ul class="nav nav-list">
+  <ul class="nav nav-list" style="z-index: 999999;
+  position: relative;">
     {if condition="CONTROLLER_NAME eq 'Index'"}<li class="active">{else /}<li class="">{/if}
       <a href="{:url('Index/index')}">
         <i class="menu-icon fa fa-tachometer"></i>

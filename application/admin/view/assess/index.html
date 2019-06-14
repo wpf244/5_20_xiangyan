@@ -57,7 +57,7 @@
                       <div class="form-group">
                         <div class="input-group">
                             <input type="text" name="g_name" class="form-control search-query"
-                                value="{$g_name}" placeholder="请输入来源人名称">
+                                value="{$g_name}" placeholder="请输入商品名称">
                         </div>
                     </div>
                         <div class="form-group">
@@ -78,9 +78,10 @@
                     <tr>
 
                       <th>ID</th>
-                      <th>来源人名称</th>
+                      <th>商品名称</th>
                      
                       <th>评价内容</th>
+                      <th>几星</th>
                       <th>评价时间</th>
                       <th style="border-right:#ddd solid 1px;">操作</th>
                     </tr>
@@ -94,7 +95,8 @@
                         <td>{$v.name}</td>
                      
                         <td>{$v.content}</td>
-                        <td>{$v.addtime|date="Y-m-d",###}</td>
+                        <td>{$v.number}</td>
+                        <td>{$v.addtime|date="Y-m-d H:i:s",###}</td>
 
                         <td>
                           <!--   <a class="btn btn-xs btn-info" type="button" onclick="change({$v.id})">

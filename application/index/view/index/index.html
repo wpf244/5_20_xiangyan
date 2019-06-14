@@ -26,16 +26,18 @@
 
 	<!-- 搜索框 -->
 <div class="search_box p_12 bg_normal">
-	<div class="flex_normal">
+	<form action="{:url('Rural/lister')}" method="GET">
+	<div class="flex_normal" >
 		<div class="search_wrap pad_12 flex_1 bg_white bd_radius am-text-sm flex_between">
 			<div class="search_location flex_normal pad_rt_12 mar_rt_12 col_main">
-				<img class="mar_rt_6" src="__HOME__/img/icon_location.png" width="16" height="16" alt=""><span>郑州</span>
+				<img class="mar_rt_6" src="__HOME__/img/icon_location.png" width="16" height="16" alt=""><span class="city"></span>
 			</div>
-			<input class="flex_1" type="text" placeholder="请输入搜索关键词">
+			<input class="flex_1" type="text" name="title" placeholder="请输入搜索关键词">
 			<img class="mar_lt_12" src="__HOME__/img/icon_search.png" width="16" height="16" alt="">
 		</div>
-		<button class="mar_lt_12">搜索</button>
+		<button class="mar_lt_12" type="submit">搜索</button>
 	</div>
+</form>
 </div>
 
 	<!-- 分类导航 -->
@@ -141,11 +143,11 @@
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_91.png" width="42" height="42" alt="">
 								<h6 class="am-text-truncate">汽车租赁</h6>
 							</a>
-							<a href="bargain.html" class="am-u-sm-3 am-text-center mar_btm_12">
+							<a href="bargain.html" id="kan" class="am-u-sm-3 am-text-center mar_btm_12">
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_92.png" width="42" height="42" alt="">
 								<h6 class="am-text-truncate">砍价</h6>
 							</a>
-							<a href="piao.html" class="am-u-sm-3 am-text-center mar_btm_12">
+							<a href="piao.html" id="kans" class="am-u-sm-3 am-text-center mar_btm_12">
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_9.png" width="42" height="42" alt="">
 								<h6 class="am-text-truncate">门票抢购</h6>
 							</a>
@@ -156,7 +158,14 @@
 						</div>
 					</div>
 				</div>
-	
+	  <script>
+	   $("#kan").click(function(){
+		   layer.msg("开发中~~~~");return false;
+	   }) 
+	   $("#kans").click(function(){
+		   layer.msg("开发中~~~~");return false;
+	   }) 
+	  </script>
 				<ul class="am-tabs-nav am-cf">
 					<li class="am-active"><a href="[data-tab-panel-0]"></a></li>
 					<li class=""><a href="[data-tab-panel-1]"></a></li>
@@ -202,7 +211,7 @@
 	</div>
 
 	<!-- 乡村旅游 -->
-	<a href="travel_index.html" class="flex_between p_12 bg_white">
+	<a href="{:url('Rural/index')}" class="flex_between p_12 bg_white">
 		<div class="title_left am-text-lg">
 			乡村旅游
 		</div>

@@ -2,7 +2,12 @@
 <html lang="en">
 
 {include file="public:header"}
-
+<style>
+.info {
+	font-size: 12px;
+	color: #B4B6B5;
+}
+</style>
 <body class="">
 
 	<!-- 返回 -->
@@ -32,7 +37,32 @@
 				<button type="submit" class="confirm_btn">立即登录</button>
 			</div>
 		</form>
+
+		
 	</div>
+
+	<div class="flex_center" style="width: 50%;margin: 60% auto 20px;">
+			<!-- <a href="">
+				<img width="50" src="__HOME__/img/iconqq.png" alt="">
+			</a> -->
+			<a href="{:url('Login/wxlogin')}">
+				<img width="50" src="__HOME__/img/iconwx.png" alt="">
+			</a>
+		</div>
+		<p class="am-text-center info">登录及代表您同意我们的<a class="am-text-danger" href="javascript:;" data-am-modal="{target: '#my-popup'}">《{$lb.name}》</a></p>
+
+		<div class="am-popup" id="my-popup">
+				<div class="am-popup-inner">
+				  <div class="am-popup-hd">
+					<h4 class="am-popup-title">{$lb.name}</h4>
+					<span data-am-modal-close
+						  class="am-close">&times;</span>
+				  </div>
+				  <div class="am-popup-bd">
+						{$lb.desc}
+				  </div>
+				</div>
+			  </div>
 
 	<script>
         $(function () {

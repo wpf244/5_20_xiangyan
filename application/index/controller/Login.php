@@ -1,17 +1,31 @@
 <?php
 namespace app\index\controller;
 
+use think\Request;
 
 class Login extends BaseHome
 {
     public function login()
     {
+        $lb=db("lb")->where("fid",31)->find();
+
+        $this->assign("lb",$lb);
+        
         return $this->fetch();
     }
     public function register()
     {
+        $uid=input("uid");
+
+        if(empty($uid)){
+            $uid=0;
+        }
+
+        $this->assign("uid",$uid);
+        
         return $this->fetch();
     }
+ 
     public function send_code()
     {
         $phone=input('phone');
@@ -39,6 +53,9 @@ class Login extends BaseHome
         $reu=db("user")->where("phone",$phone)->find();
         $code=input("code");
         $re=db("sms_code")->where(['phone'=>$phone,'code'=>$code])->find();
+
+        $uid=input("uid");
+
         if($re){
             $time=$re['time'];
             $times=time();
@@ -51,19 +68,22 @@ class Login extends BaseHome
                   $data['phone']=input("phone");
                   $data['pwd']=input("pwd");
                   $data['time']=time();
+
+                  if($uid == 0){
+                    $rea=db("user")->insert($data);
+
+                    $uid=db("user")->getLastInsID();
+                  }else{
+                      $rea=db("user")->where("uid",$uid)->update($data);
+                  }
                
-                  $rea=db("user")->insert($data);
-
-                  $uid=db("user")->getLastInsID();
-
                   if($rea){
                        session("userid",$uid);
                        $this->success("注册成功",url('User/index')); 
                   }else{
                     $this->error("系统繁忙,请稍后再试",url('Login/login'));
                   }
-                    
-                        
+                                  
                 }
             }else{
                 $this->error("验证码已失效");
@@ -162,19 +182,72 @@ class Login extends BaseHome
         }
        
     }
+    /**
+    * 微信授权登录
+    *
+    * @return void
+    */
+    public function wxlogin()
+    {
+        
+        $pay=db("payment")->where("id",1)->find();
 
+        $appid=$pay['appid'];
 
+        $appsecret=$pay['appsecret'];
 
+        $url=Request::instance()->url(true);
 
+        $urlcode="https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=$url&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect";
 
+		if(empty(input("code"))){
+			header("location:".$urlcode);
+		}
 
+		$code=input("code");
+	
+		$url="https://api.weixin.qq.com/sns/oauth2/access_token?appid=$appid&secret=$appsecret&code=".$code."&grant_type=authorization_code";
 
+		$result=json_decode(file_get_contents($url),true);
+		if(empty($result['access_token'])){
+			echo '失败:access_token';exit;
+		}
+		$token=$result['access_token'];
+		$openid=$result['openid'];
+		$url="https://api.weixin.qq.com/sns/userinfo?access_token=".$token."&openid=".$openid."&lang=zh_CN";
+		$result=json_decode(file_get_contents($url),true);
+		//   	    var_dump($result);exit;
+		if(empty($result['openid'])){
+			echo '失败:openid';
+			exit;
+        }
+        
+        $re=db("user")->where("openid",$openid)->find();
 
+        if($re){
 
+            if($re['phone']){
+                session("userid",$re['uid']);
+                $this->redirect("User/index");
+            }else{
+                $this->redirect("Login/register",array('uid'=>$re['uid']));
+            }
 
+        }else{
+            $data['openid']=$openid;
+            $data['nickname']=$result['nickname'];
+            $data['image']=$result['headimgurl'];
+            $data['time']=time();
 
+            db("user")->insert($data);
 
+            $uid=db("user")->getLastInsID();
 
+            $this->redirect("Login/register",array('uid'=>$uid));
+             
+        }
+    }
+    
 
 
 }

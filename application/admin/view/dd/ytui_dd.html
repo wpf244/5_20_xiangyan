@@ -27,6 +27,31 @@
 
       </div>
 
+      <div id="sidebar2" class="sidebar h-sidebar navbar-collapse collapse ace-save-state">
+					<ul class="nav nav-list header-nav" id="header-nav">
+							<li>
+									<a href="{:url('Dd/tui_dd')}">
+										<o class="font12 {if condition='ACTION_NAME eq "tui_dd" '} rigbg {/if}">申请列表</o>
+									</a>
+								<b class="arrow"></b>
+							</li>
+							<li>
+									<a href="{:url('Dd/ytui_dd')}">
+										<o class="font12 {if condition='ACTION_NAME eq "ytui_dd" '} rigbg {/if}">已通过列表</o>
+									</a>
+								<b class="arrow"></b>
+              </li>
+              
+              <li>
+									<a href="{:url('Dd/bo_dd')}">
+										<o class="font12 {if condition='ACTION_NAME eq "bo_dd" '} rigbg {/if}">已驳回列表</o>
+									</a>
+								<b class="arrow"></b>
+							</li>
+														
+					</ul>
+				</div>
+
       <div class="page-content">
         {include file="public:set"}
         <div class="row">
@@ -58,16 +83,9 @@
                     <div class="input-group">
                         <input type="text" name="code"  class="form-control search-query" value="{$code}" placeholder="请输入订单号码">
                       </div>
-                      
+                     
                       <div class="input-group">
-                        <input type="text" name="username"  class="form-control search-query" value="{$username}" placeholder="请输入收货人姓名">
-                      </div>
-                    
-                      <div class="input-group">
-                        <input type="text" name="phone"  class="form-control search-query" value="{$phone}" placeholder="请输入收货人电话">
-                      </div>
-                      <div class="input-group">
-                        <input type="text" name="addr" class="form-control search-query" value="{$addr}" placeholder="请输入收货人地址">
+                        <input type="text" name="addr" class="form-control search-query" value="{$addr}" placeholder="请输入收货人信息">
                         <span class="input-group-btn">
 										<button type="submit" class="btn btn-info btn-sm ajax-search-form">
 											<span class="ace-icon fa fa-search icon-on-right bigger-120"></span> 搜索
@@ -89,6 +107,9 @@
                   <th>下单时间</th>
                   <th>申请退货时间</th>
                   <th>退货原因</th>
+                  <th>快递公司</th>
+                  <th>快递单号</th>
+                  <th>备注</th>
                   <th>收货人信息</th>
                   <th style="border-right:#ddd solid 1px;">操作</th>
                 </tr>
@@ -101,8 +122,11 @@
                   <td>{$v.zprice}</td>
                   
                   <td>{$v.time|date="Y-m-d H:i:s",###}</td>
-                  <td>{$v.tui_time|date="Y-m-d H:i:s",###}</td>
-                  <td>{$v.tui_content}</td>
+                  <td>{$v.t_time|date="Y-m-d H:i:s",###}</td>
+                  <td>{$v.cencal}</td>
+                  <td>{$v.express}</td>
+                  <td>{$v.number}</td>
+                  <td>{$v.remarks}</td>
                   <th>
                                                          收货人姓名：{$v.username}<br>
                                                          收货人电话：{$v.phone}<br>
@@ -167,9 +191,9 @@
  $("#out").click(function(){
 	 var start="{$start}";
 	 var end = "{$end}";
-	 var username="{$username}";
+	 
 	 var code="{$code}";
-	 var phone="{$phone}";
+
 	 var addr="{$addr}";
 	 if(start == ''){
 		 start=0;
@@ -177,20 +201,15 @@
 	 if(end == ''){
 		 end=0;
 	 }
-	
-	 if(username == ''){
-		 username = 0;
-	 }
+
 	 if(code == ''){
 		 code = 0;
 	 }
-	 if(phone == ''){
-		 phone = 0;
-	 }
+
 	 if(addr == ''){
 		 addr = 0;
 	 }
-	 location.href="__URL__/outsy/start/"+start+"/end/"+end+"/username/"+username+"/code/"+code+"/phone/"+phone+"/addr/"+addr;
+	 location.href="__URL__/outsy/start/"+start+"/end/"+end+"/code/"+code+"/addr/"+addr;
  })
 </script>
 <script type="text/javascript">

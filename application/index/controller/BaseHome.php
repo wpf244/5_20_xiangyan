@@ -18,6 +18,19 @@ class BaseHome extends Controller
 
         $seo=db('seo')->where("id=1")->find();
         $this->assign("seo",$seo);
+
+    //     vendor("Jssdk.Jssdk");
+    //     $payment=db("payment")->where("id",1)->find();
+
+    //     $appid=$payment['appid'];
+
+    //     $appserect=$payment['appsecret'];
+        
+    //      $jssdk = new \JSSDK("$appid", "$appserect");
+
+    //      $signPackage = $jssdk->GetSignPackage();
+    //    //  var_dump($signPackage);
+    //     $this->assign("signPackage",$signPackage);  
     
     }
 }

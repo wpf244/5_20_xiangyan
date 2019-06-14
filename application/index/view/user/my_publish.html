@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="">
+
+		<div class="back_box">
+				我的发布
+				<a class="back_icon" href="javascript:history.back(-1)">
+					<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+				</a>		
+			</div>
+
+	<!-- 公共顶部 -->
+{include file="public:top"}
+
+	<div class="p_6">
+		<div class="am-g">
+
+
+
+				{volist name="res" id="v" }
+				<div class="am-u-sm-6">
+				
+				 
+					<div class="box_shadow bg_white bd_radius mar_btm_12">
+						<a href="{:url('Rural/detail',array('id'=>$v['id']))}" class="am-block pic_big bg_cover" style="background-image: url({$v.image});"></a>
+						<div class="p_12">
+							<h3 class="pic_title am-text-sm mar_btm_6"><a href="{:url('Rural/detail',array('id'=>$v['id']))}">{$v.title}</a></h3>
+							<div class="flex_between">
+								<div class="flex_normal">
+									<img class="bd_radius_50 mar_rt_6" src="{$v.photo}" width="20" height="20" alt="">
+									<span class="am-text-xs">{$v.nickname}</span>
+								</div>
+								<div class="pic_scan am-text-xs">{$v.looks}</div>
+							</div>
+						</div>
+					</div>
+				
+			
+				
+				</div>
+				{/volist}
+		
+		</div>
+	</div>
+
+	<div class="no_data">没有发布更多内容~</div>
+
+</body>
+
+</html>

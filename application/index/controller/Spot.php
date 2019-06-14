@@ -15,6 +15,26 @@ class Spot extends BaseHome
         
         return $this->fetch();
     }
+     /**
+    * 搜索
+    *
+    * @return void
+    */
+    public function search()
+    {
+        $title=input("title");
+
+        if($title){
+            $map['name']=["like","%".$title."%"];
+        }else{
+            $map=[];
+        }
+        $hotel=db("spot")->where(["status"=>1])->where($map)->order(["sort asc","id desc"])->select();
+
+        $this->assign("hotel",$hotel);
+
+        return $this->fetch();
+    }
     public function detail()
     {
         $id=input("id");

@@ -236,8 +236,135 @@ class User extends BaseUser
         }
         
     }
+    /**
+    * 我的优惠券
+    *
+    * @return void
+    */
+    public function my_coupon()
+    {
+        
+        //全部优惠券
+        $uid=session("userid");
+
+        $res=db("user_coupon_only")->alias("a")->field("a.*,b.name")->where("uid",$uid)->join("hotel b","a.hid=b.id")->select();
+
+        $this->assign("res",$res);
+
+        $rey=db("user_coupon_only")->alias("a")->field("a.*,b.name")->where(["uid"=>$uid,"a.status"=>1])->join("hotel b","a.hid=b.id")->select();
+
+        $this->assign("rey",$rey);
+
+        $rew=db("user_coupon_only")->alias("a")->field("a.*,b.name")->where(["uid"=>$uid,"a.status"=>0])->join("hotel b","a.hid=b.id")->select();
+
+        $this->assign("rew",$rew);
+        
+        return $this->fetch();
+    } 
+    /**
+    * 我的发布
+    *
+    * @return void
+    */
+    public function my_publish()
+    {
+        $uid=session("userid");
+        
+        $res=db("rural")->alias("a")->field("a.*,b.nickname,b.image as photo")->where(["a.uid"=>$uid])->join("user b","a.uid=b.uid")->order(["id desc"])->select();
 
 
+        $this->assign("res",$res);
+        
+        return $this->fetch();
+    }
+    /**
+    * 酒店订单
+    *
+    * @return void
+    */
+    public function hotel_dd()
+    {
+        $uid=session("userid");
+
+        $re=db("order")->where(["uid"=>$uid,"type"=>3,"status"=>0])->order(["id desc"])->select();
+
+        $this->assign("re",$re);
+
+        $res=db("order")->where(["uid"=>$uid,"type"=>3,"status"=>1])->order(["id desc"])->select();
+
+        $this->assign("res",$res);
+
+        $reh=db("order")->where(["uid"=>$uid,"type"=>3,"status"=>2])->order(["id desc"])->select();
+
+        $this->assign("reh",$reh);
+
+        
+        return $this->fetch();
+    }
+    /**
+    * 取消订单
+    *
+    * @return void
+    */
+    public function delete_dd()
+    {
+        $id=\input('id');
+        $re=db("order")->where("id=$id")->find();
+        if($re){
+            $del=db("order")->where("id=$id")->delete();
+            echo '0';
+        }else{
+            echo '1';
+        }
+    }
+    /**
+    * 团游订单
+    *
+    * @return void
+    */
+    public function package_dd()
+    {
+        $uid=session("userid");
+
+        $re=db("order")->where(["uid"=>$uid,"type"=>1,"status"=>0])->order(["id desc"])->select();
+
+        $this->assign("re",$re);
+
+        $res=db("order")->where(["uid"=>$uid,"type"=>1,"status"=>1])->order(["id desc"])->select();
+
+        $this->assign("res",$res);
+
+        $reh=db("order")->where(["uid"=>$uid,"type"=>1,"status"=>2])->order(["id desc"])->select();
+
+        $this->assign("reh",$reh);
+
+        
+        return $this->fetch();
+    }
+     /**
+    * 门票订单
+    *
+    * @return void
+    */
+    public function spot_dd()
+    {
+        $uid=session("userid");
+
+        $re=db("order")->where(["uid"=>$uid,"type"=>2,"status"=>0])->order(["id desc"])->select();
+
+        $this->assign("re",$re);
+
+        $res=db("order")->where(["uid"=>$uid,"type"=>2,"status"=>1])->order(["id desc"])->select();
+
+        $this->assign("res",$res);
+
+        $reh=db("order")->where(["uid"=>$uid,"type"=>2,"status"=>2])->order(["id desc"])->select();
+
+        $this->assign("reh",$reh);
+
+        
+        return $this->fetch();
+    }
 
 
 

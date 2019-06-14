@@ -6,7 +6,7 @@ class Assess extends BaseAdmin
 {
     public function lister()
     {
-        $list=\db("assess")->alias('a')->field("a.id,a.content,name,addtime")->where("a.status=0")->join("riders b","a.rid=b.id")->paginate(10);
+        $list=\db("assess")->alias('a')->field("a.*,b.name")->where("a.status=0")->join("goods b","a.g_id=b.id")->paginate(10);
         $this->assign("list",$list);
         
         $page=$list->render();
@@ -72,13 +72,13 @@ class Assess extends BaseAdmin
             $map['name'] = array('like', '%'.$g_name.'%');
         }
         if($start != '' && $end != ''){
-            $map['create_time'] = array(array('egt',strtotime($start)),array('elt',strtotime($end.' 23:55:55')),'AND');
+            $map['addtime'] = array(array('egt',strtotime($start)),array('elt',strtotime($end.' 23:55:55')),'AND');
         }elseif($start == '' && $end != ''){
-            $map['create_time'] = array('elt',strtotime($end.' 23:55:55'));
+            $map['addtime'] = array('elt',strtotime($end.' 23:55:55'));
         }elseif($start != '' && $end == ''){
-            $map['create_time'] = array('egt',strtotime($start));
+            $map['addtime'] = array('egt',strtotime($start));
         }
-        $list=\db("assess")->alias('a')->field("a.id,a.content,name,addtime")->where($map)->where("a.status=1")->join("riders b","a.rid=b.id")->paginate(10);
+        $list=\db("assess")->alias('a')->field("a.*,b.name")->where($map)->where("a.status=1")->join("goods b","a.g_id=b.id")->paginate(10);
         $this->assign("list",$list);
         
         $this->assign("start",$start);

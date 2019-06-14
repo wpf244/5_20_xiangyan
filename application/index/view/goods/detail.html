@@ -63,50 +63,39 @@
 		</div>
 		<div class="tab_cont">
 			<div class="p_12">
-				<h6 class="pad_btm_12 bd_btm">商品评价（<span class="assess_num">0</span>）</h6>
+				<h6 class="pad_btm_12 bd_btm">商品评价（{$coua}）</h6>
 				<ul class="assess_list">
+				{volist name="assess" id="va"}
 					<li class="assess_item">
 	<div class="flex_between mar_btm_12">
 		<div class="flex_normal">
+		   {notempty name="$va.bimage"}	
+			<img src="{$va.bimage}" class="bd_radius_50 mar_rt_12" width="40" height="40" alt="">
+			{else /}
 			<img src="__HOME__/img/thumb.png" class="bd_radius_50 mar_rt_12" width="40" height="40" alt="">
+			{/notempty}
 			<div class="flex_1">
-				<h6 class="am-text-truncate">昵称昵称</h6>
-				<ul class="starList" data-star='4'></ul>
+					{notempty name="$va.nickname"}	
+					<h6 class="am-text-truncate">{$va.nickname}</h6>
+					{else /}
+					<h6 class="am-text-truncate">匿名</h6>
+					{/notempty}
+				
+				<ul class="starList" data-star='{$va.number}'></ul>
 			</div>
 		</div>
-		<span class="col_nine">2019-05-28</span>
+		<span class="col_nine">{$va.addtime|date="Y-m-d",###}</span>
 	</div>
-	<div class="assess_cont mar_btm_12">评价内容评价内容</div>
+	<div class="assess_cont mar_btm_12">{$va.content}</div>
 	<div class="am-g">
+	  {volist name="$va['image']" id="g"}	
 		<div class="am-u-sm-4">
-			<div class="goods_pic mar_btm_12 bd_all" style="background-image: url(__HOME__/img/goods_pic.png);"></div>
+			<div class="goods_pic mar_btm_12 bd_all" style="background-image: url({$g});"></div>
 		</div>
-		<div class="am-u-sm-4">
-			<div class="goods_pic mar_btm_12 bd_all" style="background-image: url(__HOME__/img/goods_pic.png);"></div>
-		</div>
+		{/volist}
 	</div>
 </li>
-					<li class="assess_item">
-	<div class="flex_between mar_btm_12">
-		<div class="flex_normal">
-			<img src="__HOME__/img/thumb.png" class="bd_radius_50 mar_rt_12" width="40" height="40" alt="">
-			<div class="flex_1">
-				<h6 class="am-text-truncate">昵称昵称</h6>
-				<ul class="starList" data-star='4'></ul>
-			</div>
-		</div>
-		<span class="col_nine">2019-05-28</span>
-	</div>
-	<div class="assess_cont mar_btm_12">评价内容评价内容</div>
-	<div class="am-g">
-		<div class="am-u-sm-4">
-			<div class="goods_pic mar_btm_12 bd_all" style="background-image: url(__HOME__/img/goods_pic.png);"></div>
-		</div>
-		<div class="am-u-sm-4">
-			<div class="goods_pic mar_btm_12 bd_all" style="background-image: url(__HOME__/img/goods_pic.png);"></div>
-		</div>
-	</div>
-</li>
+ {/volist}
 				</ul>
 			</div>
 		</div>

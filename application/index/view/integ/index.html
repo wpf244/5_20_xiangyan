@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="">
+
+	<!-- 返回 -->
+	<div class="back_box">
+		积分商城
+		<a class="back_icon" href="{:url('Goods/index')}">
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+	</div>
+
+	<div class="dope_top flex_normal">
+		<div class="dope_num">
+			<div class="am-text-xl mar_btm_6" style="line-height: 1;">{$re.integ}</div>
+			<div class="">积分</div>
+		</div>
+		<div class="am-g flex_1">
+			<div class="am-u-sm-6 am-text-center">
+				<a href="{:url('Integ/mx')}" class="am-block">
+					<h6 class="mar_btm_6">积分明细</h6>
+					<img src="__HOME__/img/dope_mingxi.png" class="am-center bd_radius_50" width="46" height="46" alt="">
+				</a>
+			</div>
+			<div class="am-u-sm-6 am-text-center">
+				<a href="{:url('Integ/exchange')}" class="am-block">
+					<h6 class="mar_btm_6">兑换记录</h6>
+					<img src="__HOME__/img/dope_change.png" class="am-center bd_radius_50" width="46" height="46" alt="">
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="p_6">
+		<ul class="am-g">
+			
+		 {volist name="res" id="v"}
+			<li class="am-u-sm-6">
+				<div class="goods_item">
+	<a href="javascript:;" class="goods_pic" style="background-image: url({$v.image});"></a>
+	<div class="goods_wrap">
+		<a href="javascript:;" class="goods_title">{$v.name}</a>
+		<div class="goods_flex">
+			<span class="goods_price">积分:{$v.integ}</span>
+			{if condition="$v.kc eq 0"}
+			<div class="goods_btn" style="background: #999;" href="javascript:;">已售罄</div>
+			{else /}
+			<div class="goods_btn btn" href="javascript:;" data-id="{$v.id}">立即兑换</div>
+			{/if}
+		</div>
+	</div>
+</div>
+			</li>
+			
+			{/volist}
+		</ul>
+	</div>
+<script>
+ $(".btn").click(function(){
+	 var id = $(this).data("id");
+
+	 $.ajax({
+		 type:"post",
+		 url:"{:url('Integ/pan')}",
+		 data:{id:id},
+		 dataType:"text",
+		 success:function(re){
+              if(re == 0){
+                   location.href="{:url('Integ/buy')}?id="+id;
+			  }
+			  if(re == 1){
+				  layer.msg("系统繁忙请稍后再试");
+				  setTimeout("location.reload()",1000);
+			  }
+			  if(re == 2){
+                   layer.msg("请先登录");
+				   setTimeout("location.href=\"{:url('Login/login')}\"",1000);
+			  }
+			  if(re == 3){
+				  layer.msg("库存不足");
+				  setTimeout("location.reload()",1000);
+			  }
+			  if(re == 4){
+				  layer.msg("积分不足");
+				  
+			  }
+		 }
+	 })
+	 
+ })
+
+</script>
+
+</body>
+
+</html>

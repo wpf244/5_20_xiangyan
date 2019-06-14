@@ -24,6 +24,14 @@ class Goods extends BaseHome
         $goods=db("goods")->where(["status"=>1,"up"=>1])->order(["sort asc","id desc"])->select();
 
         $this->assign("goods",$goods);
+
+        $collect=db("lb")->where("fid",27)->find();
+
+        $this->assign("collect",$collect);
+
+        $integ=db("lb")->where("fid",28)->find();
+
+        $this->assign("integ",$integ);
         
         return $this->fetch();
     }
@@ -96,6 +104,21 @@ class Goods extends BaseHome
         $spec=db("goods_spec")->where(["g_id"=>$id,"s_status"=>1])->select();
 
         $this->assign("spec",$spec);
+
+        $assess=db("assess")->alias("a")->field("a.*,b.nickname,b.image as bimage")->where(["g_id"=>$id,"status"=>1])->join("user b","a.u_id=b.uid","LEFT")->order(["id desc"])->select();
+ 
+        foreach($assess as $ka => $va){
+
+            $assess[$ka]['image']=explode(",",$va['image']);
+
+        }
+
+        $this->assign("assess",$assess);
+
+        $coua=count($assess);
+
+        $this->assign("coua",$coua);
+        
         
         return $this->fetch();
     }

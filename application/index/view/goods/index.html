@@ -31,7 +31,7 @@
 
 			<div class="am-cf">
 			  {volist name="type" id="vt"}
-				<a href="{:url('Goods/kind',array('id'=>$vt['type_id']))}" class="kind_cell am-text-sm am-text-center">
+				<a href="{:url('Goods/kind',array('id'=>$vt['type_id']))}" style="width: 20%;" class="kind_cell am-text-sm am-text-center">
 					<img src="{$vt.type_image}" width="32" height="32" alt="">
 					<div class="mar_top_12 am-text-truncate">{$vt.type_name}</div>
 				<a>
@@ -43,9 +43,9 @@
 	<div class="p_12 bg_white">
 		<h6 class="font_bold col_main mar_btm_6">积分兑换</h6>
 		<div class="flex_normal mar_btm_12">
-			<a href="mall_coupon.html" class="dope_ling flex_1 bg_cover bd_radius" style="background-image: url(__HOME__/img/dope_quan.png);"></a>
-			<a href="mall_dope.html">
-				<img src="__HOME__/img/dope_send.png" class="mar_lt_12 bd_radius" width="86" height="110" alt="">
+			<a href="{:url('Integ/coupon')}" class="dope_ling flex_1 bg_cover bd_radius" style="background-image: url({$collect.image});"></a>
+			<a href="{:url('Integ/index')}">
+				<img src="{$integ.image}" class="mar_lt_12 bd_radius" width="86" height="110" alt="">
 			</a>
 		</div>
 		<a href="javascript:;" class="am-block">

@@ -442,9 +442,603 @@ class Hotel extends BaseAdmin
             echo '1';
         }
     }
+    public function only()
+    {
+        $list=db("hotel_coupon")->alias("a")->field("a.*,b.name")->join("hotel b","a.hid=b.id")->order(["a.sort asc","a.id desc"])->paginate(20);
 
+        $this->assign("list",$list);
 
+        $page=$list->render();
 
+        $this->assign("page",$page);
+
+        $res=db("hotel")->where("status",1)->select();
+
+        $this->assign("res",$res);
+        
+        return $this->fetch();
+    }
+    public function save_only(){
+        $id=\input('id');
+        if($id){
+            $data=input("post.");
+          
+           
+           $res=db('hotel_coupon')->where("id",$id)->update($data);
+           if($res){
+               $this->success("修改成功！");
+           }else{
+               $this->error("修改失败！");
+           }
+        }else{
+            $data=input("post.");
+           
+           
+            $re=db('hotel_coupon')->insert($data);
+            if($re){
+                $this->success("添加成功！");
+            }else{
+                $this->error("添加失败！");
+            } 
+        }
+         
+    }
+    public function modifys_only(){
+        $id=input('id');
+        $re=db('hotel_coupon')->where("id",$id)->find();
+        echo json_encode($re);
+    }
+    public function change_only()
+    {
+        $id=\input('id');
+        $re=db("hotel_coupon")->where("id=$id")->find();
+        if($re){
+            if($re['status'] == 1){
+                $res=db("hotel_coupon")->where("id=$id")->setField("status",0);
+            }
+           
+            if($re['status'] == 0){
+                $res=db("hotel_coupon")->where("id=$id")->setField("status",1);
+            }
+
+            echo '0';
+        }else{
+            echo '1';
+        }
+    }
+
+    public function delete_only()
+    {
+        $id=\input('id');
+        $re=db("hotel_coupon")->where("id=$id")->find();
+        if($re){
+            $res=db("hotel_coupon")->where("id=$id")->delete();
+            if($res){
+                echo '0';
+            }else{
+                echo '2';
+            }
+        }else{
+            echo'1';
+        }
+    }
+    public function sort_only(){
+        $data=input('post.');
+   
+        foreach ($data as $id => $sort){
+            db("hotel_coupon")->where(array('id' => $id ))->setField('sort' , $sort);
+        }
+        $this->redirect('only');
+    }
+    /**
+    * 订单
+    *
+    * @return void
+    */
+    public function dd()
+    {
+    
+        $start=input('start');
+        $end=input('end');
+        $code=\input('code');
+      
+        $addr=\input('addr');
+       
+        if($start || $code ||  $addr){
+            if($start){
+                
+                $map['time']=['between time',[$start.'00:00:01',$end.'23:59:59']];
+            }
+            if($code){
+                $map['code']=array('like','%'.$code.'%');
+            }
+         
+            if($addr){
+                $map['username|phone']=array('like','%'.$addr.'%');
+              
+
+            }
+        }else{
+            
+            $start="";
+            $end="";
+        
+            $addr="";
+            $code="";
+            $map=[];
+        }
+        $this->assign("start",$start);
+        $this->assign("end",$end);
+      
+        $this->assign("addr",$addr);
+        $this->assign("code",$code);
+        
+        $list=db("order")->where("status=0 and type=3")->where($map)->order("id desc")->paginate(20,false,['query'=>request()->param()])->each(function($item, $key){
+            $item['coupons'] = $item['coupon']+$item['only_coupon'];
+            return $item;
+        });
+        $this->assign("list",$list);
+        $page=$list->render();
+        $this->assign("page",$page);
+        
+        return $this->fetch();
+    
+    }
+    public function out(){
+        $start=input('start');
+        $end=input('end');
+        $code=\input('code');
+      
+        $addr=\input('addr');
+       
+        if($start || $code ||  $addr){
+            if($start){
+                
+                $map['time']=['between time',[$start.'00:00:01',$end.'23:59:59']];
+            }
+            if($code){
+                $map['code']=array('like','%'.$code.'%');
+            }
+         
+            if($addr){
+                $map['username|phone']=array('like','%'.$addr.'%');
+              
+
+            }
+        }else{
+            
+            $map=[];
+        }
+        
+        $list=db("order")->where("status=0 and type=3")->where($map)->order("id desc")->select();
+        // var_dump($data);exit;
+        vendor('PHPExcel.PHPExcel');//调用类库,路径是基于vendor文件夹的
+        vendor('PHPExcel.PHPExcel.Worksheet.Drawing');
+        vendor('PHPExcel.PHPExcel.Writer.Excel2007');
+        $objExcel = new \PHPExcel();
+        //set document Property
+        $objWriter = \PHPExcel_IOFactory::createWriter($objExcel, 'Excel2007');
+    
+        $objActSheet = $objExcel->getActiveSheet();
+        $key = ord("A");
+        $letter =explode(',',"A,B,C,D,E,F,G,H,I,J,K,L");
+        $arrHeader =  array("订单号","实付金额","酒店名称","房间名称","入住时间","离开时间","房间数量","预定天数","入住人","联系方式","优惠券","订单金额");
+        //填充表头信息
+        $lenth =  count($arrHeader);
+        for($i = 0;$i < $lenth;$i++) {
+            $objActSheet->setCellValue("$letter[$i]1","$arrHeader[$i]");
+        }
+        //填充表格信息
+        foreach($list as $k=>$v){
+            $k +=2;
+            $v['coupons']=$v['coupon']+$v['only_coupon'];
+            $objActSheet->setCellValue('A'.$k,$v['code']);
+            $objActSheet->setCellValue('B'.$k, $v['price']);    
+            // 表格内容
+            $objActSheet->setCellValue('C'.$k, $v['hotel_name']);
+            $objActSheet->setCellValue('D'.$k, $v['name']);
+            $objActSheet->setCellValue('E'.$k, $v['start_time']);
+            $objActSheet->setCellValue('F'.$k, $v['end_time']);
+            $objActSheet->setCellValue('G'.$k, $v['num']);
+            $objActSheet->setCellValue('H'.$k, $v['days']);
+            $objActSheet->setCellValue('I'.$k, $v['username']);
+            $objActSheet->setCellValue('J'.$k, $v['phone']);
+            $objActSheet->setCellValue('K'.$k, $v['coupons']);
+            $objActSheet->setCellValue('L'.$k, $v['old_price']);
+    
+            // 表格高度
+            $objActSheet->getRowDimension($k)->setRowHeight(20);
+        }
+    
+        $width = array(20,20,15,10,10,30,10,15,15,15);
+        //设置表格的宽度
+        $objActSheet->getColumnDimension('A')->setWidth(20);
+        $objActSheet->getColumnDimension('B')->setWidth(20);
+        $objActSheet->getColumnDimension('C')->setWidth(25);
+        $objActSheet->getColumnDimension('D')->setWidth(25);
+        $objActSheet->getColumnDimension('E')->setWidth(25);
+        $objActSheet->getColumnDimension('F')->setWidth(30);
+        $objActSheet->getColumnDimension('G')->setWidth(30);
+        $objActSheet->getColumnDimension('H')->setWidth(25);
+        $objActSheet->getColumnDimension('I')->setWidth(25);
+        $objActSheet->getColumnDimension('J')->setWidth(25);
+        $objActSheet->getColumnDimension('K')->setWidth(30);
+        $objActSheet->getColumnDimension('L')->setWidth(30);
+
+        if($start !=0 ){
+             
+            $times=($start."-".$end);
+        }else{
+            $times="";
+        }
+        $outfile = "$times"."待付款酒店订单".".xls";
+    
+        $userBrowser=$_SERVER['HTTP_USER_AGENT'];
+        
+        if(preg_match('/MSIE/i', $userBrowser)){
+            $outfile=urlencode($outfile);
+           
+        }else{
+            $outfile= iconv("utf-8","gb2312",$outfile);;
+            
+        }
+        ob_end_clean();
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: application/download");
+        header('Content-Disposition:inline;filename="'.$outfile.'"');
+        header("Content-Transfer-Encoding: binary");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Pragma: no-cache");
+        $objWriter->save('php://output');
+    }
+    public function delete_dd()
+    {
+        $id=\input('id');
+        $re=db("order")->where("id=$id")->find();
+        if($re){
+            $del=db("order")->where("id=$id")->delete();
+            echo '0';
+        }else{
+            echo '1';
+        }
+    }
+    public function change_dd()
+    {
+        $id=\input('id');
+        $re=db("order")->where("id=$id")->find();
+        if($re){
+            db("order")->where("id=$id")->setField("status",1);
+            echo '0';
+        }else{
+            echo '1';
+        }
+    }
+    public function change_dds()
+    {
+        $id=\input('id');
+        $re=db("order")->where("id=$id")->find();
+        if($re){
+            db("order")->where("id=$id")->setField("status",2);
+            echo '0';
+        }else{
+            echo '1';
+        }
+    }
+    public function dds()
+    {
+    
+        $start=input('start');
+        $end=input('end');
+        $code=\input('code');
+      
+        $addr=\input('addr');
+       
+        if($start || $code ||  $addr){
+            if($start){
+                
+                $map['time']=['between time',[$start.'00:00:01',$end.'23:59:59']];
+            }
+            if($code){
+                $map['code']=array('like','%'.$code.'%');
+            }
+         
+            if($addr){
+                $map['username|phone']=array('like','%'.$addr.'%');
+              
+
+            }
+        }else{
+            
+            $start="";
+            $end="";
+        
+            $addr="";
+            $code="";
+            $map=[];
+        }
+        $this->assign("start",$start);
+        $this->assign("end",$end);
+      
+        $this->assign("addr",$addr);
+        $this->assign("code",$code);
+        
+        $list=db("order")->where("status=1 and type=3")->where($map)->order("id desc")->paginate(20,false,['query'=>request()->param()])->each(function($item, $key){
+            $item['coupons'] = $item['coupon']+$item['only_coupon'];
+            return $item;
+        });
+        $this->assign("list",$list);
+        $page=$list->render();
+        $this->assign("page",$page);
+        
+        return $this->fetch();
+    
+    }
+    public function outs(){
+        $start=input('start');
+        $end=input('end');
+        $code=\input('code');
+      
+        $addr=\input('addr');
+       
+        if($start || $code ||  $addr){
+            if($start){
+                
+                $map['time']=['between time',[$start.'00:00:01',$end.'23:59:59']];
+            }
+            if($code){
+                $map['code']=array('like','%'.$code.'%');
+            }
+         
+            if($addr){
+                $map['username|phone']=array('like','%'.$addr.'%');
+              
+
+            }
+        }else{
+            
+            $map=[];
+        }
+        
+        $list=db("order")->where("status=1 and type=3")->where($map)->order("id desc")->select();
+        // var_dump($data);exit;
+        vendor('PHPExcel.PHPExcel');//调用类库,路径是基于vendor文件夹的
+        vendor('PHPExcel.PHPExcel.Worksheet.Drawing');
+        vendor('PHPExcel.PHPExcel.Writer.Excel2007');
+        $objExcel = new \PHPExcel();
+        //set document Property
+        $objWriter = \PHPExcel_IOFactory::createWriter($objExcel, 'Excel2007');
+    
+        $objActSheet = $objExcel->getActiveSheet();
+        $key = ord("A");
+        $letter =explode(',',"A,B,C,D,E,F,G,H,I,J,K,L");
+        $arrHeader =  array("订单号","实付金额","酒店名称","房间名称","入住时间","离开时间","房间数量","预定天数","入住人","联系方式","优惠券","订单金额");
+        //填充表头信息
+        $lenth =  count($arrHeader);
+        for($i = 0;$i < $lenth;$i++) {
+            $objActSheet->setCellValue("$letter[$i]1","$arrHeader[$i]");
+        }
+        //填充表格信息
+        foreach($list as $k=>$v){
+            $k +=2;
+            $v['coupons']=$v['coupon']+$v['only_coupon'];
+            $objActSheet->setCellValue('A'.$k,$v['code']);
+            $objActSheet->setCellValue('B'.$k, $v['price']);    
+            // 表格内容
+            $objActSheet->setCellValue('C'.$k, $v['hotel_name']);
+            $objActSheet->setCellValue('D'.$k, $v['name']);
+            $objActSheet->setCellValue('E'.$k, $v['start_time']);
+            $objActSheet->setCellValue('F'.$k, $v['end_time']);
+            $objActSheet->setCellValue('G'.$k, $v['num']);
+            $objActSheet->setCellValue('H'.$k, $v['days']);
+            $objActSheet->setCellValue('I'.$k, $v['username']);
+            $objActSheet->setCellValue('J'.$k, $v['phone']);
+            $objActSheet->setCellValue('K'.$k, $v['coupons']);
+            $objActSheet->setCellValue('L'.$k, $v['old_price']);
+    
+            // 表格高度
+            $objActSheet->getRowDimension($k)->setRowHeight(20);
+        }
+    
+        $width = array(20,20,15,10,10,30,10,15,15,15);
+        //设置表格的宽度
+        $objActSheet->getColumnDimension('A')->setWidth(20);
+        $objActSheet->getColumnDimension('B')->setWidth(20);
+        $objActSheet->getColumnDimension('C')->setWidth(25);
+        $objActSheet->getColumnDimension('D')->setWidth(25);
+        $objActSheet->getColumnDimension('E')->setWidth(25);
+        $objActSheet->getColumnDimension('F')->setWidth(30);
+        $objActSheet->getColumnDimension('G')->setWidth(30);
+        $objActSheet->getColumnDimension('H')->setWidth(25);
+        $objActSheet->getColumnDimension('I')->setWidth(25);
+        $objActSheet->getColumnDimension('J')->setWidth(25);
+        $objActSheet->getColumnDimension('K')->setWidth(30);
+        $objActSheet->getColumnDimension('L')->setWidth(30);
+
+        if($start !=0 ){
+             
+            $times=($start."-".$end);
+        }else{
+            $times="";
+        }
+        $outfile = "$times"."已付款酒店订单".".xls";
+    
+        $userBrowser=$_SERVER['HTTP_USER_AGENT'];
+        
+        if(preg_match('/MSIE/i', $userBrowser)){
+            $outfile=urlencode($outfile);
+           
+        }else{
+            $outfile= iconv("utf-8","gb2312",$outfile);;
+            
+        }
+        ob_end_clean();
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: application/download");
+        header('Content-Disposition:inline;filename="'.$outfile.'"');
+        header("Content-Transfer-Encoding: binary");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Pragma: no-cache");
+        $objWriter->save('php://output');
+    }
+    public function ddh()
+    {
+    
+        $start=input('start');
+        $end=input('end');
+        $code=\input('code');
+      
+        $addr=\input('addr');
+       
+        if($start || $code ||  $addr){
+            if($start){
+                
+                $map['time']=['between time',[$start.'00:00:01',$end.'23:59:59']];
+            }
+            if($code){
+                $map['code']=array('like','%'.$code.'%');
+            }
+         
+            if($addr){
+                $map['username|phone']=array('like','%'.$addr.'%');
+              
+
+            }
+        }else{
+            
+            $start="";
+            $end="";
+        
+            $addr="";
+            $code="";
+            $map=[];
+        }
+        $this->assign("start",$start);
+        $this->assign("end",$end);
+      
+        $this->assign("addr",$addr);
+        $this->assign("code",$code);
+        
+        $list=db("order")->where("status=2 and type=3")->where($map)->order("id desc")->paginate(20,false,['query'=>request()->param()])->each(function($item, $key){
+            $item['coupons'] = $item['coupon']+$item['only_coupon'];
+            return $item;
+        });
+        $this->assign("list",$list);
+        $page=$list->render();
+        $this->assign("page",$page);
+        
+        return $this->fetch();
+    
+    }
+    public function outh(){
+        $start=input('start');
+        $end=input('end');
+        $code=\input('code');
+      
+        $addr=\input('addr');
+       
+        if($start || $code ||  $addr){
+            if($start){
+                
+                $map['time']=['between time',[$start.'00:00:01',$end.'23:59:59']];
+            }
+            if($code){
+                $map['code']=array('like','%'.$code.'%');
+            }
+         
+            if($addr){
+                $map['username|phone']=array('like','%'.$addr.'%');
+              
+
+            }
+        }else{
+            
+            $map=[];
+        }
+        
+        $list=db("order")->where("status=2 and type=3")->where($map)->order("id desc")->select();
+        // var_dump($data);exit;
+        vendor('PHPExcel.PHPExcel');//调用类库,路径是基于vendor文件夹的
+        vendor('PHPExcel.PHPExcel.Worksheet.Drawing');
+        vendor('PHPExcel.PHPExcel.Writer.Excel2007');
+        $objExcel = new \PHPExcel();
+        //set document Property
+        $objWriter = \PHPExcel_IOFactory::createWriter($objExcel, 'Excel2007');
+    
+        $objActSheet = $objExcel->getActiveSheet();
+        $key = ord("A");
+        $letter =explode(',',"A,B,C,D,E,F,G,H,I,J,K,L");
+        $arrHeader =  array("订单号","实付金额","酒店名称","房间名称","入住时间","离开时间","房间数量","预定天数","入住人","联系方式","优惠券","订单金额");
+        //填充表头信息
+        $lenth =  count($arrHeader);
+        for($i = 0;$i < $lenth;$i++) {
+            $objActSheet->setCellValue("$letter[$i]1","$arrHeader[$i]");
+        }
+        //填充表格信息
+        foreach($list as $k=>$v){
+            $k +=2;
+            $v['coupons']=$v['coupon']+$v['only_coupon'];
+            $objActSheet->setCellValue('A'.$k,$v['code']);
+            $objActSheet->setCellValue('B'.$k, $v['price']);    
+            // 表格内容
+            $objActSheet->setCellValue('C'.$k, $v['hotel_name']);
+            $objActSheet->setCellValue('D'.$k, $v['name']);
+            $objActSheet->setCellValue('E'.$k, $v['start_time']);
+            $objActSheet->setCellValue('F'.$k, $v['end_time']);
+            $objActSheet->setCellValue('G'.$k, $v['num']);
+            $objActSheet->setCellValue('H'.$k, $v['days']);
+            $objActSheet->setCellValue('I'.$k, $v['username']);
+            $objActSheet->setCellValue('J'.$k, $v['phone']);
+            $objActSheet->setCellValue('K'.$k, $v['coupons']);
+            $objActSheet->setCellValue('L'.$k, $v['old_price']);
+    
+            // 表格高度
+            $objActSheet->getRowDimension($k)->setRowHeight(20);
+        }
+    
+        $width = array(20,20,15,10,10,30,10,15,15,15);
+        //设置表格的宽度
+        $objActSheet->getColumnDimension('A')->setWidth(20);
+        $objActSheet->getColumnDimension('B')->setWidth(20);
+        $objActSheet->getColumnDimension('C')->setWidth(25);
+        $objActSheet->getColumnDimension('D')->setWidth(25);
+        $objActSheet->getColumnDimension('E')->setWidth(25);
+        $objActSheet->getColumnDimension('F')->setWidth(30);
+        $objActSheet->getColumnDimension('G')->setWidth(30);
+        $objActSheet->getColumnDimension('H')->setWidth(25);
+        $objActSheet->getColumnDimension('I')->setWidth(25);
+        $objActSheet->getColumnDimension('J')->setWidth(25);
+        $objActSheet->getColumnDimension('K')->setWidth(30);
+        $objActSheet->getColumnDimension('L')->setWidth(30);
+
+        if($start !=0 ){
+             
+            $times=($start."-".$end);
+        }else{
+            $times="";
+        }
+        $outfile = "$times"."已核销酒店订单".".xls";
+    
+        $userBrowser=$_SERVER['HTTP_USER_AGENT'];
+        
+        if(preg_match('/MSIE/i', $userBrowser)){
+            $outfile=urlencode($outfile);
+           
+        }else{
+            $outfile= iconv("utf-8","gb2312",$outfile);;
+            
+        }
+        ob_end_clean();
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: application/download");
+        header('Content-Disposition:inline;filename="'.$outfile.'"');
+        header("Content-Transfer-Encoding: binary");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Pragma: no-cache");
+        $objWriter->save('php://output');
+    }
 
 
 

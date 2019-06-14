@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="">
+
+	<!-- 返回 -->
+	<div class="back_box">
+		附近特产
+		<a class="back_icon" href="javascript:history.back(-1)">
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+	</div>
+
+	<!-- 公共顶部 -->
+{include file="public:top"}
+
+	<div class="p_12">
+		<div class="travel_banner bd_radius bg_cover" style="background-image: url({$lb.image});"></div>
+	</div>
+
+	<div class="list_box pad_lt_12">
+	  {volist name="res" id="vg" key="k"}	
+	  <li class="am-u-sm-6">
+		<div class="goods_item">
+<a href="{:url('Goods/detail',array('id'=>$vg['id']))}" class="goods_pic" style="background-image: url({$vg.image});"></a>
+<div class="goods_wrap">
+<a href="{:url('Goods/detail',array('id'=>$vg['id']))}" class="goods_title">{$vg.name}</a>
+<div class="goods_flex">
+	<span class="goods_price">￥{$vg.xprice}</span>
+	<a class="goods_btn" href="{:url('Goods/detail',array('id'=>$vg['id']))}" style="width: 65px;">马上抢</a>
+</div>
+</div>
+</div>
+	</li>
+		{/volist}
+	</div>
+
+	
+
+	<div class="no_data">没有更多数据~</div>
+
+</body>
+
+</html>

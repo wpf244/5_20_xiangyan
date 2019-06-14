@@ -37,9 +37,6 @@ class Hotel extends BaseUser
 
         
 
-
-
-
         //酒店推荐
         $hotel=db("hotel")->where(["status"=>1,"recome"=>1,"type"=>1])->order(["sort asc","id desc"])->select();
 
@@ -58,7 +55,29 @@ class Hotel extends BaseUser
 
         $this->assign("homes",$homes);
 
+      //  $city=session("city");
+
         
+        return $this->fetch();
+    }
+    /**
+    * 搜索
+    *
+    * @return void
+    */
+    public function search()
+    {
+        $title=input("title");
+
+        if($title){
+            $map['name']=["like","%".$title."%"];
+        }else{
+            $map=[];
+        }
+        $hotel=db("hotel")->where(["status"=>1])->where($map)->order(["sort asc","id desc"])->select();
+
+        $this->assign("hotel",$hotel);
+
         return $this->fetch();
     }
     /**
@@ -209,6 +228,10 @@ class Hotel extends BaseUser
         $lb=db("lb")->where("fid",22)->find();
 
         $this->assign("lb",$lb);
+
+        $only=db("user_coupon_only")->where(["uid"=>$uid,"hid"=>$hid])->find();
+
+        $this->assign("only",$only);
         
         return $this->fetch();
     }
@@ -286,6 +309,18 @@ class Hotel extends BaseUser
                     $data['price']=$prices-$coupons['coupon'];
                 }
 
+            }
+
+            $only=input("only");
+
+            if($only != 0){
+                $coupon_only=db("user_coupon_only")->where("id",$only)->find();
+
+                if($coupon_only){
+                    $data['only_coupon']=$coupon_only['coupon'];
+                    $data['oid']=$coupon_only['id'];
+                    $data['price']=$data['price']-$coupon_only['coupon'];
+                }
             }
 
             $old_dd=db("order")->where(["uid"=>$uid,"gid"=>$rid,"type"=>3,"status"=>0])->find();

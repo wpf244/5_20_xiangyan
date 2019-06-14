@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="">
+
+	<!-- 返回 -->
+	<div class="back_box">
+		领券中心
+		<a class="back_icon" href="javascript:history.back(-1)">
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+	</div>
+
+	<div class="coupon_top bg_cover" style="background-image: url(__HOME__/img/mall_coupon_bg.png);"></div>
+
+	<div class="coupon_posi">
+
+		<div class="am-g mar_btm_12">
+			{volist name="res" id="v"}
+			<div class="am-u-sm-4">
+				<div class="coupon_single">
+	<h5>{$v.coupon}</h5>
+	<div class="">满{$v.money}元可用</div>
+	<div class="coupon_zhuan">{$v.name}专用券</div>
+	<div class="coupon_get" data-id="{$v.id}" >立即领取</div>
+</div>
+			</div>
+
+			{/volist}
+			
+		</div>
+		
+		<div class="p_6">
+			<ul class="am-g">
+			  {volist name="goods" id="vg"}
+			  <li class="am-u-sm-6">
+				<div class="goods_item">
+	<a href="{:url('Goods/detail',array('id'=>$vg['id']))}" class="goods_pic" style="background-image: url({$vg.image});"></a>
+	<div class="goods_wrap">
+		<a href="{:url('Goods/detail',array('id'=>$vg['id']))}" class="goods_title">{$vg.name}</a>
+		<div class="goods_flex">
+			<span class="goods_price">￥{$vg.xprice}</span>
+			<a class="goods_btn" href="{:url('Goods/detail',array('id'=>$vg['id']))}">马上抢</a>
+		</div>
+	</div>
+</div>
+			</li>
+				{/volist}
+			
+			</ul>
+		</div>
+
+	</div>
+<script>
+ $(".coupon_get").click(function(){
+	 var id = $(this).data("id");
+
+     $.ajax({
+		 type:"post",
+		 url:"{:url('Integ/save_coupon')}",
+		 data:{id:id},
+		 dataType:"text",
+		 success:function(re){
+            if(re == 0){
+				layer.msg("领取成功");
+			}
+			if(re == 1){
+				layer.msg("系统繁忙,请稍后再试");
+				setTimeout("location.reload()",1000);
+			}
+			if(re == 2){
+				layer.msg("已经领取过了");
+				setTimeout("location.reload()",1000);
+			}
+			if(re == 3){
+				layer.msg("领取失败");
+			}
+
+		 } 
+	 })
+	 
+
+ })
+</script>
+
+
+</body>
+
+</html>
