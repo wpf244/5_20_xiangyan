@@ -25,7 +25,7 @@
 		<p>入住日期应小于离开日期！</p>
 	</div>
 
-	<div class="p_12">
+	<div class="p_12" id="mybox">
 		<div class="font_bold pad_btm_12 bd_btm">出游基本信息</div>
 		<a class="flex_between pd_12 bd_btm" href="javascript:;">
 			<div class="made_lb">出发地</div>
@@ -137,7 +137,7 @@
 		$reduce.click(function () {
 			var $inputVal = $(this).next('input'),
 				$count = parseInt($inputVal.val()) - 1;
-			if ($inputVal.val() <= 1) {
+			if ($inputVal.val() <= 0) {
 				return;
 			}
 			$inputVal.val($count);
@@ -638,7 +638,7 @@
 	<script type="text/javascript">
 		var types = null
 		//加载城市事件
-		$('body').on('click', '#gr_zone_ids,#gr_zone_ids_1', function () {
+		$('#mybox').on('click', '#gr_zone_ids,#gr_zone_ids_1', function () {
 			var zid = $(this).attr('id');
 			types = $(this).data('type')
 			$('.city-container').show();

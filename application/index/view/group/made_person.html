@@ -22,7 +22,7 @@
 	</div>
 
 	<div class="made_box">
-		<div class="flex_between bd_btm pad_btm_12">
+		<div class="flex_between bd_btm pad_btm_12" id="mybox">
 			<span class="am-text-left flex_1" id="gr_zone_ids" data-type="1">出发地</span>
 			<img src="__HOME__/img/icon_to.png" width="18" height="7" alt="">
 			<span class="am-text-right flex_1" id="gr_zone_ids_1" data-type="2">目的地</span>
@@ -540,9 +540,9 @@
 	<script type="text/javascript">
 		var types = null
 		//加载城市事件
-		$('body').on('click', '#gr_zone_ids,#gr_zone_ids_1', function () {
+		$('#mybox').on('click', '#gr_zone_ids,#gr_zone_ids_1', function () {
 			var zid = $(this).attr('id');
-			types = $(this).data('type')
+			types = $(this).data('type');
 			$('.city-container').show();
 			
 		})

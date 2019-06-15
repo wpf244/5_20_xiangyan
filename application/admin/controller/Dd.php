@@ -1000,12 +1000,12 @@ class Dd extends BaseAdmin
         $did=\input('id');
         $re=db("car_dd")->where("did=$did")->find();
         if($re['status'] == 5){
-            // $res=db("car_dd")->where("did=$did")->setField("state",1);
-            // $pay=$re['pay'];
-            // $pays=\explode(",", $pay);
-            // foreach ($pays as $v){
-            //     db("car_dd")->where("code='$v'")->setField("state",1);
-            // }
+            $res=db("car_dd")->where("did=$did")->setField("state",1);
+            $pay=$re['pay'];
+            $pays=\explode(",", $pay);
+            foreach ($pays as $v){
+                db("car_dd")->where("code='$v'")->setField("state",1);
+            }
             
             $out_trade_no=$re['code'];
             $total_fee=$re['zprice']*100;
@@ -1022,7 +1022,7 @@ class Dd extends BaseAdmin
 
             $order = \WxPayApi::refund($input,$data);
 
-            var_dump($order);exit;
+          //  var_dump($order);exit;
 
             $this->redirect("tui_dd");
         }else{

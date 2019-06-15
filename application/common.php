@@ -28,7 +28,7 @@ function deleteImg($oldImg){
  * **/
 function uploads($image){
     $file = request()->file("$image");
-    $info = $file->validate(['size'=>31457280,'ext'=>'jpg,png,gif'])->move(ROOT_PATH . 'public' . DS . 'uploads');
+    $info = $file->validate(['size'=>31457280,'ext'=>'jpg,png,gif,jpeg'])->move(ROOT_PATH . 'public' . DS . 'uploads');
 
     $pa=$info->getSaveName();
     $path=str_replace("\\", "/", $pa);

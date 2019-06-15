@@ -22,7 +22,7 @@
 
 	<div class="pad_12">
 	  {volist name="res" id="v"}
-		<a href="{:url('Car/detail',array('id'=>$v['id']))}" class="flex_normal pd_12 bd_btm">
+		<div  data-id="{$v.id}" class="flex_normal pd_12 bd_btm">
 	<div class="hotel_piao bd_radius mar_rt_12 bg_cover" style="background-image:url({$v.image});"></div>
 	<div class="flex_1">
 		<div class="hotel_wrap">
@@ -31,15 +31,22 @@
 			<div class="flex_between">
 				<span class="col_deputy">{$v.type}</span>
 				<div class="flex_normal">
-					<img src="__HOME__/img/icon_car_tel.png" width="16" height="16" alt=""><span class="mar_lt_6">{$v.phone}</span>
+						<a href="tel:{$v.phone}"><img src="__HOME__/img/icon_car_tel.png" width="16" height="16" alt=""><span class="mar_lt_6 call_phone">{$v.phone}</span></a>
 				</div>
 			</div>
 		</div>
 	</div>
-</a>
+</div>
 	{/volist}	
 	</div>
+<script>
+$(".bd_btm").click(function(){
+	var id = $(this).data("id");
+  
+	window.location.href="{:url('Car/detail')}?id="+id;
+})
 
+</script>
 	<div class="no_data">暂无更多记录~</div>
 
 </body>

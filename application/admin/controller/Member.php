@@ -207,7 +207,7 @@ class Member extends BaseAdmin
         $re=db("user")->where("uid=$id")->find();
         if($re){
             
-            $del=db("user")->where("uid=$id")->setField("is_delete",-1);
+            $del=db("user")->where("uid=$id")->delete();
             if($del){
                 
                 echo '0';

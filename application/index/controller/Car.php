@@ -33,7 +33,9 @@ class Car extends BaseHome
     {
         $id=input("id");
 
-        $re=db("spot")->where("id",$id)->find();
+        $re=db("car")->where("id",$id)->find();
+
+        
 
         $this->assign("re",$re);
         
