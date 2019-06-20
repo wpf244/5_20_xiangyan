@@ -35,7 +35,7 @@
               <div class="page-header">
                 <div class="row">
                 <div class="col-sm-4">
-                <a class="btn btn-success btn-white btn-bold" href="{:url('Bargain/add')}">
+                <a class="btn btn-success btn-white btn-bold" href="{:url('Assemble/add')}">
                   <i class="ace-icon fa fa-plus icon-only"></i>
                   添加</a>
                 <button id="change" class="btn btn-warning btn-white btn-bold">
@@ -69,61 +69,61 @@
               <table class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                  <th class="center">
-                    <label class="pos-rel">
-                      <input type="checkbox" class="ace checkAll">
-                      <span class="lbl"></span>
-                    </label>
-                  </th>
+                  
                   <th>ID</th>
                   <th class="hidden-480">排序</th>
                   
-                  <th>商品名称</th>
-                  <th>商品价格</th>
-                  <th>最低价</th>
-                
-                 
-                  <th class="hidden-480">缩略图</th>
+                  <th>商品信息</th>
+                  <th>团购价</th>
+                  <th>拼团人数</th>
                   <th>上下架</th>
-               
+                  <th>推荐</th>
                   <th style="border-right:#ddd solid 1px;width:7%;" >操作</th>
                 </tr>
                 </thead>
-                <form id="sortForm" action="{:url('Bargain/sort')}" method="post"> 
+                <form id="sortForm" action="{:url('Assemble/sort')}" method="post"> 
                 <tbody>
                 {volist name="list" id="v"}
                 <tr class="ace-thumbnails">
-                  <td class="center"><label class="pos-rel">
-                    <input type="checkbox" class="ace check" value="{$v.id}">
-                    <span class="lbl"></span>
-                  </label>
-                  </td>
+                 
                   <td><span class="badge badge-grey">{$v.id}</span></td>
                   <td class="hidden-480"><input class="input-small" type="number" name="{$v.id}" value="{$v.sort}"></td>
                  
-                  <td>{$v.name}</td>
-                  <td>{$v.price}</td>
-                  <td>{$v.floor_price}</td>
-            
-                 
-                  <td class="ace-thumbnails hidden-480">
-                    <li><a href="{$v.image}" data-rel="colorbox">
+                  <td>
+                    <!-- <a href="#" style="float: left;margin-right: 10px;">
+                      <img class="media-object hidden-480" data-src="holder.js/72x72" alt="72x72" src="{$v.image}" style="width: 72px; height: 72px;">
+                    </a> -->
+                    <li>
+                    <a href="{$v.image}" style="float: left;margin-right: 10px;" data-rel="colorbox">
                       <img width="80" height="80" alt="150x150" src="{$v.image}"/>
-                      <div class="text">
-                        <div class="inner">点击放大</div>
-                      </div>
+                      
                     </a></li>
+                    <h4 style="float: left;">
+                        <a href="javascript:;" class="blue">{$v.name}</a> <br><br>
+                        <a href="javascript:;" class="blue">{$v.price}</a>
+                      </h4>
+                     
                   </td>
+                  <td>{$v.floor_price}</td>
+                  <td>{$v.group_number}</td>
+            
                   <td>
                     <label>
                       <input id="statu" name="up" onclick="changeu({$v.id})" class="ace ace-switch ace-switch-6" type="checkbox" {if condition="$v.up eq 1"}checked{/if} />
                       <span class="lbl"></span>
                     </label>
                   </td>
+
+                  <td>
+                    <label>
+                      <input id="statu" name="status" onclick="change({$v.id})" class="ace ace-switch ace-switch-6" type="checkbox" {if condition="$v.status eq 1"}checked{/if} />
+                      <span class="lbl"></span>
+                    </label>
+                  </td>
                 
 
                   <td>
-                    <a class="btn btn-xs btn-info" href="{:url('Bargain/modifys',array('id'=>$v['id']))}">
+                    <a class="btn btn-xs btn-info" href="{:url('Assemble/modifys',array('id'=>$v['id']))}">
                       <i class="ace-icon fa fa-pencil bigger-120"></i>
                     </a>
                     <button class="btn btn-xs btn-danger" type="button" onclick="dels({$v.id})">
@@ -175,10 +175,10 @@
 	    }
 		</script>
 <script>
-function changes(id){
+function change(id){
 	$.ajax({
 		type:"post",
-		url:"__URL__/changes",
+		url:"__URL__/change",
 	    data:{id:id},
 	    datatype:"text",
 	    success:function(){

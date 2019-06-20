@@ -29,6 +29,38 @@ class BaseUser extends Controller
                 $this->redirect("Login/login");
             }
         }
+
+        //更新砍价到期的
+
+        $time=time();
+
+        $res=db("bargain")->where("status",0)->select();
+
+        foreach($res as $k => $v){
+            $bar_time=$v['time']+$v['times']*60*60;
+
+            if($time >= $bar_time){
+                db("bargain")->where("id",$v['id'])->setField("status",2);
+            }
+        }
+
+        //更新商品活动到期的
+        $goods=db("bargain_goods")->where("up",1)->select();
+
+        foreach($goods as $vg){
+
+           
+
+            $goods_time=strtotime($vg['end_time']);
+
+            if($time > $goods_time){
+
+                db("bargain_goods")->where("id",$vg['id'])->setField("up",0);
+
+                db("bargain")->where(["gid"=>$vg['id'],"status"=>0])->setField("g_status",1);
+
+            }
+        }
     
     }
 }

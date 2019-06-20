@@ -22,9 +22,43 @@
             <i class="ace-icon fa fa-home home-icon"></i>
             <a href="{:url('Index/index')}">首页</a>
           </li>
-          <li class="active">商品列表</li>
+          <li class="active">拼团信息</li>
         </ul>
 
+      </div>
+
+      <div id="sidebar2" class="sidebar h-sidebar navbar-collapse collapse ace-save-state">
+        <ul class="nav nav-list header-nav" id="header-nav">
+            <li>
+                <a href="{:url('Assemble/lister')}">
+                  <o class="font12 {if condition='$status eq 0 '} rigbg {/if}">全部</o>
+                </a>
+              <b class="arrow"></b>
+            </li>
+            <li>
+                <a href="{:url('Assemble/lister',array('status'=>1))}">
+                  <o class="font12 {if condition='$status eq 1 '} rigbg {/if}">拼团中</o>
+                </a>
+              <b class="arrow"></b>
+            </li>
+            
+            <li>
+                <a href="{:url('Assemble/lister',array('status'=>2))}">
+                  <o class="font12 {{if condition='$status eq 2 '} rigbg {/if}">拼团成功</o>
+                </a>
+              <b class="arrow"></b>
+            </li>
+
+            <li>
+              <a href="{:url('Assemble/lister',array('status'=>3))}">
+                <o class="font12 {if condition='$status eq 3 '} rigbg {/if}">拼团失败</o>
+              </a>
+            <b class="arrow"></b>
+          </li>
+        
+
+                                
+        </ul>
       </div>
 
       <div class="page-content">
@@ -35,13 +69,7 @@
               <div class="page-header">
                 <div class="row">
                 <div class="col-sm-4">
-                <a class="btn btn-success btn-white btn-bold" href="{:url('Bargain/add')}">
-                  <i class="ace-icon fa fa-plus icon-only"></i>
-                  添加</a>
-                <button id="change" class="btn btn-warning btn-white btn-bold">
-                  <i class="fa fa-exchange"></i>
-                  排序
-                </button>
+             
                
                 </div>
 
@@ -54,7 +82,7 @@
 									<span class="input-group-addon">
 										<i class="ace-icon fa fa-check"></i>
 									</span>
-                        <input type="text" name="title"  class="form-control search-query" value="{$title}" placeholder="请输入需查询的关键字">
+                        <input type="text" name="title"  class="form-control search-query" value="{$title}" placeholder="请输入商品名称">
                         <span class="input-group-btn">
 										<button type="submit" class="btn btn-info btn-sm ajax-search-form">
 											<span class="ace-icon fa fa-search icon-on-right bigger-120"></span> 搜索
@@ -69,72 +97,44 @@
               <table class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                  <th class="center">
-                    <label class="pos-rel">
-                      <input type="checkbox" class="ace checkAll">
-                      <span class="lbl"></span>
-                    </label>
-                  </th>
+                 
                   <th>ID</th>
-                  <th class="hidden-480">排序</th>
-                  
+                  <th>用户手机号</th>  
                   <th>商品名称</th>
                   <th>商品价格</th>
-                  <th>最低价</th>
-                
-                 
-                  <th class="hidden-480">缩略图</th>
-                  <th>上下架</th>
-               
-                  <th style="border-right:#ddd solid 1px;width:7%;" >操作</th>
+                  <th>拼团价格</th>
+                  <th>所需人数</th>
+                  <th>参与人数</th>
+                  <th style="border-right:#ddd solid 1px;width:7%;" >状态</th>
                 </tr>
                 </thead>
-                <form id="sortForm" action="{:url('Bargain/sort')}" method="post"> 
+             
                 <tbody>
                 {volist name="list" id="v"}
                 <tr class="ace-thumbnails">
-                  <td class="center"><label class="pos-rel">
-                    <input type="checkbox" class="ace check" value="{$v.id}">
-                    <span class="lbl"></span>
-                  </label>
-                  </td>
+                
                   <td><span class="badge badge-grey">{$v.id}</span></td>
-                  <td class="hidden-480"><input class="input-small" type="number" name="{$v.id}" value="{$v.sort}"></td>
-                 
+                
+                  <td>{$v.phone}</td>
                   <td>{$v.name}</td>
                   <td>{$v.price}</td>
                   <td>{$v.floor_price}</td>
-            
+                  <td>{$v.number}</td>
+                  <td>{$v.num}</td>
                  
-                  <td class="ace-thumbnails hidden-480">
-                    <li><a href="{$v.image}" data-rel="colorbox">
-                      <img width="80" height="80" alt="150x150" src="{$v.image}"/>
-                      <div class="text">
-                        <div class="inner">点击放大</div>
-                      </div>
-                    </a></li>
-                  </td>
-                  <td>
-                    <label>
-                      <input id="statu" name="up" onclick="changeu({$v.id})" class="ace ace-switch ace-switch-6" type="checkbox" {if condition="$v.up eq 1"}checked{/if} />
-                      <span class="lbl"></span>
-                    </label>
-                  </td>
+            
                 
 
                   <td>
-                    <a class="btn btn-xs btn-info" href="{:url('Bargain/modifys',array('id'=>$v['id']))}">
-                      <i class="ace-icon fa fa-pencil bigger-120"></i>
-                    </a>
-                    <button class="btn btn-xs btn-danger" type="button" onclick="dels({$v.id})">
-                      <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                    </button>
+                    {if condition="$v.status eq 1"}<span>拼团中</span>{/if}
+                    {if condition="$v.status eq 2"}<span style="color:green;">拼团成功</span>{/if}
+                    {if condition="$v.status eq 3"}<span style="color:red;">拼团失败</span>{/if}
                   </td>
                 </tr>
                 {/volist}
                 {empty name="list"}<tr><td colspan="18" class="text-center">暂无数据</td></tr>{/empty}
                 </tbody>
-                </form>
+             
               </table>
               <div class="text-center">
                 {$page}

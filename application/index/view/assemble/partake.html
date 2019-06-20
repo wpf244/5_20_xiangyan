@@ -4,39 +4,46 @@
 {include file="public:header"}
 <body class="">
 		<div class="back_box">
-				酒店订单
+				拼团记录
 				<a class="back_icon" href="javascript:history.back(-1)">
 					<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
 				</a>		
 			</div>
 	<!-- 公共顶部 -->
-{include file="public:top"}
+<div class="top_box flex_between bg_white pad_12 bd_btm">
+	<a href="index.html">
+		<img src="__HOME__/img/logo.png" width="91" height="30" alt="">
+	</a>
+	<div class="am-text-sm col_main" id="weather"></div>
+</div>
 
 	<ul class="order_hd flex_around bd_btm">
 		
-		<li class="order_item active tab_item">待支付</li>
-		<li class="order_item tab_item">已支付</li>
-		<li class="order_item tab_item">已核销</li>
+		<li class="order_item active tab_item">拼团中</li>
+		<li class="order_item tab_item">拼团成功</li>
+		<li class="order_item tab_item">拼团失败</li>
 	</ul>
 
 	<div class="tab_wrap">
 		<div class="tab_cont p_12 active">
 			<ul>
-				{volist name="re" id="v"}
-				<li class="ticket_piao pd_12 bd_btm">
+				{volist name="rec" id="vc"}
+				<li class="pd_12 bd_btm">
+						<a class="ticket_piao" href="{:url('Index/assemble',array('id'=>$vc['id']))}">
 						<img class="mar_rt_12 mar_top_6" src="__HOME__/img/icon_ticket.png" width="20" height="20" alt="">
 	<div class="flex_1">
-		<a href="javascript:;" class="am-text-truncate am-block mar_btm_6">{$v.hotel_name}--{$v.name}</a>
-		<div class="am-text-sm col_nine mar_btm_6">入住日期：{$v.start_time}</div>
-		<div class="am-text-sm col_nine">房间数量：{$v.num}</div>
+		<span class="am-text-truncate am-block mar_btm_6">{$vc.name}</span>
+		<div class="am-text-sm col_nine mar_btm_6">所需人数：{$vc.number}</div>
+		<div class="am-text-sm col_nine">商品价格:{$vc.price}</div>
 	</div>
-	<div class="mar_lt_12">￥{$v.price}</div>
+	<div class="mar_lt_12">￥{$vc.floor_price}</div>
 	
-						<span class="ticket_status col_main"><a class="am-btn am-btn-default am-btn-xs am-round mar_rt_6" onclick="dels({$v.id})">取消</a><a class="am-btn am-btn-danger am-btn-xs am-round" href="{:url('Pay/pay')}?did={$v.id}">支付</a></span>
+	<span class="ticket_status col_main">拼团中</span>
+	</a>
 					</li>
                  {/volist}
 			</ul>
-			<div class="no_data">没有更多订单~</div>
+			<div class="no_data">没有更多信息~</div>
 		</div>
 		<div class="tab_cont p_12">
 			<ul>
@@ -44,35 +51,35 @@
 					<li class="ticket_piao pd_12 bd_btm">
 							<img class="mar_rt_12 mar_top_6" src="__HOME__/img/icon_ticket.png" width="20" height="20" alt="">
 							<div class="flex_1">
-									<a href="javascript:;" class="am-text-truncate am-block mar_btm_6">{$vs.hotel_name}--{$vs.name}</a>
-									<div class="am-text-sm col_nine mar_btm_6">入住日期：{$vs.start_time}</div>
-									<div class="am-text-sm col_nine">房间数量：{$vs.num}</div>
+									<a href="javascript:;" class="am-text-truncate am-block mar_btm_6">{$vs.name}</a>
+									<div class="am-text-sm col_nine mar_btm_6">所需人数：{$vs.number}</div>
+									<div class="am-text-sm col_nine">砍掉价格:{$vs.price}</div>
 								</div>
-								<div class="mar_lt_12">￥{$vs.price}</div>
+								<div class="mar_lt_12">￥{$vs.floor_price}</div>
 		
-							<span class="ticket_status col_main">已支付</span>
+							<span class="ticket_status col_main">拼团成功</span>
 						</li>
 						{/volist}
 			</ul>
-			<div class="no_data">没有更多订单~</div>
+			<div class="no_data">没有更多信息~</div>
 		</div>
 		<div class="tab_cont p_12">
 			<ul>
-					{volist name="reh" id="vh"}
+					{volist name="reg" id="vg"}
 				<li class="ticket_piao pd_12 bd_btm">
 					<img class="mar_rt_12 mar_top_6" src="__HOME__/img/icon_ticket.png" width="20" height="20" alt="">
 					<div class="flex_1">
-							<a href="javascript:;" class="am-text-truncate am-block mar_btm_6">{$vh.hotel_name}--{$vh.name}</a>
-							<div class="am-text-sm col_nine mar_btm_6">入住日期：{$vh.start_time}</div>
-							<div class="am-text-sm col_nine">房间数量：{$vh.num}</div>
+							<a href="javascript:;" class="am-text-truncate am-block mar_btm_6">{$vg.name}</a>
+							<div class="am-text-sm col_nine mar_btm_6">所需人数：{$vg.number}</div>
+							<div class="am-text-sm col_nine">砍掉价格:{$vg.price}</div>
 						</div>
-						<div class="mar_lt_12">￥{$vh.price}</div>
+						<div class="mar_lt_12">￥{$vg.floor_price}</div>
 
-						<span class="ticket_status col_main">已核销</span>
+						<span class="ticket_status col_main">拼团失败</span>
 				</li>
 				{/volist}
 			</ul>
-			<div class="no_data">没有更多订单~</div>
+			<div class="no_data">没有更多信息~</div>
 		</div>
 	</div>
 	<script type="text/javascript">

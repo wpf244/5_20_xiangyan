@@ -18,7 +18,10 @@
 <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}'>
 	<ul class="am-slides">
 	 {volist name="lb" id="vb"}	
-		<li><img src="{$vb.image}"></li>
+		<li>
+			<div style="height: 150px;background-image: url({$vb.image});background-size: cover;background-repeat: no-repeat;background-position: center;"></div>
+			<!-- <img src="{$vb.image}"> -->
+			</li>
 	{/volist}
 	</ul>
 </div>

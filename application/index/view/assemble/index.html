@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="">
+
+	<!-- 返回 -->
+	<div class="back_box">
+		拼团
+		<a class="back_icon" href="{:url('Index/index')}">
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+	</div>
+
+	<!-- 公共顶部 -->
+{include file="public:top"}
+
+	<div class="pad_12">
+			<div class="am-text-center pad_6_12 bg_main col_white am-cf"><a style="float: left;" href="{:url('Assemble/start')}">我发起的拼团</a> <a style="float: right;" href="{:url('Assemble/partake')}">我参与的拼团</a></div> 
+	 {volist name="res" id="v" key="k"}	
+		<a href="{:url('Assemble/detail',array('id'=>$v['id']))}" class="flex_normal pd_12 bd_btm">
+			<div class="hotel_piao bd_radius mar_rt_12 bg_cover" style="background-image:url({$v.image});">
+			 {if condition="$k lt 4"}<span class="kind_tag">top{$k}</span>{/if}
+			</div>
+			<div class="flex_1">
+				<div class="hotel_wrap">
+					<h3>{$v.name}</h3>
+					<div class="flex_1 am-text-sm col_nine">{$v.tag}</div>
+					<div class="flex_between">
+						<span class="col_deputy">拼团</span>
+						<div class="col_nine am-text-sm">价格<span class="col_main mar_rt_6 am-text-default">￥{$v.price}</span>起
+						</div>
+					</div>
+				</div>
+			</div>
+		</a>
+		{/volist}
+		<!-- <a href="piao_detail.html" class="flex_normal pd_12 bd_btm">
+			<div class="hotel_piao bd_radius mar_rt_12 bg_cover" style="background-image:url(__HOME__/img/banner.png);"><span class="kind_tag">top2</span></div>
+			<div class="flex_1">
+				<div class="hotel_wrap">
+					<h3>福照楼汽锅鸡饭店</h3>
+					<div class="flex_1 am-text-sm col_nine">(周末及节假日)门票团购抢购</div>
+					<div class="flex_between">
+						<span class="col_deputy">抢购</span>
+						<div class="col_nine am-text-sm">价格<span class="col_main mar_rt_6 am-text-default">￥66.00</span>起
+						</div>
+					</div>
+				</div>
+			</div>
+		</a>
+		<a href="piao_detail.html" class="flex_normal pd_12 bd_btm">
+			<div class="hotel_piao bd_radius mar_rt_12 bg_cover" style="background-image:url(__HOME__/img/banner.png);"><span	class="kind_tag">top3</span></div>
+			<div class="flex_1">
+				<div class="hotel_wrap">
+					<h3>福照楼汽锅鸡饭店</h3>
+					<div class="flex_1 am-text-sm col_nine">(周末及节假日)门票团购抢购</div>
+					<div class="flex_between">
+						<span class="col_deputy">抢购</span>
+						<div class="col_nine am-text-sm">价格<span class="col_main mar_rt_6 am-text-default">￥66.00</span>起
+						</div>
+					</div>
+				</div>
+			</div>
+		</a>
+		<a href="piao_detail.html" class="flex_normal pd_12 bd_btm">
+			<div class="hotel_piao bd_radius mar_rt_12 bg_cover" style="background-image:url(__HOME__/img/banner.png);"></div>
+			<div class="flex_1">
+				<div class="hotel_wrap">
+					<h3>福照楼汽锅鸡饭店</h3>
+					<div class="flex_1 am-text-sm col_nine">(周末及节假日)门票团购抢购</div>
+					<div class="flex_between">
+						<span class="col_deputy">抢购</span>
+						<div class="col_nine am-text-sm">价格<span class="col_main mar_rt_6 am-text-default">￥66.00</span>起
+						</div>
+					</div>
+				</div>
+			</div>
+		</a> -->
+	</div>
+
+	<div class="no_data">暂无更多记录~</div>
+
+	
+
+</body>
+
+</html>

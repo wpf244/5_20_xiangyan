@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="">
+
+	<!-- 返回 -->
+	<div class="back_box">
+		砍价
+		<a class="back_icon" href="{:url('Index/index')}">
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+	</div>
+
+{include file="public:top"}
+
+	
+
+	<div class="bargain_box">
+			
+		<div class="am-text-center pad_6_12 bg_main col_white">正在进行中 <a style="float: right;" href="{:url('Bargain/history')}">历史记录</a></div> 
+		{notempty name="$re"}	
+		<div class="p_12 flex_normal">
+			<a href="{:url('Bargain/help',array('id'=>$re['id']))}" class="bargain_pic bg_cover mar_rt_12 bd_radius am-block" style="background-image: url({$goods.image});"></a>
+			<div class="flex_1 hotel_wrap">
+				<div class="flex_1">
+					<h5 class="am-text-truncate">{$re.name}</h5>
+					<div class="am-text-sm col_nine" style="font-size: 0.4rem;">已砍<span class="col_main">{$re.already_price}</span>元 原价<span class="col_main">{$re.price}</span>元 底价<span class="col_main">{$re.floor_price}</span>元</div>
+
+				
+				</div>
+			  {if condition="$re.status eq 0"}	
+				<div class="flex_between">
+					<div class="bargain_lt am-text-sm col_nine count_down">
+						<span class="hour_num">00</span> : <span class="min_num">00</span> : <span class="sec_num">00</span>后结束
+					</div>
+					<a href="javascript:;" id="continue_btn" class="am-btn am-btn-danger bd_radius am-btn-xs">立即砍价</a>
+				</div>
+				{/if}
+				{if condition="$re.status eq 1"}	
+				<div class="flex_between">
+					<div class="bargain_lt am-text-sm col_nine count_down">
+						砍价成功
+					</div>
+					<a href="{:url('Bargain/buy')}?id={$re.id}" class="am-btn am-btn-danger bd_radius am-btn-xs">立即购买</a>
+				</div>
+				{/if}
+			</div>
+		</div>
+	  {/notempty}	
+	</div>
+
+
+
+
+	<div class="pad_12">
+	
+       {volist name="res" id="v" key="k" key="k"}
+		<div class="flex_normal pd_12 bd_btm">
+			<a href="{:url('Bargain/detail',array('id'=>$v['id']))}" class="am-block hotel_piao bd_radius mar_rt_12 bg_cover" style="background-image:url({$v.image});"><span class="kind_tag">top{$k}</span></a>
+			<div class="flex_1">
+				<div class="hotel_wrap">
+					<h3>{$v.name}</h3>
+					<div class="flex_1 am-text-sm col_nine col_deputy">{$v.tag}</div>
+					<div class="am-text-right">
+						<a href="{:url('Bargain/detail',array('id'=>$v['id']))}" class="am-btn am-btn-danger bd_radius am-btn-xs">点击免费拿</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	  {/volist}
+	</div>
+ 
+	<div class="no_data">暂无更多记录~</div>
+
+	<!-- 砍价弹窗 -->
+	<div class="common_bg" id="common_bg"></div>
+	<div class="bargain_tan" id="bargain_tan">
+		<h5 class="mar_btm_12"><span class="wen">你砍了</span><span class="am-text-xl col_main price">47.32元</span></h5>
+		<div class="mar_btm_12 col_main am-text-sm">分享给好友，让好友帮你砍一刀</div>
+		<div class="flex_around p_12">
+			<a href="javascript:;" class="am-block" id="wx">
+				<img src="__HOME__/img/pic_wechat.png" class="am-center mar_btm_12" width="36" height="36" alt="">
+				<div class="am-text-sm">微信</div>
+			</a>
+			<!-- <a href="javascript:;" class="am-block">
+				<img src="__HOME__/img/pic_tencent.png" class="am-center mar_btm_12" width="36" height="36" alt="">
+				<div class="am-text-sm">QQ</div>
+			</a> -->
+			<a href="javascript:;" class="am-block" id="wxs">
+				<img src="__HOME__/img/pic_friend.png" class="am-center mar_btm_12" width="36" height="36" alt="">
+				<div class="am-text-sm">朋友圈</div>
+			</a>
+		</div>
+	</div>
+  
+	<script src="__HOME__/js/countDown.js"></script>
+  
+	<script>
+		$(function(){
+			var date="{$date}";
+	//	var date=0;
+			//倒计时
+			$(".count_down").countDown({
+				endTimeStr: date, //结束时间
+				daySelector: ".day_num",
+				hourSelector: ".hour_num",
+				minSelector: ".min_num",
+				secSelector: ".sec_num"
+			})
+
+			// 继续砍价
+			$('#continue_btn').click(function(){
+				var id="{$re.id}";
+				var price ="{$re.already_price}";
+				// $.ajax({
+				// 	type:"post",
+				// 	url:"{:url('Bargain/take')}",
+				// 	data:{id:id},
+				// 	dataType:"text",
+				// 	success:function(re){
+                //         if(re == -1){	
+				// 			$(".wen").text("已经砍了");
+				// 			$(".price").text(price+'元');
+				// 			$('#common_bg').fadeIn()
+				//            $('#bargain_tan').fadeIn()
+				// 		}else if(re == -2){
+				// 			 layer.msg("系统繁忙请稍后再试");
+				// 			 setTimeout("location.reload()",1000);
+				// 		}else if(re == -3){
+				// 			layer.msg("系统繁忙请稍后再试");
+				// 			 setTimeout("location.reload()",1000);
+				// 		}else if(re == -4){
+				// 			layer.msg("系统繁忙请稍后再试");
+				// 			 setTimeout("location.reload()",1000);
+				// 		}else{
+				// 			$(".price").text(re+'元');
+				// 			$('#common_bg').fadeIn()
+				//            $('#bargain_tan').fadeIn()
+				// 		}
+				// 	}
+				// })
+				$(".wen").text("已经砍了");
+				$(".price").text(price+'元');
+				$('#common_bg').fadeIn()
+				$('#bargain_tan').fadeIn()
+			
+			})
+
+			$('#common_bg').click(function(){
+				$('#common_bg').fadeOut()
+				$('#bargain_tan').fadeOut()
+				location.reload();
+			})
+
+			$("#wx").click(function(){
+				layer.msg("点击右上角按钮,发送给朋友");
+			})
+			$("#wxs").click(function(){
+				layer.msg("点击右上角按钮,分享到朋友圈");
+			})
+
+		})
+	</script>
+
+<script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+<script>
+  var data = {$signPackage};
+  var id = "{$re.id}";
+  var image = "{$goods.image}";
+  var title = "{$title.desc}";
+  var desc = "{$desc.desc}";
+  var url = "{$urls}";
+  wx.config({
+      debug: false,
+      appId: data.appId,
+      timestamp: data.timestamp,
+      nonceStr: data.nonceStr,
+      signature: data.signature,
+      jsApiList: ['checkJsApi','onMenuShareTimeline','onMenuShareAppMessage','startRecord',
+                  'stopRecord',
+                  'onVoiceRecordEnd',
+                  'playVoice',
+                  'onVoicePlayEnd',
+                  'pauseVoice',
+                  'stopVoice',
+                  'uploadVoice',
+                  'downloadVoice']
+  });
+  wx.ready(function(){
+	  wx.onMenuShareAppMessage({
+		  title: title, // 分享标题
+		  desc: desc, // 分享描述
+		  link: url+'/index/index/wx/id/'+id, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+		  imgUrl: url+image, // 分享图标
+		  type: '', // 分享类型,music、video或link，不填默认为link
+		  dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+		  success: function () {
+		  // 用户点击了分享后执行的回调函数
+		   
+		  }
+		});
+	  wx.onMenuShareTimeline({
+		    title: title, // 分享标题
+		    link: url+'/index/index/wx/id/'+id, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+		    imgUrl: url+image, // 分享图标
+		    success: function () {
+		    // 用户点击了分享后执行的回调函数
+		},
+	  });
+	});
+
+
+
+
+
+
+</script>
+
+
+
+
+</body>
+
+</html>

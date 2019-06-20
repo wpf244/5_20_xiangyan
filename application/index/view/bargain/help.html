@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="">
+
+	<!-- 返回 -->
+	<div class="back_box">
+		帮忙砍价
+		<a class="back_icon" href="javascript:history.back(-1)">
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+	</div>
+
+{include file="public:top"}
+
+
+
+	<div class="p_12 bd_cover" style="background-image: url(__HOME__/img/bargain_bei.png);">
+		<div class="bg_white bd_radius p_12">
+			<div class="p_12 flex_normal bg_normal bd_radius">				
+				<div class="bargain_pic bg_cover mar_rt_12 bd_radius am-block" style="background-image: url(__HOME__/img/car_pic.png);"></div>
+				<div class="flex_1 hotel_wrap">
+					<div class="flex_1">
+						<h5 class="am-text-truncate">{$re.name}</h5>
+						<div class="am-text-sm">
+								￥<span class="col_main am-text-lg font_bold">{$re.price}</span>
+						</div>						
+					</div>
+					<div class="bargain_lt am-text-sm col_nine count_down">
+						<span class="hour_num">00</span> : <span class="min_num">00</span> : <span class="sec_num">00</span>后砍价过期
+					</div>
+				</div>
+			</div>
+
+			<div class="am-text-center">
+				<div class="mar_top_12 mar_btm_12 col_nine">
+					已砍<span class="col_main">{$re.already_price}</span>元，还差<span class="col_main">{$re.can_price}</span>元
+				</div>
+				<div class="am-progress am-progress-striped" style="border-radius:200px;overflow:hidden;height: 14px;margin-bottom: 0;">
+					<div class="am-progress-bar am-progress-bar-danger" style="width: {$scale}%"></div>
+				</div>
+				<div class="p_12">
+					<div id="wx" class="confirm_btn am-text-sm">喊好友砍一刀</div>
+				</div>
+			</div>
+
+			<div class="bargain_bang am-text-sm bd_radius p_12">
+				<h6 class="bargain_col col_main am-text-center font_bold">砍价帮</h6>
+				<ul>
+				  {volist name="res" id="v"}
+					<li class="flex_between pd_12 bd_btm_white">
+						<div class="flex_normal flex_1">
+							<img src="{$v.image}" class="bd_radius_50 mar_rt_12" width="32" height="32" alt="">
+							<div class="flex_1 am-text-truncate">{$v.nickname}</div>
+						</div>
+						<div class="col_nine mar_lt_12">
+							砍掉<span class="col_main">{$v.price}</span>元
+						</div>
+					</li>
+					{/volist}
+				</ul>
+				<a href="javascript:;" class="no_data">暂无更多数据</a>
+			</div>
+		</div>
+	</div>
+
+	<script src="__HOME__/js/countDown.js"></script>
+
+	<script>
+		$(function(){
+			var date="{$date}";
+			//倒计时
+			$(".count_down").countDown({
+				endTimeStr: date, //结束时间
+				daySelector: ".day_num",
+				hourSelector: ".hour_num",
+				minSelector: ".min_num",
+				secSelector: ".sec_num"
+			})
+			$("#wx").click(function(){
+				layer.msg("点击右上角按钮,发送给朋友或分享到朋友圈");
+			})
+
+		})
+	</script>
+
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+  var data = {$signPackage};
+  var id = "{$re.id}";
+  var image = "{$re.image}";
+  var titile = "{$title.desc}";
+  var desc = "{$desc.desc}";
+  wx.config({
+      debug: false,
+      appId: data.appId,
+      timestamp: data.timestamp,
+      nonceStr: data.nonceStr,
+      signature: data.signature,
+      jsApiList: ['checkJsApi','onMenuShareTimeline','onMenuShareAppMessage','startRecord',
+                  'stopRecord',
+                  'onVoiceRecordEnd',
+                  'playVoice',
+                  'onVoicePlayEnd',
+                  'pauseVoice',
+                  'stopVoice',
+                  'uploadVoice',
+                  'downloadVoice']
+  });
+  wx.ready(function(){
+	  wx.onMenuShareAppMessage({
+		  title: title, // 分享标题
+		  desc: desc, // 分享描述
+		  link: 'http://xiangyan.dd371.com/index/index/wx/id/'+id, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+		  imgUrl: image, // 分享图标
+		  type: '', // 分享类型,music、video或link，不填默认为link
+		  dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+		  success: function () {
+		  // 用户点击了分享后执行的回调函数
+		   
+		  }
+		});
+	  wx.onMenuShareTimeline({
+		    title: title, // 分享标题
+		    link: 'http://xiangyan.dd371.com/index/index/wx/id/'+id, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+		    imgUrl: image, // 分享图标
+		    success: function () {
+		    // 用户点击了分享后执行的回调函数
+		},
+	  });
+	});
+
+
+
+
+
+
+</script>
+
+</body>
+
+</html>

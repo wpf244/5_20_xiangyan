@@ -365,6 +365,136 @@ class User extends BaseUser
         
         return $this->fetch();
     }
+    /**
+    * 砍价订单
+    *
+    * @return void
+    */
+    public function bargain_dd()
+    {
+        $uid=session("userid");
+
+        //未付款订单
+        $rew=db("bargain_dd")->where(["uid"=>$uid,"status"=>0])->order(["id desc"])->select();
+
+        $this->assign("rew",$rew);
+
+        $res=db("bargain_dd")->where(["uid"=>$uid,"status"=>1])->order(["id desc"])->select();
+
+        $this->assign("res",$res);
+
+        $ref=db("bargain_dd")->where(["uid"=>$uid,"status"=>2])->order(["id desc"])->select();
+
+        $this->assign("ref",$ref);
+
+        $rec=db("bargain_dd")->where(["uid"=>$uid,"status"=>3])->order(["id desc"])->select();
+
+        $this->assign("rec",$rec);
+
+
+        
+        return $this->fetch();
+    }
+    /**
+    * 取消订单
+    *
+    * @return void
+    */
+    public function delete_bargain_dd()
+    {
+        $id=\input('id');
+        $re=db("bargain_dd")->where("id=$id")->find();
+        if($re){
+            $del=db("bargain_dd")->where("id=$id")->delete();
+            echo '0';
+        }else{
+            echo '1';
+        }
+    }
+    /**
+    * 确认收货
+    *
+    * @return void
+    */
+    public function change_bargain_dd()
+    {
+        $id=\input('id');
+        $re=db("bargain_dd")->where("id",$id)->find();
+        if($re){
+           if($re['status'] == 2){
+            db("bargain_dd")->where("id",$id)->setField("status",3);
+            echo '0';
+           } else{
+               echo '2';
+           }
+           
+        }else{
+            echo '1';
+        }
+    }
+    /**
+    * 拼团订单
+    *
+    * @return void
+    */
+    public function assemble_dd()
+    {
+        $uid=session("userid");
+
+        //拼团中
+        $rew=db("assemble_dd")->where(["uid"=>$uid,"status"=>1])->order(["id desc"])->select();
+
+        $this->assign("rew",$rew);
+
+        //待发货
+
+        $res=db("assemble_dd")->where(["uid"=>$uid,"status"=>2])->order(["id desc"])->select();
+
+        $this->assign("res",$res);
+
+        //待收货
+
+        $ref=db("assemble_dd")->where(["uid"=>$uid,"status"=>3])->order(["id desc"])->select();
+
+        $this->assign("ref",$ref);
+
+        //已完成
+
+        $rec=db("assemble_dd")->where(["uid"=>$uid,"status"=>4])->order(["id desc"])->select();
+
+        $this->assign("rec",$rec);
+
+         //拼团失败
+
+         $rep=db("assemble_dd")->where(["uid"=>$uid,"status"=>5])->order(["id desc"])->select();
+
+         $this->assign("rep",$rep);
+
+
+        
+        return $this->fetch();
+    }
+    /**
+    * 确认收货
+    *
+    * @return void
+    */
+    public function change_assemble_dd()
+    {
+        $id=\input('id');
+        $re=db("assemble_dd")->where("id",$id)->find();
+        if($re){
+           if($re['status'] == 3){
+            db("assemble_dd")->where("id",$id)->setField("status",4);
+            echo '0';
+           } else{
+               echo '2';
+           }
+           
+        }else{
+            echo '1';
+        }
+    }
 
 
 

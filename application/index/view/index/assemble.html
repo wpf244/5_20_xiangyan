@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="">
+
+	<!-- 返回 -->
+	<div class="back_box">
+		参与拼单
+		<a class="back_icon" href="javascript:history.back(-1)">
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>		
+	</div>
+
+	<div class="order_goods">
+			<img class="mar_rt_12" src="{$goods['image']}" width="90" height="90" alt="">
+			<div class="flex_1">
+				<div class="order_wrap">
+					<div class="flex_1">
+						<div class="flex_between">
+							<h5 class="am-text-truncate">{$goods['name']}</h5>
+							<span class="mar_lt_12">￥{$goods['floor_price']}</span>
+						</div>
+						<div class="order_desc am-text-sm col_nine">
+							<h6>{$goods.tag}</h6>
+							<span class="hotel_line mar_lt_12">{$goods.price}</span>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+
+	<div class="bd_btm_10">
+		<div class="am-text-center p_12">
+			<div class="mar_btm_12">参与{$users.nickname}的拼单</div>
+			<div class="am-text-sm mar_btm_12">
+				<a href="javascript:;" class="mar_rt_12">仅剩 <span class="col_main am-text-default">{$num}</span> 个名额</a>
+				{if condition="$re.status eq 1"}
+				<a class="count_down">剩余
+				<span href="javascript:;" class="hour_num">00</span>:<span class="min_num">00</span>:<span class="sec_num">00</span>
+			</a>
+			{else /}
+			<a class="count_down">拼团已结束
+				</a>
+			   {/if}
+			
+			</div>
+			<div class="flex_center pd_12">
+				<div class="piao_zhu">
+					<img src="{$users.image}" class="bd_radius_50" width="50" height="50" alt=""><span>拼主</span>
+				</div>
+			{empty name="$res" }	
+
+			<img src="__HOME__/img/thumb_none.png" class="bd_radius_50 bd_all" width="50" height="50" alt="">
+
+			{else /}
+
+			  {volist name="res" id="v"}	
+				<img src="{$v.image}" class="bd_radius_50 bd_all" width="50" height="50" alt="">
+				{/volist}
+			
+
+			{/empty}	
+			</div>
+		</div>
+
+		<div class="p_12">
+		  {if condition="$re.status eq 1"}	
+			<button type="button" id="btn" class="confirm_btn">参与拼单</button>
+		  {else /}
+		  <a href="{:url('Index/index')}"  class="confirm_btn">返回首页</a>
+			{/if}
+			
+		</div>
+		<div class="p_12">
+
+				<div href="javascript:;" class="confirm_btn" id="wx">邀请好友拼单</div>
+		</div>
+	</div>
+	
+	
+	
+	<script src="__HOME__/js/countDown.js"></script>
+	<script>
+
+		$(function () {
+             var date="{$date}";
+			//倒计时
+			$(".count_down").countDown({
+				endTimeStr: date, //结束时间
+				daySelector: ".day_num",
+				hourSelector: ".hour_num",
+				minSelector: ".min_num",
+				secSelector: ".sec_num"
+			})
+
+			$("#wx").click(function(){
+				layer.msg("点击右上角按钮,发送给朋友或分享到朋友圈");
+			})
+
+		})
+	</script>
+
+	<script>
+	  $("#btn").click(function(){
+           var id ="{$re.id}";
+
+		   $.ajax({
+			   type:"post",
+			   url:"{:url('Index/save')}",
+			   data:{id:id},
+			   dataType:"text",
+			   success:function(re){
+                    if(re == 0){
+                        layer.msg("此拼团已结束");
+						setTimeout("location.href=\"{:url('Index/index')}\"",2000);
+					}else if(re == -1){
+						layer.msg("你已经参与此拼团了");
+						setTimeout("location.reload()",2000);
+					}else if(re == -2){
+						layer.msg("你已经参与此拼团了");
+						setTimeout("location.reload()",2000);
+
+					}else{
+						location.href="{:url('Assemble/buys')}?id="+re;
+					}
+			   }
+		   })
+		   
+	  })
+	
+	</script>
+
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+  var data = {$signPackage};
+  var id = "{$re.id}";
+  var image = "{$re.image}";
+  var title = "{$title.desc}";
+  var desc = "{$desc.desc}";
+  var url = "{$urls}";
+  wx.config({
+      debug: false,
+      appId: data.appId,
+      timestamp: data.timestamp,
+      nonceStr: data.nonceStr,
+      signature: data.signature,
+      jsApiList: ['checkJsApi','onMenuShareTimeline','onMenuShareAppMessage','startRecord',
+                  'stopRecord',
+                  'onVoiceRecordEnd',
+                  'playVoice',
+                  'onVoicePlayEnd',
+                  'pauseVoice',
+                  'stopVoice',
+                  'uploadVoice',
+                  'downloadVoice']
+  });
+  wx.ready(function(){
+	  wx.onMenuShareAppMessage({
+		  title: title, // 分享标题
+		  desc: desc, // 分享描述
+		  link: url+'/index/index/assemble/id/'+id, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+		  imgUrl: url+image, // 分享图标
+		  type: '', // 分享类型,music、video或link，不填默认为link
+		  dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+		  success: function () {
+		  // 用户点击了分享后执行的回调函数
+		   
+		  }
+		});
+	  wx.onMenuShareTimeline({
+		    title: title, // 分享标题
+		    link: url+'/index/index/assemble/id/'+id, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+		    imgUrl: url+image, // 分享图标
+		    success: function () {
+		    // 用户点击了分享后执行的回调函数
+		},
+	  });
+	});
+
+
+
+
+
+
+</script>
+
+</body>
+
+</html>

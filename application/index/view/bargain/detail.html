@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="" style="padding-bottom: 60px;">
+
+	<!-- 返回 -->
+	<div class="back_box">
+		砍价详情
+		<a class="back_icon" href="javascript:history.back(-1)">
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a>
+	</div>
+
+	<!-- banner -->
+	<div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}'>
+		<ul class="am-slides">
+		 
+			<li><img src="{$re.image}" style="height: 414px;"></li>
+		</ul>
+	</div>
+
+	<div class="p_12 bd_btm">
+		<h5 class="flex_1 am-text-truncate mar_btm_6">
+			{$re.name}
+		</h5>
+		<div class="flex_between mar_btm_6">
+			<div class="col_main">￥{$re.price}</div>
+		
+		</div>
+	
+		<div class="flex_normal">
+			<img class="mar_rt_12" src="__HOME__/img/icon_you.png" width="14" height="14" alt=""><span class="am-text-sm" style="color: #3388FF;">{$re.tag}</span>
+		</div>
+	</div>
+
+	<div class="am-g bd_btm_10 pd_12 am-text-sm col_nine">
+		{volist name="lb" id="l"}
+		<div class="am-u-sm-4">
+			<img class="am-center mar_btm_12" src="{$l.image}" width="24" height="24" alt="">
+			<h6 class="am-text-center">{$l.name}</h6>
+		</div>
+		{/volist}
+	</div>
+
+	<!-- 详情和评价选项卡 -->
+	<ul class="order_hd flex_around bd_btm">
+		<li class="order_item active tab_item">商品详情</li>
+	
+	</ul>
+
+	<div class="tab_wrap">
+		<div class="tab_cont active">
+			<!-- 商品详情盒子 -->
+			<div class="goods_detail">
+				{$re.content}
+			</div>
+		</div>
+		
+	</div>
+
+	<!-- 底部加入购物车及立即购买 -->
+	<div class="function_box">
+		<!-- <div class="function_lt">
+			<a href="http://wpa.qq.com/msgrd?v=3&uin={$sys.qq}&site=qq&menu=yes" class="function_cell">
+				<img class="function_icon" src="__HOME__/img/icon_seek.png" width="20" height="20" alt=""><h6>客服</h6>
+			</a>
+			<a href="{:url('Shop/index')}" class="function_cell">
+				<img class="function_icon" src="__HOME__/img/icon_mall_cart.png" width="20" height="20" alt=""><h6>购物车</h6>
+			
+			</a>
+		</div> -->
+		<!-- <a href="javascript:;" class="function_btn warning"></a> -->
+		<div  class="function_btn danger" style="margin-left: auto;" id="take">立即砍价</div>
+	</div>
+
+<script>
+ $("#take").click(function(){
+
+    var id ="{$re.id}";
+
+	 $.ajax({
+		 type:"post",
+		 url:"{:url('Bargain/save_bargain')}",
+		 data:{id:id},
+		 dataType:"text",
+		 success:function(re){
+             if(re == 0){
+				 layer.msg("参与成功,快去砍价吧");
+				 setTimeout("location.href=\"{:url('Bargain/index')}\"",1000);
+			 }
+			 if(re == 1 || re == 3){
+				 layer.msg("系统繁忙请稍后再试");
+				 setTimeout("location.href=\"{:url('Bargain/index')}\"",1000);
+			 }
+			 if(re == 2){
+				 layer.msg("已有参加的砍价活动");
+				 setTimeout("location.href=\"{:url('Bargain/index')}\"",1000);
+			 }
+
+		 }
+	 })
+ })
+
+
+</script>
+
+
+</body>
+
+</html>

@@ -2,7 +2,11 @@
 <html lang="en">
 
 {include file="public:header"}
-
+<style>
+	.myq {
+		max-width: 90px;
+	}
+</style>
 <body class="pad_btm">
 
 		<div class="back_box">
@@ -17,28 +21,31 @@
 
 	<!-- banner -->
 	<div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}'>
-			<ul class="am-slides">
-			 {volist name="lb" id="vb"}	
-				<li><img src="{$vb.image}"></li>
-			{/volist}
-			</ul>
-		</div>
+		<ul class="am-slides">
+		 {volist name="lb" id="vb"}	
+			<li>
+				<div style="height: 150px;background-image: url({$vb.image});background-size: cover;background-repeat: no-repeat;background-position: center;"></div>
+				<!-- <img src="{$vb.image}"> -->
+			</li>
+		{/volist}
+		</ul>
+	</div>
 
 	<!-- 搜索框 -->
-<div class="search_box p_12 bg_normal">
-	<form action="{:url('Rural/lister')}" method="GET">
-	<div class="flex_normal" >
-		<div class="search_wrap pad_12 flex_1 bg_white bd_radius am-text-sm flex_between">
-			<div class="search_location flex_normal pad_rt_12 mar_rt_12 col_main">
-				<img class="mar_rt_6" src="__HOME__/img/icon_location.png" width="16" height="16" alt=""><span class="city"></span>
+	<div class="search_box p_12 bg_normal">
+		<form action="{:url('Rural/lister')}" method="GET">
+		<div class="flex_normal" >
+			<div class="search_wrap pad_12 flex_1 bg_white bd_radius am-text-sm flex_between">
+				<div class="search_location flex_normal pad_rt_12 mar_rt_12 col_main">
+					<img class="mar_rt_6" src="__HOME__/img/icon_location.png" width="16" height="16" alt=""><span class="city"></span>
+				</div>
+				<input class="flex_1" type="text" name="title" placeholder="请输入搜索关键词">
+				<img class="mar_lt_12" src="__HOME__/img/icon_search.png" width="16" height="16" alt="">
 			</div>
-			<input class="flex_1" type="text" name="title" placeholder="请输入搜索关键词">
-			<img class="mar_lt_12" src="__HOME__/img/icon_search.png" width="16" height="16" alt="">
+			<button class="mar_lt_12" type="submit">搜索</button>
 		</div>
-		<button class="mar_lt_12" type="submit">搜索</button>
+	</form>
 	</div>
-</form>
-</div>
 
 	<!-- 分类导航 -->
 	<!-- <div class="bd_btm_10">
@@ -103,35 +110,35 @@
 				<div class="am-tabs-bd">
 					<div data-tab-panel-0 class="am-tab-panel am-active">
 						<div class="flex_normal flex_wrap am-g">
-							<a href="{:url('Rural/index')}" class="am-u-sm-3 am-text-center mar_btm_12">
+							<a href="{:url('Rural/index')}" class="myq am-u-sm-3 am-text-center mar_btm_12">
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_1.png" width="42" height="42" alt="">
 								<h6 class="am-text-truncate">乡村旅游</h6>
 							</a>
-							<a href="{:url('Culture/index')}" class="am-u-sm-3 am-text-center mar_btm_12">
+							<a href="{:url('Culture/index')}" class="myq am-u-sm-3 am-text-center mar_btm_12">
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_2.png" width="42" height="42" alt="">
 								<h6 class="am-text-truncate">区域文化</h6>
 							</a>
-							<a href="{:url('Hotel/index')}" class="am-u-sm-3 am-text-center mar_btm_12">
+							<a href="{:url('Hotel/index')}" class="myq am-u-sm-3 am-text-center mar_btm_12">
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_5.png" width="42" height="42" alt="">
 								<h6 class="am-text-truncate">酒店/民宿</h6>
 							</a>
-							<a href="{:url('Spot/index')}" class="am-u-sm-3 am-text-center mar_btm_12">
+							<a href="{:url('Spot/index')}" class="myq am-u-sm-3 am-text-center mar_btm_12">
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_4.png" width="42" height="42" alt="">
 								<h6 class="am-text-truncate">热门景区</h6>
 							</a>
-							<a href="{:url('Question/index')}" class="am-u-sm-3 am-text-center mar_btm_12">
+							<a href="{:url('Question/index')}" class="myq am-u-sm-3 am-text-center mar_btm_12">
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_6.png" width="42" height="42" alt="">
 								<h6 class="am-text-truncate">问答</h6>
 							</a>
-							<a href="{:url('Group/index')}" class="am-u-sm-3 am-text-center mar_btm_12">
+							<a href="{:url('Group/index')}" class="myq am-u-sm-3 am-text-center mar_btm_12">
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_7.png" width="42" height="42" alt="">
 								<h6 class="am-text-truncate">跟团/定制</h6>
 							</a>
-							<a href="{$url.url}" class="am-u-sm-3 am-text-center mar_btm_12">
+							<a href="{$url.url}" class="myq am-u-sm-3 am-text-center mar_btm_12">
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_8.png" width="42" height="42" alt="">
 								<h6 class="am-text-truncate">车票机票</h6>
 							</a>
-							<a href="{:url('Culture/gl')}" class="am-u-sm-3 am-text-center mar_btm_12">
+							<a href="{:url('Culture/gl')}" class="myq am-u-sm-3 am-text-center mar_btm_12">
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_3.png" width="42" height="42" alt="">
 								<h6 class="am-text-truncate">游记攻略</h6>
 							</a>
@@ -139,19 +146,19 @@
 					</div>
 					<div data-tab-panel-1 class="am-tab-panel ">
 						<div class="flex_normal flex_wrap am-g">
-							<a href="{:url('Car/index')}" class="am-u-sm-3 am-text-center mar_btm_12">
+							<a href="{:url('Car/index')}" class="myq am-u-sm-3 am-text-center mar_btm_12">
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_91.png" width="42" height="42" alt="">
 								<h6 class="am-text-truncate">汽车租赁</h6>
 							</a>
-							<a href="bargain.html" id="kan" class="am-u-sm-3 am-text-center mar_btm_12">
+							<a href="{:url('Bargain/index')}"  class="myq am-u-sm-3 am-text-center mar_btm_12">
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_92.png" width="42" height="42" alt="">
 								<h6 class="am-text-truncate">砍价</h6>
 							</a>
-							<a href="piao.html" id="kans" class="am-u-sm-3 am-text-center mar_btm_12">
+							<a href="{:url('Assemble/index')}"  class="myq am-u-sm-3 am-text-center mar_btm_12">
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_9.png" width="42" height="42" alt="">
-								<h6 class="am-text-truncate">门票抢购</h6>
+								<h6 class="am-text-truncate">拼团</h6>
 							</a>
-							<a href="{:url('Food/index')}" class="am-u-sm-3 am-text-center mar_btm_12">
+							<a href="{:url('Food/index')}" class="myq am-u-sm-3 am-text-center mar_btm_12">
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_3.png" width="42" height="42" alt="">
 								<h6 class="am-text-truncate">美食</h6>
 							</a>
