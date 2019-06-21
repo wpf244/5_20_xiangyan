@@ -22,7 +22,7 @@ class Index extends BaseHome
 
 
         //乡村旅游
-        $rural=db("rural")->alias("a")->field("a.*,b.nickname,b.image as photo")->where(["recom"=>1])->join("user b","a.uid=b.uid")->order(["id desc"])->select();
+        $rural=db("rural")->where(["recom"=>1])->order(["id desc"])->select();
 
         $this->assign("rural",$rural);
 
@@ -36,9 +36,51 @@ class Index extends BaseHome
 
         $this->assign("culture",$culture);
 
+        //热门抢购banner
+        $assmeble=db("lb")->where("fid",37)->find();
+
+        $this->assign("assemble",$assmeble);
+
+        //热门砍价banner
+
+        $bargain=db("lb")->where("fid",38)->find();
+
+        $this->assign("bargain",$bargain);
+
+        $index_city=db("culture_city")->where(["sid"=>0])->select();
+
+        $this->assign("index_city",$index_city);
+
       
-        
+      
         return $this->fetch();
+    }
+    /**
+    * 设置选择城市
+    *
+    * @return void
+    */
+    public function save_city()
+    {
+        $id=input("id");
+        $re=db("culture_city")->where("cid",$id)->find();
+
+        session("city_index",null);
+
+        session("city_index",$re['c_name']);
+
+        $this->redirect("Index/index");
+
+    }
+    public function save_citys()
+    {
+        $city=input("city");
+
+        session("city_index",null);
+ 
+        session("city_index",$city);
+
+
     }
     public function save_addr()
     {

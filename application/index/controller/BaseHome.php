@@ -25,6 +25,11 @@ class BaseHome extends Controller
 
         $seo=db('seo')->where("id=1")->find();
         $this->assign("seo",$seo);
+         
+        $city_index=session("city_index");
+
+
+        $this->assign("city_index",$city_index);
 
         //更新拼团过期
         $time=time();

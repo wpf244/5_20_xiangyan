@@ -270,7 +270,7 @@ class User extends BaseUser
     {
         $uid=session("userid");
         
-        $res=db("rural")->alias("a")->field("a.*,b.nickname,b.image as photo")->where(["a.uid"=>$uid])->join("user b","a.uid=b.uid")->order(["id desc"])->select();
+        $res=db("publish")->alias("a")->field("a.*,b.nickname,b.image as photo")->where(["a.uid"=>$uid])->join("user b","a.uid=b.uid")->order(["id desc"])->select();
 
 
         $this->assign("res",$res);

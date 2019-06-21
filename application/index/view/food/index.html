@@ -7,17 +7,23 @@
 
 	<!-- 返回 -->
 	<div class="back_box">
-		美食中心
-		<a class="back_icon" href="{:url('Index/index')}">
-			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
-		</a>
+		
+		<ul class="bread">
+				<li>
+				 <a href="{:url('Index/index')}">首页</a>&nbsp;&gt;
+				</li>
+				<li>
+				 <a href="javascript:;">美食中心</a>
+				</li>
+				
+			   </ul>
 	</div>
 
 	<!-- 公共顶部 -->
 {include file="public:top"}
 
 	<!-- 选项 -->
-<div class="choice_box bd_btm">
+<div class="choice_box bd_btm ">
 	<ul class="choice_ceng flex_around bg_white p_12">
 		<li class="choice_item flex_center">
 			<span class="mar_rt_6">区域</span><img src="__HOME__/img/icon_down.png" width="12" height="12" alt="">
@@ -34,11 +40,11 @@
 		<li class="choice_cont">
 			<div class="choice_scroll">
 				<label for="area_1" class="choice_lb p_12 flex_between bd_btm">
-					<h6>不限</h6><input type="radio" name="tid" value="0">
+					<h6>不限</h6><input type="radio" id="area_1" name="tid" value="0">
 				</label>
-			  {volist name="city" id="v"}	 
+			  {volist name="city" id="v" key="k"}	 
 				<label for="area_2" class="choice_lb p_12 flex_between bd_btm">
-					<h6>{$v.name}</h6><input type="radio" name="cid" value="{$v.id}">
+					<h6>{$v.name}</h6><input type="radio" name="cid" id="area_{$k+1}"  value="{$v.id}">
 				</label>
 			{/volist}
 			</div>
@@ -50,11 +56,11 @@
 		<li class="choice_cont">
 			<div class="choice_scroll">
 				<label for="kind_1" class="choice_lb p_12 flex_between bd_btm">
-					<h6>不限</h6><input type="radio" name="tid" value="0">
+					<h6>不限</h6><input type="radio" id="kind_1" name="tid" value="0">
 				</label>
-				{volist name="type" id="vt"}	
+				{volist name="type" id="vt" key="kt"}	
 				<label for="kind_2" class="choice_lb p_12 flex_between bd_btm">
-					<h6>{$vt.name}</h6><input type="radio" name="tid" value="{$vt.id}">
+					<h6>{$vt.name}</h6><input type="radio" id="kind_{$kt+1}" name="tid" value="{$vt.id}">
 				</label>
 				{/volist}
 			</div>
@@ -66,13 +72,13 @@
 		<li class="choice_cont">
 			<div class="choice_scroll">
 				<label for="price_1" class="choice_lb p_12 flex_between bd_btm">
-					<h6>不限</h6><input type="radio" name="prices" value="0">
+					<h6>不限</h6><input type="radio" id="price_1" name="prices" value="0">
 				</label>
 				<label for="price_2" class="choice_lb p_12 flex_between bd_btm">
-					<h6>由高到低</h6><input type="radio" name="prices" value="1">
+					<h6>由高到低</h6><input type="radio" id="price_2" name="prices" value="1">
 				</label>
 				<label for="price_3" class="choice_lb p_12 flex_between bd_btm">
-					<h6>由低到高</h6><input type="radio" name="prices" value="2">
+					<h6>由低到高</h6><input type="radio" id="price_3" name="prices" value="2">
 				</label>
 			</div>
 			<div class="choice_flex flex_normal">

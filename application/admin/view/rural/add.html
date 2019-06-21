@@ -22,7 +22,7 @@
             <i class="ace-icon fa fa-home home-icon"></i>
             <a href="{:url('Index/index')}">首页</a>
           </li>
-          <li class="active">添加旅拍</li>
+          <li class="active">添加信息</li>
         </ul><!-- /.breadcrumb -->
 
       </div>
@@ -36,29 +36,52 @@
             <div class="col-sm-10 col-sm-offset-1">
               <form id="logoForm" class="form-horizontal" action="{:url('Rural/save')}" method="post" enctype="multipart/form-data">
                 <div class="row">
-                  <div class="col-sm-12">
+                  <div class="col-sm-7">
                     <div class="widget-box transparent">
                       <div class="widget-header widget-header-flat">
                         <h4 class="widget-title"><i class="ace-icon fa fa-leaf green"></i>旅拍信息</h4>
                       </div>
                       <div class="widget-body">
                         <div class="widget-main">
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="">所属城市</label>
+                                    <div class="col-sm-10">
+                                      <select class="form-control" name="cid" id="sid" required>
+                                        <option value="0">请选择城市</option>
+                                        {volist name="res" id="v"}
+                                        <option value="{$v.cid}">{$v.c_name}</option>
+                                       {/volist}
+                                      </select>
+                                    </div> 
+        
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right" for="">所属县区</label>
+                                        <div class="col-sm-4">
+                                          <select class="form-control" name="xid" id="cid" >
+                                            <option value="0">请选择县区</option>
+                                            <!-- {volist name="city" id="v"}
+                                            <option value="{$v.cid}">{$v.c_name}</option>
+                                           {/volist} -->
+                                          </select>
+                                        </div> 
+            
+                                        <label class="col-sm-2 control-label no-padding-right" for="">所属乡镇</label>
+                                        <div class="col-sm-4">
+                                          <select class="form-control" name="zid" id="qid" >
+                                          
+                                          </select>
+                                        </div> 
+                                    </div>
                       
-
-                          <div class="form-group">
-                            <label class="col-sm-2 control-label no-padding-right" for="">用户</label>
-                            <div class="col-sm-6">
-                              <input class="form-control" type="text" id="name" name="name" placeholder="请输入用户昵称或手机号码" required>
-                            </div>
-                            
-                          </div>
-
                           <div class="form-group">
                               <label class="col-sm-2 control-label no-padding-right" for="">所属分类</label>
                               <div class="col-sm-6">
                                   <select class="form-control" name="tid"  required>
                                      
-                                      {volist name="res" id="v"}
+                                      {volist name="type" id="v"}
                                       <option value="{$v.id}">{$v.name}</option>
                                      {/volist}
                                     </select>
@@ -67,12 +90,20 @@
                             </div>
 
                           <div class="form-group">
-                              <label class="col-sm-2 control-label no-padding-right" for="">拍摄城市</label>
+                              <label class="col-sm-2 control-label no-padding-right" for="">拍摄地址</label>
                               <div class="col-sm-6">
-                                <input class="form-control" type="text"  name="addr" placeholder="请输入拍摄城市" required>
+                                <input class="form-control" type="text"  name="addr" placeholder="请输入拍摄地址" required>
                               </div>
                               
                             </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="">作者</label>
+                                <div class="col-sm-6">
+                                  <input class="form-control" type="text"  name="author" placeholder="请输入作者" required>
+                                </div>
+                                
+                              </div>
 
                             <div class="form-group"> 
                                 <label class="col-sm-2 control-label no-padding-right" for="">拍摄时间</label> 
@@ -98,14 +129,29 @@
                   </div>
               
                   
-                  
+                  <div class="col-sm-5">
+                      <div class="widget-box transparent">
+                        <div class="widget-header widget-header-flat">
+                          <h4 class="widget-title"><i class="ace-icon fa fa-leaf green"></i>缩略图</h4>
+                        </div>
+                        <div class="widget-body">
+                          <div class="widget-main">
+                            <div class="form-group">
+                              <div class="col-xs-12">
+                                <input multiple="" type="file" id="thumb" name="image"/>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   
                 </div>
 
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="widget-header widget-header-flat">
-                            <h4 class="widget-title"><i class="ace-icon fa fa-leaf green"></i>图片</h4>
+                            <h4 class="widget-title"><i class="ace-icon fa fa-leaf green"></i>banner图</h4>
                           </div>
                       <div class="form-group" style="    margin-left: 0px;
                       margin-top: 20px;">
@@ -180,7 +226,66 @@
 
   })
 </script>
-
+<script>
+    $("#cid").change(function(){
+       var cid = $("#cid").val();
+     
+       
+        $.ajax({
+           type:"post",
+           url:"{:url('Culture/getnext')}",
+           data:{cid:cid},
+           datatype:"text",
+           success:function(re)
+           {
+            if(re != 0){
+                var data = JSON.parse(re);
+                $('#qid').html('<option value="0">请选择乡镇</option>');
+                for(var j=0;j<data.length;j++){
+                  
+                  $('#qid').append('<option value="'+ data[j].cid +'">'+data[j].c_name+'</option>');
+                }
+            }else{
+              
+              $('#qid').html('<option value="0">请选择乡镇</option>');
+            } 
+          
+              
+           }
+        })
+    
+     })
+    
+     $("#sid").change(function(){
+       var sid = $("#sid").val();
+     
+       
+        $.ajax({
+           type:"post",
+           url:"{:url('Culture/getnexts')}",
+           data:{sid:sid},
+           datatype:"text",
+           success:function(re)
+           {
+            if(re != 0){
+                var data = JSON.parse(re);
+                $('#cid').html('<option value="0">请选择县区</option>');
+                for(var j=0;j<data.length;j++){
+                 
+                  $('#cid').append('<option value="'+ data[j].cid +'">'+data[j].c_name+'</option>');
+                }
+            }else{
+              
+              $('#cid').html('<option value="0">请选择县区</option>');
+            } 
+          
+              
+           }
+        })
+    
+     })
+    
+    </script>
 <script> 
     //执行一个laydate实例 
    laydate.render({ 
@@ -223,7 +328,7 @@
     
     </script>
 
-<script>
+<!-- <script>
 $("#name").change(function(){
    var name = $("#name").val();
 
@@ -240,14 +345,14 @@ $("#name").change(function(){
      }
    })
 })
-</script>
+</script> -->
 
 
   <script>
     $(function () {
       $('#thumb').ace_file_input({
         style: 'well',
-        btn_choose: 'logo',
+        btn_choose: '缩略图',
         btn_change: null,
         no_icon: 'ace-icon fa fa-picture-o',
         droppable: true,

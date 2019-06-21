@@ -36,22 +36,22 @@ class Hotel extends BaseUser
         $this->assign("re",$re);
 
         
-
+        $city_index=session("city_index");
         //酒店推荐
-        $hotel=db("hotel")->where(["status"=>1,"recome"=>1,"type"=>1])->order(["sort asc","id desc"])->select();
+        $hotel=db("hotel")->where(["status"=>1,"recome"=>1,"type"=>1])->where("addr","like","%".$city_index."%")->order(["sort asc","id desc"])->select();
 
         $this->assign("hotel",$hotel);
 
-        $hotels=db("hotel")->where(["status"=>1,"recome"=>0,"type"=>1])->order(["sort asc","id desc"])->select();
+        $hotels=db("hotel")->where(["status"=>1,"recome"=>0,"type"=>1])->where("addr","like","%".$city_index."%")->order(["sort asc","id desc"])->select();
 
         $this->assign("hotels",$hotels);
 
         //民宿
-        $home=db("hotel")->where(["status"=>1,"recome"=>1,"type"=>2])->order(["sort asc","id desc"])->select();
+        $home=db("hotel")->where(["status"=>1,"recome"=>1,"type"=>2])->where("addr","like","%".$city_index."%")->order(["sort asc","id desc"])->select();
 
         $this->assign("home",$home);
 
-        $homes=db("hotel")->where(["status"=>1,"recome"=>0,"type"=>2])->order(["sort asc","id desc"])->select();
+        $homes=db("hotel")->where(["status"=>1,"recome"=>0,"type"=>2])->where("addr","like","%".$city_index."%")->order(["sort asc","id desc"])->select();
 
         $this->assign("homes",$homes);
 

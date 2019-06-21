@@ -25,6 +25,12 @@ class Culture extends BaseAdmin
     }
     public function add()
     {
+        $res=db("culture_city")->where("sid",0)->order(["c_sort asc","cid desc"])->select();
+        $this->assign("res",$res);
+        
+        $city=db("culture_city")->where("pid",0)->order(["c_sort asc","cid desc"])->select();
+        $this->assign("city",$city);
+        
         return $this->fetch();
     }
     public function save()
@@ -171,6 +177,18 @@ class Culture extends BaseAdmin
 
         $this->assign("re",$re);
 
+        $res=db("culture_city")->where("sid",0)->order(["c_sort asc","cid desc"])->select();
+        $this->assign("res",$res);
+
+        $sid=$re['cid'];
+        
+        $city=db("culture_city")->where(["pid"=>0,"sid"=>$sid])->order(["c_sort asc","cid desc"])->select();
+        $this->assign("city",$city);
+
+        $citys=db("culture_city")->where("pid",$re['xid'])->order(["c_sort asc","cid desc"])->select();
+        $this->assign("citys",$citys);
+
+
 
         return $this->fetch();
     }
@@ -237,6 +255,136 @@ class Culture extends BaseAdmin
             }
         }
         $this->redirect('lister');
+    }
+    public function city()
+    {
+        $list=db('culture_city')->where("sid=0")->order(["c_sort asc","cid asc"])->select();
+        foreach($list as $k => $v){
+            $list1=db("culture_city")->where(["sid"=>$v['cid'],"pid"=>0])->order(["c_sort asc","cid asc"])->select();
+
+            $list[$k]['list1']=$list1;
+
+            foreach($list1 as $kk => $vv){
+                
+                $list2=db("culture_city")->where("pid",$vv['cid'])->order(["c_sort asc","cid asc"])->select();
+                
+                $list[$k]['list1'][$kk]['list2']=$list2;
+            }
+        }
+        $this->assign("list",$list);
+
+        return $this->fetch();
+    }
+    public function add_city()
+    {
+        $res=\db("culture_city")->where("sid=0")->order("c_sort asc")->select();
+        $this->assign("res",$res);
+        
+        return $this->fetch();
+    }
+    public function save_city()
+    {
+        $data=input('post.');
+        $re=db("culture_city")->insert($data);
+        if($re){
+            $this->success("添加成功",url('city'));
+        }else{
+            $this->error("添加失败",url('city'));
+        }
+    }
+    public function modifys_city()
+    {
+        $res=\db("culture_city")->where("sid=0")->select();
+        $this->assign("res",$res);
+
+        $id=input('id');
+        $re=db("culture_city")->where("cid=$id")->find();
+        $this->assign("re",$re);
+
+        $sid=$re['sid'];
+
+        $city=db("culture_city")->where(["sid"=>$sid,"pid"=>0])->select();
+
+        $this->assign("city",$city);
+        
+        return $this->fetch();
+    }
+    public function usave_city()
+    {
+        $cid=input('cid');
+        $sid=input("sid");
+        $pid=input("pid");
+        if($cid != $sid && $pid != $cid){
+            $data=input('post.');
+            $re=\db("culture_city")->where("cid=$cid")->find();
+            if($re){
+               $res=\db("culture_city")->where("cid=$cid")->update($data);
+               if($res){
+                   $this->success("修改成功",url('city'));
+               }else{
+                   $this->error("修改失败",url('city'));
+               }
+            }else{
+                $this->error("参数错误");
+            }
+        }else{
+            $this->error("非法操作");
+        }
+        
+    }
+    public function getnext()
+    {
+        $cid=input("cid");
+        $re=db("culture_city")->where("pid",$cid)->order(["c_sort asc","cid desc"])->select();
+       
+        if($re){
+           echo json_encode($re);
+        }else{
+            echo 0;
+        }
+    }
+    public function getnexts()
+    {
+        $sid=input("sid");
+        $re=db("culture_city")->where(["sid"=>$sid,"pid"=>0])->order(["c_sort asc","cid desc"])->select();
+     //   var_dump($re);exit;
+        if($re){
+           echo json_encode($re);
+        }else{
+            echo 0;
+        }
+    }
+    public function change_sort()
+    {
+        $cid=input('fieldid');
+        $val=input('fieldvalue');
+       // var_dump($val,$cid);exit;
+        $re=db("culture_city")->where("cid=$cid")->find();
+        if($re){
+            $res=db("culture_city")->where("cid=$cid")->setField("c_sort",$val);
+            if($res){
+                echo '1';
+            }else{
+                echo '0';
+            }
+        }else{
+            echo '0';
+        }
+    }
+    public function delete_city()
+    {
+        $id=input('id');
+        $re=\db("culture_city")->where("cid=$id")->find();
+        if($re){
+            $del=db("culture_city")->where("cid=$id")->delete();
+            $res=db("culture_city")->where("pid=$id")->select();
+            if($res){
+                $dels=db("culture_city")->where("pid=$id")->delete();
+            }
+            echo '0';
+        }else{
+            echo '1';
+        }
     }
 
 

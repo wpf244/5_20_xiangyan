@@ -39,10 +39,14 @@
                         <i class="ace-icon fa fa-plus icon-only"></i>
                         添加</a>
 
-                  <!-- <button class="btn btn-danger btn-white btn-bold del-btn">
-                    
-                    删除
-                  </button> -->
+                        <button id="change" class="btn btn-warning btn-white btn-bold">
+                            <i class="fa fa-exchange"></i>
+                           排序
+                          </button>
+                          <button class="btn btn-danger btn-white btn-bold del-btn">
+                            <i class="ace-icon fa fa-trash-o icon-only"></i>
+                            删除
+                          </button>
              
                 </div>
 
@@ -59,6 +63,7 @@
                     </label>
                   </th>
                   <th>ID</th>
+                  <th class="hidden-480">排序</th>
                   <th>旅拍分类</th>
                   <th>拍摄城市</th>
                   <th>拍摄日期</th>
@@ -70,7 +75,7 @@
                   <th style="border-right:#ddd solid 1px;">操作</th>
                 </tr>
                 </thead>
-               
+                <form id="sortForm" action="{:url('Rural/sort')}" method="post"> 
                 <tbody>
                 {volist name="list" id="v"}
                 <tr class="ace-thumbnails">
@@ -80,6 +85,7 @@
                   </label>
                   </td>
                   <td><span class="badge badge-grey">{$v.id}</span></td>
+                  <td class="hidden-480"><input class="input-small" type="number" name="{$v.id}" value="{$v.sort}"></td>
                   <td>{$v.name}</td>
                   <td>{$v.addr}</td>
                   <td>{$v.dates}</td>
@@ -107,15 +113,15 @@
                     <button class="btn btn-xs btn-danger" type="button" onclick="dels({$v.id})">
                       删除
                     </button>
-                    <a class="btn btn-xs btn-info"  href="{:url('Rural/look',array('id'=>$v['id']))}">
-                        查看详情
+                    <a class="btn btn-xs btn-info"  href="{:url('Rural/modifys',array('id'=>$v['id']))}">
+                        修改
                       </a>
                   </td>
                 </tr>
                 {/volist}
                 {empty name="list"}<tr><td colspan="18" class="text-center">暂无数据</td></tr>{/empty}
                 </tbody>
-           
+              </form>
               </table>
               <div class="text-center">
                 {$page}

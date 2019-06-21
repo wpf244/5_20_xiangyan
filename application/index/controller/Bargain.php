@@ -262,6 +262,12 @@ class Bargain extends BaseUser
 
         $this->assign("re",$re);
 
+        $gid=$re['gid'];
+
+        $goods=db("bargain_goods")->where("id",$gid)->find();
+
+        $this->assign("goods",$goods);
+
         $times=$re['times']*60*60;
 
         $end_time=$re['time']+$times;
@@ -286,7 +292,7 @@ class Bargain extends BaseUser
 
         $this->assign("scale",$scale);
 
-             vendor("Jssdk.Jssdk");
+        vendor("Jssdk.Jssdk");
         $payment=db("payment")->where("id",1)->find();
 
         $appid=$payment['appid'];
@@ -297,15 +303,22 @@ class Bargain extends BaseUser
 
          $signPackage = $jssdk->GetSignPackage();
        //  var_dump($signPackage);
-        $this->assign("signPackage",$signPackage);  
+        $this->assign("signPackage",json_encode($signPackage));  
 
-    $title=db("lb")->where("fid",32)->find();
+        $title=db("lb")->where("fid",32)->find();
 
-    $this->assign("title",$title);
+        $title['desc']=strip_tags($title['desc']);
 
-    $desc=db("lb")->where("fid",33)->find();
+        $this->assign("title",$title);
 
-    $this->assign("desc",$desc);
+        $desc=db("lb")->where("fid",33)->find();
+        $desc['desc']=strip_tags($desc['desc']);
+
+        $this->assign("desc",$desc);
+
+        $urls=Request::instance()->domain();
+
+        $this->assign("urls",$urls);
         
         
         return $this->fetch();

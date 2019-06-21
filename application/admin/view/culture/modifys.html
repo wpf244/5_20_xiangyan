@@ -44,6 +44,40 @@
                       <div class="widget-body">
                         <div class="widget-main">
 
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="">所属城市</label>
+                                    <div class="col-sm-10">
+                                      <select class="form-control" name="cid" id="sid" >
+                                        <option value="0">请选择城市</option>
+                                        {volist name="res" id="v"}
+                                        <option {if condition="$re.cid eq $v.cid"}selected{/if} value="{$v.cid}">{$v.c_name}</option>
+                                       {/volist}
+                                      </select>
+                                    </div> 
+        
+                                </div>
+
+                        <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" for="">所属县区</label>
+                            <div class="col-sm-4">
+                              <select class="form-control" name="xid" id="cid" >
+                                <option value="-1">请选择县区</option>
+                                {volist name="city" id="v"}
+                                <option value="{$v.cid}" {if condition="$re.xid eq $v.cid"} selected {/if} >{$v.c_name}</option>
+                               {/volist}
+                              </select>
+                            </div> 
+
+                            <label class="col-sm-2 control-label no-padding-right" for="">所属乡镇</label>
+                            <div class="col-sm-4">
+                              <select class="form-control" name="zid" id="qid" >
+                                {volist name="citys" id="v"}
+                                <option value="{$v.cid}" {if condition="$re.zid eq $v.cid"} selected {/if} >{$v.c_name}</option>
+                               {/volist}
+                              </select>
+                            </div> 
+                        </div>
+
                           <div class="form-group">
                             <label class="col-sm-2 control-label no-padding-right" for="">标题</label>
                             <div class="col-sm-10">
@@ -163,7 +197,65 @@
   })
 </script>
 
+<script>
+$("#cid").change(function(){
+   var cid = $("#cid").val();
+ 
+   
+    $.ajax({
+       type:"post",
+       url:"{:url('Culture/getnext')}",
+       data:{cid:cid},
+       datatype:"text",
+       success:function(re)
+       {
+        if(re != 0){
+            var data = JSON.parse(re);
+            $('#qid').html('<option value="0">请选择乡镇</option>');
+            for(var j=0;j<data.length;j++){
+              
+              $('#qid').append('<option value="'+ data[j].cid +'">'+data[j].c_name+'</option>');
+            }
+        }else{
+          
+          $('#qid').html('<option value="0">请选择乡镇</option>');
+        } 
+      
+          
+       }
+    })
 
+ })
+
+ $("#sid").change(function(){
+   var sid = $("#sid").val();
+ 
+   
+    $.ajax({
+       type:"post",
+       url:"{:url('Culture/getnexts')}",
+       data:{sid:sid},
+       datatype:"text",
+       success:function(re)
+       {
+        if(re != 0){
+            var data = JSON.parse(re);
+            $('#cid').html('<option value="0">请选择县区</option>');
+            for(var j=0;j<data.length;j++){
+             
+              $('#cid').append('<option value="'+ data[j].cid +'">'+data[j].c_name+'</option>');
+            }
+        }else{
+          
+          $('#cid').html('<option value="0">请选择县区</option>');
+        } 
+      
+          
+       }
+    })
+
+ })
+</script>
 
 
   <script>

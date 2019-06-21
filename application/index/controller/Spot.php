@@ -12,6 +12,17 @@ class Spot extends BaseHome
         }
 
         $this->assign("res",$res);
+
+        //热门抢购banner
+        $assmeble=db("lb")->where("fid",39)->find();
+
+        $this->assign("assemble",$assmeble);
+
+        //热门砍价banner
+
+        $bargain=db("lb")->where("fid",40)->find();
+
+        $this->assign("bargain",$bargain);
         
         return $this->fetch();
     }

@@ -9,7 +9,9 @@ class Car extends BaseHome
 
         $this->assign("lb",$lb);
 
-        $res=db("car")->where(["status"=>1])->order(["sort asc","id desc"])->select();
+        $city_index=session("city_index");
+
+        $res=db("car")->where(["status"=>1])->where("addr","like","%".$city_index."%")->order(["sort asc","id desc"])->select();
 
         $this->assign("res",$res);
         

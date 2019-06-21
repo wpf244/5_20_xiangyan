@@ -4,31 +4,34 @@
 {include file="public:header"}
 <style>
 	.myq {
-		max-width: 90px;
+		width: 20%;
 	}
 </style>
 <body class="pad_btm">
 
-		<div class="back_box">
-				首页
-				<!-- <a class="back_icon" href="javascript:history.back(-1)">
-					<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
-				</a>		 -->
-			</div>
+		<!-- <div class="back_box">
+			首页			
+		</div> -->
+			<!-- <a class="back_icon" href="javascript:history.back(-1)">
+				<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+			</a>		 -->
 
 	<!-- 公共顶部 -->
 {include file="public:top"}
 
 	<!-- banner -->
-	<div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}'>
+	<div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}' style="position: relative;">
 		<ul class="am-slides">
 		 {volist name="lb" id="vb"}	
 			<li>
-				<div style="height: 150px;background-image: url({$vb.image});background-size: cover;background-repeat: no-repeat;background-position: center;"></div>
+				<a {if condition="$vb.url neq '' "} href="{$vb.url}" {/if} >
+					<div style="height: 150px;background-image: url({$vb.image});background-size: cover;background-repeat: no-repeat;background-position: center;"></div>
+				</a>
 				<!-- <img src="{$vb.image}"> -->
 			</li>
 		{/volist}
 		</ul>
+		<div class="am-text-sm col_main" id="weather"></div>
 	</div>
 
 	<!-- 搜索框 -->
@@ -37,7 +40,7 @@
 		<div class="flex_normal" >
 			<div class="search_wrap pad_12 flex_1 bg_white bd_radius am-text-sm flex_between">
 				<div class="search_location flex_normal pad_rt_12 mar_rt_12 col_main">
-					<img class="mar_rt_6" src="__HOME__/img/icon_location.png" width="16" height="16" alt=""><span class="city"></span>
+					<img class="mar_rt_6" src="__HOME__/img/icon_location.png" width="16" height="16" alt=""><span class="city" data-am-modal="{target: '#my-popup'}"></span>
 				</div>
 				<input class="flex_1" type="text" name="title" placeholder="请输入搜索关键词">
 				<img class="mar_lt_12" src="__HOME__/img/icon_search.png" width="16" height="16" alt="">
@@ -45,6 +48,23 @@
 			<button class="mar_lt_12" type="submit">搜索</button>
 		</div>
 	</form>
+	</div>
+
+	<div class="am-popup" id="my-popup">
+		<div class="am-popup-inner">
+			<div class="am-popup-hd">
+				<h4 class="am-popup-title">切换城市</h4>
+				<span data-am-modal-close
+							class="am-close">&times;</span>
+			</div>
+			<div class="am-popup-bd">
+				<ul class="am-list am-list-border">
+				  {volist name="index_city" id="vo"}	
+					<li><a href="{:url('Index/save_city',array('id'=>$vo['cid']))}">{$vo.c_name}</a></li>
+				{/volist}
+				</ul>
+			</div>
+		</div>
 	</div>
 
 	<!-- 分类导航 -->
@@ -109,61 +129,65 @@
 			<div data-am-widget="tabs" class="am-tabs am-tabs-default">
 				<div class="am-tabs-bd">
 					<div data-tab-panel-0 class="am-tab-panel am-active">
-						<div class="flex_normal flex_wrap am-g">
-							<a href="{:url('Rural/index')}" class="myq am-u-sm-3 am-text-center mar_btm_12">
+						<div class="flex_normal flex_wrap">
+							
+							<a href="{:url('Rural/index')}" class="myq am-text-center mar_btm_12">
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_1.png" width="42" height="42" alt="">
 								<h6 class="am-text-truncate">乡村旅游</h6>
 							</a>
-							<a href="{:url('Culture/index')}" class="myq am-u-sm-3 am-text-center mar_btm_12">
+							<a href="{:url('Culture/index')}" class="myq am-text-center mar_btm_12">
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_2.png" width="42" height="42" alt="">
 								<h6 class="am-text-truncate">区域文化</h6>
 							</a>
-							<a href="{:url('Hotel/index')}" class="myq am-u-sm-3 am-text-center mar_btm_12">
+							<a href="{:url('Hotel/index')}" class="myq am-text-center mar_btm_12">
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_5.png" width="42" height="42" alt="">
 								<h6 class="am-text-truncate">酒店/民宿</h6>
 							</a>
-							<a href="{:url('Spot/index')}" class="myq am-u-sm-3 am-text-center mar_btm_12">
+							<a href="{:url('Spot/index')}" class="myq am-text-center mar_btm_12">
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_4.png" width="42" height="42" alt="">
 								<h6 class="am-text-truncate">热门景区</h6>
 							</a>
-							<a href="{:url('Question/index')}" class="myq am-u-sm-3 am-text-center mar_btm_12">
-								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_6.png" width="42" height="42" alt="">
-								<h6 class="am-text-truncate">问答</h6>
-							</a>
-							<a href="{:url('Group/index')}" class="myq am-u-sm-3 am-text-center mar_btm_12">
-								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_7.png" width="42" height="42" alt="">
-								<h6 class="am-text-truncate">跟团/定制</h6>
-							</a>
-							<a href="{$url.url}" class="myq am-u-sm-3 am-text-center mar_btm_12">
-								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_8.png" width="42" height="42" alt="">
-								<h6 class="am-text-truncate">车票机票</h6>
-							</a>
-							<a href="{:url('Culture/gl')}" class="myq am-u-sm-3 am-text-center mar_btm_12">
-								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_3.png" width="42" height="42" alt="">
-								<h6 class="am-text-truncate">游记攻略</h6>
-							</a>
-						</div>
-					</div>
-					<div data-tab-panel-1 class="am-tab-panel ">
-						<div class="flex_normal flex_wrap am-g">
-							<a href="{:url('Car/index')}" class="myq am-u-sm-3 am-text-center mar_btm_12">
+							<a href="{:url('Car/index')}" class="myq am-text-center mar_btm_12">
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_91.png" width="42" height="42" alt="">
 								<h6 class="am-text-truncate">汽车租赁</h6>
 							</a>
-							<a href="{:url('Bargain/index')}"  class="myq am-u-sm-3 am-text-center mar_btm_12">
-								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_92.png" width="42" height="42" alt="">
-								<h6 class="am-text-truncate">砍价</h6>
+							<a href="{:url('Question/index')}" class="myq am-text-center mar_btm_12">
+								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_6.png" width="42" height="42" alt="">
+								<h6 class="am-text-truncate">问答</h6>
 							</a>
-							<a href="{:url('Assemble/index')}"  class="myq am-u-sm-3 am-text-center mar_btm_12">
-								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_9.png" width="42" height="42" alt="">
-								<h6 class="am-text-truncate">拼团</h6>
+							<a href="{:url('Group/index')}" class="myq am-text-center mar_btm_12">
+								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_7.png" width="42" height="42" alt="">
+								<h6 class="am-text-truncate">跟团/定制</h6>
 							</a>
-							<a href="{:url('Food/index')}" class="myq am-u-sm-3 am-text-center mar_btm_12">
+							<a href="{$url.url}" class="myq am-text-center mar_btm_12">
+								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_8.png" width="42" height="42" alt="">
+								<h6 class="am-text-truncate">车票机票</h6>
+							</a>
+							<a href="{:url('Culture/gls')}" class="myq am-text-center mar_btm_12">
+								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_90.png" width="42" height="42" alt="">
+								<h6 class="am-text-truncate">游记/攻略</h6>
+							</a>
+							
+							
+							<a href="{:url('Food/index')}" class="myq am-text-center mar_btm_12">
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_3.png" width="42" height="42" alt="">
 								<h6 class="am-text-truncate">美食</h6>
 							</a>
+							<!-- <a href="{:url('Bargain/index')}"  class="myq am-text-center mar_btm_12">
+								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_92.png" width="42" height="42" alt="">
+								<h6 class="am-text-truncate">热门砍价</h6>
+							</a>
+							<a href="{:url('Assemble/index')}"  class="myq am-text-center mar_btm_12">
+								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_9.png" width="42" height="42" alt="">
+								<h6 class="am-text-truncate">热门抢购</h6>
+							</a> -->
 						</div>
 					</div>
+					<!-- <div data-tab-panel-1 class="am-tab-panel ">
+						<div class="flex_normal flex_wrap">
+							
+						</div>
+					</div> -->
 				</div>
 	  <script>
 	   $("#kan").click(function(){
@@ -173,23 +197,51 @@
 		   layer.msg("开发中~~~~");return false;
 	   }) 
 	  </script>
-				<ul class="am-tabs-nav am-cf">
+				<!-- <ul class="am-tabs-nav am-cf">
 					<li class="am-active"><a href="[data-tab-panel-0]"></a></li>
 					<li class=""><a href="[data-tab-panel-1]"></a></li>
-				</ul>
+				</ul> -->
 			</div>
+		</div>
+		<!-- 热门抢购 -->
+		<a href="{:url('Assemble/index')}" class="flex_between p_12 bg_white">
+			<div class="title_left flex_normal">
+				<img class="mar_rt_6" src="__HOME__/img/video.png" width="18" height="18" alt=""><span>{$assemble.name}</span>
+			</div>
+			<div class="flex_normal">
+				<span class="col_nine am-text-sm mar_rt_6">更多</span><img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+			</div>
+		</a>
+		<div class="pad_lt_12 pad_rt_12">
+		 <a href="{:url('Assemble/index')}">
+			<image src="{$assemble.image}"></image>
+			</a>
+		</div>
+		<!-- 热门砍价 -->
+		<a href="{:url('Bargain/index')}" class="flex_between p_12 bg_white">
+			<div class="title_left flex_normal">
+				<img class="mar_rt_6" src="__HOME__/img/video.png" width="18" height="18" alt=""><span>{$bargain.name}</span>
+			</div>
+			<div class="flex_normal">
+				<span class="col_nine am-text-sm mar_rt_6">更多</span><img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+			</div>
+		</a>
+		<div class="pad_lt_12 pad_rt_12">
+		 <a href="{:url('Bargain/index')}">
+			<image src="{$bargain.image}"></image>
+			</a>
 		</div>
 
 	<!-- 热门景区 -->
 	<a href="{:url('Spot/index')}" class="flex_between p_12 bg_white">
 		<div class="title_left flex_normal">
-			<img class="mar_rt_6" src="__HOME__/img/video.png" width="18" height="18" alt=""><span>热门景区</span>
+			<img class="mar_rt_6" src="__HOME__/img/video.png" width="18" height="18" alt=""><span>乡村旅游</span>
 		</div>
 		<div class="flex_normal">
 			<span class="col_nine am-text-sm mar_rt_6">更多</span><img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
 		</div>
 	</a>
-	<div class="list_box pad_lt_12 pad_btm_12">
+	<div class="list_box pad_lt_12">
  
 		{volist name="spot" id="vs"}
 		<a class="mar_rt_12" href="{:url('Spot/detail',array('id'=>$vs['id']))}"><img class="bd_radius" src="{$vs.image}" width="186" height="74" alt=""></a>
@@ -205,7 +257,7 @@
 			<span class="col_nine am-text-sm mar_rt_6">更多</span><img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
 		</div>
 	</a>
-	<div class="list_box pad_lt_12 pad_btm_12">
+	<div class="list_box pad_lt_12">
 
 	{volist name="culture" id="vc"}
 		<a class="mar_rt_12" href="{:url('Culture/detail',array('id'=>$vc['id']))}">
@@ -239,8 +291,8 @@
 		<h3 class="pic_title am-text-sm mar_btm_6"><a href="{:url('Rural/detail',array('id'=>$vr['id']))}">{$vr.title}</a></h3>
 		<div class="flex_between">
 			<div class="flex_normal">
-				<img class="bd_radius_50 mar_rt_6" src="{$vr.photo}" width="20" height="20" alt="">
-				<span class="am-text-xs">{$vr.nickname}</span>
+				<!-- <img class="bd_radius_50 mar_rt_6" src="" width="20" height="20" alt=""> -->
+				<span class="am-text-xs">{$vr.author}</span>
 			</div>
 			<div class="pic_scan am-text-xs">{$vr.looks}</div>
 		</div>

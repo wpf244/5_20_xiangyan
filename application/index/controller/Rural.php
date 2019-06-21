@@ -26,18 +26,93 @@ class Rural extends BaseHome
     {
         $id=input("id");
 
-        session("rural",$id);
-
         $title=input("title");
 
-        if($title){
+
+        $cid=input("cid");
+
+        $xid=input("xid");
+
+        $zid=input("zid");
+
+        $arr['cname']="城市选择";
+        $arr['xname']="县区选择";
+        $arr['zname']="乡镇选择";
+
+        $arr['cid']=0;
+        $arr['xid']=0;
+        $arr['zid']=0;
+
+        $map=[]; 
+        
+        //城市列表
+        $city=db("culture_city")->where("sid",0)->select();
+
+        //县区列表
+        $area=db("culture_city")->where(["pid"=>0,"sid"=>['neq',0]])->select();
+
+        //乡镇列表
+        $towns=db("culture_city")->where(["pid"=>['neq',0],"sid"=>['neq',0]])->select();
+
+        if($cid || $xid || $zid || $title){
+
+            if($title){
            
-            $map['title']=array("like","%".$title."%");
-         
-        }else{
-            $map=[];
+                $map['title']=array("like","%".$title."%");
+             
+            }
+
+            if($cid){
+                $map['cid']=["eq",$cid];
+
+                $area=db("culture_city")->where(["pid"=>0,"sid"=>$cid])->select();
+
+                $towns=db("culture_city")->where(["pid"=>['neq',0],"sid"=>$cid])->select();
+
+                $arr['cid']=$cid;
+
+                $arr['cname']=db("culture_city")->where("cid",$cid)->find()['c_name'];
+            }
+
+            if($xid){
+                $map['xid']=$xid;
+
+                $towns=db("culture_city")->where(["pid"=>$xid])->select();
+
+                $arr['xid']=$xid;
+
+                $arr['xname']=db("culture_city")->where("cid",$xid)->find()['c_name'];
+            }
+
+            if($zid){
+
+                $map['zid']=$zid;
+
+                $arr['zid']=$zid;
+
+                $arr['zname']=db("culture_city")->where("cid",$zid)->find()['c_name'];
+
+            }
+
+
         }
 
+
+        $this->assign("arr",$arr);
+
+        $this->assign("city",$city);
+
+        $this->assign("area",$area); 
+
+        $this->assign("towns",$towns);
+
+        
+        $res=db("rural")->where($map)->where(["tid"=>$id,"status"=>1])->order(["id desc"])->select();
+
+
+        $this->assign("res",$res);
+
+        
         if(empty($id)){
             $id=db("rural_type")->limit(1)->find()['id'];
         }
@@ -45,12 +120,6 @@ class Rural extends BaseHome
         $re=db("rural_type")->where("id",$id)->find();
 
         $this->assign("re",$re);
-
-        
-        $res=db("rural")->alias("a")->field("a.*,b.nickname,b.image as photo")->where($map)->where(["tid"=>$id,"status"=>1])->join("user b","a.uid=b.uid")->order(["id desc"])->select();
-
-
-        $this->assign("res",$res);
 
 
         return $this->fetch();
@@ -99,7 +168,7 @@ class Rural extends BaseHome
 
         $re=db("rural")->where("id",$id)->find();
 
-        $addr=$re['addr'];
+        $addr=session("city_index");
 
         $res=db("spot")->where(["status"=>1,"addr"=>["like","%".$addr."%"]])->order(["sort asc","id desc"])->select();
 
@@ -124,7 +193,7 @@ class Rural extends BaseHome
 
         $re=db("rural")->where("id",$id)->find();
 
-        $addr=$re['addr'];
+        $addr=session("city_index");
 
         
         $res=db("goods")->where(["up"=>1,"city"=>["like","%".$addr."%"]])->order(["sort asc","id desc"])->select();
@@ -151,8 +220,8 @@ class Rural extends BaseHome
 
         $re=db("rural")->where("id",$id)->find();
 
-        $addr=$re['addr'];
-
+        $addr=session("city_index");
+        
         $where['addr'] = ['like', "%".$addr."%"];
         
         $res=db("hotel")->where(["status"=>1])->where($where)->order(["sort asc","id desc"])->select();

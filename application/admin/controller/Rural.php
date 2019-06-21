@@ -202,11 +202,11 @@ class Rural extends BaseAdmin
                
             }
         }
-        $this->redirect('index');
+        $this->redirect('lister');
     }
     public function lister()
     {
-        $list=db("rural")->alias("a")->field("a.*,b.name")->where("a.status",1)->join("rural_type b","a.tid = b.id")->order("a.id desc")->paginate(20);
+        $list=db("rural")->alias("a")->field("a.*,b.name")->where("a.status",1)->join("rural_type b","a.tid = b.id")->order(["a.sort asc","a.id desc"])->paginate(20);
 
         $this->assign("list",$list);
 
@@ -216,47 +216,122 @@ class Rural extends BaseAdmin
 
         return $this->fetch();
     }
+    public function sort(){
+        $data=input('post.');
+   
+        foreach ($data as $id => $sort){
+            db("rural")->where(array('id' => $id ))->setField('sort' , $sort);
+        }
+        $this->redirect('lister');
+    }
     public function add()
     {
         
-        $res=db("rural_type")->select();
+        $type=db("rural_type")->select();
 
+        $this->assign("type",$type);
+
+        $res=db("culture_city")->where("sid",0)->order(["c_sort asc","cid desc"])->select();
         $this->assign("res",$res);
+        
+        $city=db("culture_city")->where("pid",0)->order(["c_sort asc","cid desc"])->select();
+        $this->assign("city",$city);
 
         return $this->fetch();
     }
-    public function find_user()
+
+    public function modifys()
     {
-        $name=input("name");
+        $id=input("id");
 
-        $re=db("user")->where("nickname|phone",$name)->find();
+        $re=db("rural")->where("id",$id)->find();
 
-        if($re){
-            echo '0';
-        }else{
-            echo '1';
-        }
+        $this->assign("re",$re);
+
+        $type=db("rural_type")->select();
+
+        $this->assign("type",$type);
+
+        $res=db("culture_city")->where("sid",0)->order(["c_sort asc","cid desc"])->select();
+        $this->assign("res",$res);
+
+        $sid=$re['cid'];
+        
+        $city=db("culture_city")->where(["pid"=>0,"sid"=>$sid])->order(["c_sort asc","cid desc"])->select();
+        $this->assign("city",$city);
+
+        $citys=db("culture_city")->where("pid",$re['xid'])->order(["c_sort asc","cid desc"])->select();
+        $this->assign("citys",$citys);
+        
+        return $this->fetch();
     }
-    public function save()
+    public function usave()
     {
         $data=input("post.");
 
-        
-        
-        $images=input("images");
+        $id=input("id");
 
-        $arr=explode(",",$images);
-        
-        $data['image']=$arr[0];
+        $re=db("rural")->where("id",$id)->find();
+
+        if($re){
+
+            $image=request()->file("image");
+
+            if($image){
+                $data['image']=uploads("image");
+            }else{
+                $data['image']=$re['image'];
+            }
+
+            if(empty(input("images"))){
+                $data['images']=$re['images'];
+            }
+
+            $addr=input("addr");
+
+            $result=$this->query_address($addr);
+
+            $data['longs']=$result['lng'];
+
+            $data['lats']=$result['lat'];
+
+            $res=db("rural")->where("id",$id)->update($data);
+
+            if($res){
+                $this->success("修改成功",url("lister"));
+            }else{
+                $this->error("修改失败");
+            }
+
+
+
+
+        }else{
+            $this->error("参数错误",url('lister'));
+        }
+    }
+  
+    public function save()
+    {
+        $data=input("post.");
+       
+        $image=request()->file("image");
+
+        if($image){
+            $data['image']=uploads("image");
+        }
+
         $data['time']=time();
-        $name=input("name");
-        $user=db("user")->where("nickname|phone",$name)->find();
-
-        $data['uid']=$user['uid'];
+       
         $data['status']=1;
 
-        unset($data['name']);
- 
+        $addr=input("addr");
+
+        $result=$this->query_address($addr);
+
+        $data['longs']=$result['lng'];
+
+        $data['lats']=$result['lat'];
  
         $re=db("rural")->insert($data);
 
@@ -265,6 +340,38 @@ class Rural extends BaseAdmin
         }else{
             $this->error("系统繁忙,请稍后再试");
         }
+    }
+    public function query_address($addr){
+        $key_words=$addr;
+        $header[] = 'Referer: http://lbs.qq.com/webservice_v1/guide-suggestion.html';
+        $header[] = 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36';
+        $url ="http://apis.map.qq.com/ws/place/v1/suggestion/?&region=&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77&keyword=".$key_words; 
+ 
+        $ch = curl_init();
+        //设置选项，包括URL
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch,CURLOPT_HTTPHEADER,$header);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+ 
+        //执行并获取HTML文档内容
+        $output = curl_exec($ch);
+        
+        curl_close($ch);
+        
+        $result = json_decode($output,true);
+
+       // var_dump($result);exit;
+
+        if(!empty($result['data'][0])){
+            return $result['data'][0]['location'];
+        }else{
+            echo '0';
+        }
+        
+      
+       
+
     }
     public function uploadimg()
     {

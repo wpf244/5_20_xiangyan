@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+{include file="public:header"}
+
+<body class="no-skin">
+<!--头部-->
+{include file="public:nav"}
+
+<div class="main-container ace-save-state" id="main-container">
+  <!--菜单-->
+  <script type="text/javascript">
+  try{ace.settings.loadState('main-container')}catch(e){}
+</script>
+
+{include file="public:left"}
+
+  <div class="main-content">
+    <div class="main-content-inner">
+      <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+          <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="{:url('Index/index')}">首页</a>
+          </li>
+          <li class="active">未审核列表</li>
+        </ul>
+
+      </div>
+
+      <div id="sidebar2" class="sidebar h-sidebar navbar-collapse collapse ace-save-state">
+					<ul class="nav nav-list header-nav" id="header-nav">
+							<li>
+									<a href="{:url('Publish/index')}">
+										<o class="font12 {if condition='$status eq 0 '} rigbg {/if}">未审核列表</o>
+									</a>
+								<b class="arrow"></b>
+							</li>
+							<li>
+									<a href="{:url('Publish/index',array('status'=>1))}">
+										<o class="font12 {if condition='$status eq 1 '} rigbg {/if}">已审核列表</o>
+									</a>
+								<b class="arrow"></b>
+              </li>
+            
+					
+	
+																	
+					</ul>
+				</div>
+
+      <div class="page-content">
+        {include file="public:set"}
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="col-sm-10 col-sm-offset-1">
+              <div class="page-header">
+                <div class="row">
+                <div class="col-sm-4">
+                  <button class="btn btn-info btn-white btn-bold del-btns">
+                    
+                    审核通过
+                  </button>
+
+                  <button class="btn btn-danger btn-white btn-bold del-btn">
+                    
+                    删除
+                  </button>
+             
+                </div>
+
+                </div>
+              </div>
+              <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th class="center">
+                    <label class="pos-rel">
+                      <input type="checkbox" class="ace checkAll">
+                      <span class="lbl"></span>
+                    </label>
+                  </th>
+                  <th>ID</th>
+              
+                  <th>拍摄城市</th>
+                  <th>拍摄日期</th>
+                  <th>标题</th>
+                  <th>封面图</th>
+                  <th>发布时间</th>
+                  <th>推荐</th>
+              
+                  <th style="border-right:#ddd solid 1px;">操作</th>
+                </tr>
+                </thead>
+               
+                <tbody>
+                {volist name="list" id="v"}
+                <tr class="ace-thumbnails">
+                  <td class="center"><label class="pos-rel">
+                    <input type="checkbox" class="ace check" value="{$v.id}">
+                    <span class="lbl"></span>
+                  </label>
+                  </td>
+                  <td><span class="badge badge-grey">{$v.id}</span></td>
+                  
+                  <td>{$v.addr}</td>
+                  <td>{$v.dates}</td>
+                  <td>{$v.title}</td>
+                  <td class="ace-thumbnails hidden-480">
+                      {notempty name="$v.image"}
+                      <li><a href="{$v.image}" data-rel="colorbox">
+                        <img width="80" height="80" alt="150x150" src="{$v.image}"/>
+                        <div class="text">
+                          <div class="inner">点击放大</div>
+                        </div>
+                      </a></li>
+                      {/notempty}
+                    </td>
+               
+                  <td>{$v.time|date="Y-m-d H:i:s",###}</td>
+                  <td>
+                      <label>
+                        <input class="ace ace-switch ace-switch-6" onclick="changes({$v.id})" type="checkbox" {if condition="$v.recom eq 1" }checked{/if} />
+                        <span class="lbl"></span>
+                      </label>
+                    </td>
+                  <td>
+                   {if condition="$v.status eq 0"} 
+                    <a class="btn btn-xs btn-info" type="button" onclick="change({$v.id})">
+                      通过
+                    </a>
+                    {/if}
+                    <button class="btn btn-xs btn-danger" type="button" onclick="dels({$v.id})">
+                      删除
+                    </button>
+                    <a class="btn btn-xs btn-info"  href="{:url('Publish/look',array('id'=>$v['id']))}">
+                        查看详情
+                      </a>
+                  </td>
+                </tr>
+                {/volist}
+                {empty name="list"}<tr><td colspan="18" class="text-center">暂无数据</td></tr>{/empty}
+                </tbody>
+           
+              </table>
+              <div class="text-center">
+                {$page}
+              </div>
+            </div>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.page-content -->
+    </div>
+  </div><!-- /.main-content -->
+
+{include file="public:footer"}
+
+<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+  <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+</a>
+</div><!-- /.main-container -->
+
+<script>
+  jQuery(function($) {
+    $('[data-rel=tooltip]').tooltip();
+
+    $( "#hide-option" ).tooltip({
+      hide: {
+        effect: "explode",
+        delay: 250
+      }
+    });
+
+  })
+  $(".del-btns").on(ace.click_event,function(){
+	var valarr = [];
+	var checkitem = $(".check:checked")
+    var len = checkitem.length;
+    if(len>0){
+    	for(let i = 0; i < len;i++){
+    		valarr.push(checkitem.eq(i).val())
+    	}
+      layer.confirm('是否通过审核?',{icon: 3},function (index) {
+        layer.close(index);
+        window.location.href="change_all/id/"+valarr;
+      });
+    }else{
+      layer.msg("请先选择数据");
+    }
+  });
+</script>
+<script type="text/javascript">
+		function dels(id) {
+    layer.confirm('你确定删除吗？', { icon: 3 }, function (index) {
+      layer.close(index);
+      $.ajax({
+        url: '__URL__/delete',
+        type: 'post',
+        data: { id: id },
+        success: function (data) {
+          if(data == 0){
+             layer.msg("删除成功");
+             location.reload();
+          }else{
+            layer.msg("系统繁忙，请稍后再试");
+            location.reload();
+          }
+        }
+      })
+    });
+  }
+		</script>
+<script type="text/javascript">
+		function change(id){
+			layer.confirm('你确定通过吗？', {icon: 3}, function(index){
+		    layer.close(index);
+		    window.location.href="__URL__/change/id/"+id;
+		  });
+	    }
+		</script>
+<script>
+function changes(id){
+	$.ajax({
+		type:"post",
+		url:"__URL__/changes",
+	    data:{id:id},
+	    datatype:"text",
+	    success:function(){
+	    	
+	    }
+	})
+}
+
+</script>
+
+
+  <script>
+  $("#change").click(function(){
+  	$("#sortForm").submit();
+  })
+
+  </script>
+</body>
+</html>

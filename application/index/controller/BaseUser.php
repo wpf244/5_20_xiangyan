@@ -30,6 +30,10 @@ class BaseUser extends Controller
             }
         }
 
+        $city_index=session("city_index");
+
+        $this->assign("city_index",$city_index);
+
         //更新砍价到期的
 
         $time=time();
