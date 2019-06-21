@@ -31,7 +31,7 @@
 		<li class="flex_between p_12 bd_btm">
 			<div>
 				<h6 class="am-text-truncate mar_btm_6">{$v.content}</h6>
-				<div class="col_nine am-text-sm">{$v.time|date="Y-m-d",###}</div>
+				<div class="col_nine ">{$v.time|date="Y-m-d",###}</div>
 			</div>
 			<div class="col_main">{if condition="$v.type eq 0"}-{else /}+{/if}{$v.integ}</div>
 		</li>

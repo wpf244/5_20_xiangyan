@@ -26,7 +26,7 @@
 
 	<div class="made_top group">
 		<div class="am-text-xl font_bold">{$lb.name}</div>
-		<div class="am-text-sm">{$lb.desc}</div>
+		<div class="">{$lb.desc}</div>
 	</div>
 
 	<div class="am-alert am-alert-danger" id="my-alert" style="display: none;margin: 0;">
@@ -47,12 +47,12 @@
 		</a>
 		<a class="flex_between pd_12 bd_btm" href="javascript:;">
 			<label class="made_lb">出游日期</label>
-			<input class="flex_1 lg" type="text" placeholder="选择出游日期" readonly id="my-start">
+			<input class="flex_1" type="text" placeholder="选择出游日期" readonly id="my-start">
 			<img class="mar_lt_12" src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
 		</a>
 		<a class="flex_between pd_12 bd_btm" href="javascript:;">
 			<label class="made_lb">归来日期</label>
-			<input class="flex_1 lg" type="text" placeholder="选择归来日期" readonly id="my-end">
+			<input class="flex_1" type="text" placeholder="选择归来日期" readonly id="my-end">
 			<img class="mar_lt_12" src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
 		</a>
 		<div class="pd_12" style="display:flex;">
@@ -80,22 +80,22 @@
 		<div class="font_bold pd_12 bd_btm">更多定制需求</div>
 		<a class="flex_between pd_12 bd_btm" href="javascript:;">
 			<label class="made_lb">人均预算</label>
-			<input class="flex_1 lg" type="text" id="money" placeholder="请输入预算">
+			<input class="flex_1" type="text" id="money" placeholder="请输入预算">
 			<span class="mar_lt_12">元/人</span>
 		</a>
 		<a class="made_zhu flex_between pd_12 bd_btm" href="javascript:;">
 			<label class="made_lb">住宿标准</label>
-			<input class="flex_1 lg" value="不限" id="hotel" readonly>
+			<input class="flex_1" value="不限" id="hotel" readonly>
 			<img class="mar_lt_12" src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
 		</a>
 		<a class="made_train flex_between pd_12 bd_btm" href="javascript:;">
 			<label class="made_lb">交通方式</label>
-			<input class="flex_1 lg" value="不限" id="car" readonly>
+			<input class="flex_1" value="不限" id="car" readonly>
 			<img class="mar_lt_12" src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
 		</a>
 		<a class="flex_between pd_12 bd_btm" href="javascript:;">
 			<label class="made_lb">用餐标准</label>
-			<input class="flex_1 lg" type="text" id="dining"  placeholder="请输入用餐标准">
+			<input class="flex_1" type="text" id="dining"  placeholder="请输入用餐标准">
 			<span class="mar_lt_12">元/餐/人</span>
 		</a>
 		<div class="pd_12 bd_btm" style="display:flex;">
@@ -108,19 +108,19 @@
 		<div class="font_bold pd_12 bd_btm">联系人信息</div>
 		<div class="flex_normal pd_12 bd_btm">
 			<label class="made_lb">联系人</label>
-			<input class="flex_1 lg" type="text" id="username" placeholder="请输入联系人">
+			<input class="flex_1" type="text" id="username" placeholder="请输入联系人">
 		</div>
 		<div class="flex_normal pd_12 bd_btm">
 			<label class="made_lb">公司名称</label>
-			<input class="flex_1 lg" type="text" id="company" placeholder="请输入公司名称">
+			<input class="flex_1" type="text" id="company" placeholder="请输入公司名称">
 		</div>
 		<div class="flex_normal pd_12 bd_btm">
 			<label class="made_lb">手机号码</label>
-			<input class="flex_1 lg"  oninput="if(value.length>11)value=value.slice(0,11)" type="number" maxlength="11" placeholder="请输入联系电话" onchange="validatemobile(this.value)" id="phone" required>
+			<input class="flex_1"  oninput="if(value.length>11)value=value.slice(0,11)" type="number" maxlength="11" placeholder="请输入联系电话" onchange="validatemobile(this.value)" id="phone" required>
 		</div>
 		<div class="flex_normal pd_12 bd_btm">
 			<label class="made_lb">邮箱</label>
-			<input class="flex_1 lg" type="text" id="email" placeholder="可以为您发送行程安排">
+			<input class="flex_1" type="text" id="email" placeholder="可以为您发送行程安排">
 		</div>
 		<div class="pd_12">
 			<button type="submit" class="confirm_btn" id="btn" style="background-color:#4488c0;">提交定制需求</button>

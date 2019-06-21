@@ -27,12 +27,12 @@
 		<!-- <h2 class="am-text-lg mar_btm_12 font_bold">登录测试测试</h2> -->
 		<form id="logoForm" class="am-block" method="POST" action="{:url('Login/check')}">
 			<div class="form_group">
-				<input type="number"  class="am-block lg" placeholder="请输入手机号" name="phone"  required>
+				<input type="number"  class="am-block" placeholder="请输入手机号" name="phone"  required>
 			</div>
 			<div class="form_group">
-				<input type="password" class="am-block lg" placeholder="请输入密码" name="pwd" required>
+				<input type="password" class="am-block" placeholder="请输入密码" name="pwd" required>
 			</div>
-			<div class="flex_between pd_12 am-text-sm">
+			<div class="flex_between pd_12 ">
 				<a class="form_forget" href="{:url('Login/forget')}">忘记密码</a>
 				<a class="flex_normal col_main" href="{:url('Login/register')}">
 					<span class="mar_rt_6">快速注册</span><img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">

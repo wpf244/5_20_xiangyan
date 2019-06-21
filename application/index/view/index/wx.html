@@ -7,10 +7,16 @@
 
 	<!-- 返回 -->
 	<div class="back_box">
-		帮忙砍价
-		<a class="back_icon" href="javascript:history.back(-1)">
-			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
-		</a>
+		
+		<ul class="bread">
+				<li>
+				 <a href="{:url('Index/index')}">首页</a>&nbsp;&gt;
+				</li>
+				
+				<li>
+				<a href="javascript:;">帮忙砍价</a>
+				</li>
+			   </ul>	
 	</div>
 
 {include file="public:top"}
@@ -24,11 +30,11 @@
 				<div class="flex_1 hotel_wrap">
 					<div class="flex_1">
 						<h5 class="am-text-truncate">{$re.name}</h5>
-						<div class="am-text-sm">
+						<div class="">
 								￥<span class="col_main am-text-lg font_bold">{$re.price}</span>
 						</div>						
 					</div>
-					<div class="bargain_lt am-text-sm col_nine count_down">
+					<div class="bargain_lt  col_nine count_down">
 						<span class="hour_num">00</span> : <span class="min_num">00</span> : <span class="sec_num">00</span>后砍价过期
 					</div>
 				</div>
@@ -43,19 +49,19 @@
 				</div>
 				<div class="p_12">
 				   {empty name="$log"}	
-					<div id="continue_btn" class="confirm_btn am-text-sm">帮Ta砍一刀</div>
+					<div id="continue_btn" class="confirm_btn ">帮Ta砍一刀</div>
 				   {else /}
-				   <div id="wx" class="confirm_btn am-text-sm">喊好友帮Ta砍一刀</div>
+				   <div id="wx" class="confirm_btn ">喊好友帮Ta砍一刀</div>
 				  {/empty}
 				 
 				</div>
 				<div class="p_12">
 					
-					   <a href="{:url('Bargain/index')}" class="confirm_btn am-text-sm">我也要拿</a>
+					   <a href="{:url('Bargain/index')}" class="confirm_btn ">我也要拿</a>
 					 </div>
 			</div>
 
-			<div class="bargain_bang am-text-sm bd_radius p_12">
+			<div class="bargain_bang  bd_radius p_12">
 				<h6 class="bargain_col col_main am-text-center font_bold">砍价帮</h6>
 				<ul>
 				  {volist name="res" id="v"}
@@ -79,19 +85,19 @@
 	<div class="common_bg" id="common_bg"></div>
 	<div class="bargain_tan" id="bargain_tan">
 		<h5 class="mar_btm_12"><span class="wen">你砍了</span><span class="am-text-xl col_main price">47.32元</span></h5>
-		<div class="mar_btm_12 col_main am-text-sm">分享给好友，让好友帮你砍一刀</div>
+		<div class="mar_btm_12 col_main ">分享给好友，让好友帮你砍一刀</div>
 		<div class="flex_around p_12">
 			<a href="javascript:;" class="am-block" id="wxss">
 				<img src="__HOME__/img/pic_wechat.png" class="am-center mar_btm_12" width="36" height="36" alt="">
-				<div class="am-text-sm">微信</div>
+				<div class="">微信</div>
 			</a>
 			<!-- <a href="javascript:;" class="am-block">
 				<img src="__HOME__/img/pic_tencent.png" class="am-center mar_btm_12" width="36" height="36" alt="">
-				<div class="am-text-sm">QQ</div>
+				<div class="">QQ</div>
 			</a> -->
 			<a href="javascript:;" class="am-block" id="wxs">
 				<img src="__HOME__/img/pic_friend.png" class="am-center mar_btm_12" width="36" height="36" alt="">
-				<div class="am-text-sm">朋友圈</div>
+				<div class="">朋友圈</div>
 			</a>
 		</div>
 	</div>

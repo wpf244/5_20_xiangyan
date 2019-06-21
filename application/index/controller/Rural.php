@@ -11,7 +11,7 @@ class Rural extends BaseHome
         $res=db("rural_type")->where(["status"=>1])->order(["sort asc","id desc"])->select();
 
         foreach($res as $k => $v){
-            $res[$k]['list']=db("rural")->where(["tid"=>$v['id'],"status"=>1,"recom"=>1])->order("id desc")->select();
+            $res[$k]['list']=db("rural")->where(["tid"=>$v['id'],"status"=>1,"recom"=>1])->order(["sort asc","id desc"])->select();
         }
 
         $this->assign("res",$res);
@@ -107,7 +107,7 @@ class Rural extends BaseHome
         $this->assign("towns",$towns);
 
         
-        $res=db("rural")->where($map)->where(["tid"=>$id,"status"=>1])->order(["id desc"])->select();
+        $res=db("rural")->where($map)->where(["tid"=>$id,"status"=>1])->order(["sort asc","id desc"])->select();
 
 
         $this->assign("res",$res);

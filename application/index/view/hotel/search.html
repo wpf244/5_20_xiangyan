@@ -27,7 +27,7 @@
 <div class="search_box p_12 bg_normal">
   <form action="{:url('Hotel/search')}" method="post">
 	<div class="flex_normal">
-		<div class="search_wrap pad_12 flex_1 bg_white bd_radius am-text-sm flex_between">
+		<div class="search_wrap pad_12 flex_1 bg_white bd_radius  flex_between">
 			<div class="search_location flex_normal pad_rt_12 mar_rt_12 col_main">
 				<img class="mar_rt_6" src="__HOME__/img/icon_location.png" width="16" height="16" alt=""><span>郑州</span>
 			</div>
@@ -53,11 +53,11 @@
 		<div class="hotel_wrap">
 			<div class="flex_1">
 				<h3 class="am-text-truncate">{$vs.name}</h3>
-				<div class="am-text-sm col_nine">{$vs.addr}</div>
+				<div class=" col_nine">{$vs.addr}</div>
 			</div>			
 			<div class="flex_between">
 				<span class="col_deputy">{$vs.score}诚信分</span>
-				<div class="col_nine am-text-sm"><span class="col_main mar_rt_6 am-text-default">￥{$vs.money}</span>/人</div>
+				<div class="col_nine "><span class="col_main mar_rt_6 am-text-default">￥{$vs.money}</span>/人</div>
 			</div>
 		</div>
 	</div>

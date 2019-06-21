@@ -26,12 +26,12 @@
 			<div class="flex_1 hotel_wrap">
 				<div class="flex_1">
 					<h5 class="am-text-truncate">{$re.name}</h5>
-					<div class="am-text-sm col_nine">已砍<span class="col_main">{$re.already_price}</span>元 原价<span class="col_main">{$re.price}</span>元 底价<span class="col_main">{$re.floor_price}</span>元</div>
+					<div class=" col_nine">已砍<span class="col_main">{$re.already_price}</span>元 原价<span class="col_main">{$re.price}</span>元 底价<span class="col_main">{$re.floor_price}</span>元</div>
 
 				
 				</div>
 				<div class="flex_between">
-					<div class="bargain_lt am-text-sm col_nine count_down">
+					<div class="bargain_lt  col_nine count_down">
 						<span class="hour_num">00</span> : <span class="min_num">00</span> : <span class="sec_num">00</span>后结束
 					</div>
 					<a href="javascript:;" id="continue_btn" class="am-btn am-btn-danger bd_radius am-btn-xs">立即砍价</a>
@@ -52,7 +52,7 @@
 			<div class="flex_1">
 				<div class="hotel_wrap">
 					<h3>{$v.name}</h3>
-					<div class="flex_1 am-text-sm col_nine col_deputy">{$v.tag}</div>
+					<div class="flex_1  col_nine col_deputy">{$v.tag}</div>
 					<div class="am-text-right">
 						<a href="{:url('Bargain/detail',array('id'=>$v['id']))}" class="am-btn am-btn-danger bd_radius am-btn-xs">点击免费拿</a>
 					</div>
@@ -68,19 +68,19 @@
 	<div class="common_bg" id="common_bg"></div>
 	<div class="bargain_tan" id="bargain_tan">
 		<h5 class="mar_btm_12"><span class="wen">你砍了</span><span class="am-text-xl col_main price">47.32元</span></h5>
-		<div class="mar_btm_12 col_main am-text-sm">分享给好友，让好友帮你砍一刀</div>
+		<div class="mar_btm_12 col_main ">分享给好友，让好友帮你砍一刀</div>
 		<div class="flex_around p_12">
 			<a href="javascript:;" class="am-block" id="wx">
 				<img src="__HOME__/img/pic_wechat.png" class="am-center mar_btm_12" width="36" height="36" alt="">
-				<div class="am-text-sm">微信</div>
+				<div class="">微信</div>
 			</a>
 			<!-- <a href="javascript:;" class="am-block">
 				<img src="__HOME__/img/pic_tencent.png" class="am-center mar_btm_12" width="36" height="36" alt="">
-				<div class="am-text-sm">QQ</div>
+				<div class="">QQ</div>
 			</a> -->
 			<a href="javascript:;" class="am-block" id="wxs">
 				<img src="__HOME__/img/pic_friend.png" class="am-center mar_btm_12" width="36" height="36" alt="">
-				<div class="am-text-sm">朋友圈</div>
+				<div class="">朋友圈</div>
 			</a>
 		</div>
 	</div>

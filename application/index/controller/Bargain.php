@@ -42,7 +42,7 @@ class Bargain extends BaseUser
 
         }else{
 
-            $date=date("Y-m-d H:i:s",$end_time);
+            $date=date("Y/m/d H:i:s",$end_time);
         }
 
         $this->assign("date",$date);
@@ -278,7 +278,7 @@ class Bargain extends BaseUser
 
         }else{
 
-            $date=date("Y-m-d H:i:s",$end_time);
+            $date=date("Y/m/d H:i:s",$end_time);
         }
 
         $this->assign("date",$date);

@@ -25,7 +25,7 @@
 
 	<div class="flex_between p_12 bg_white bd_btm">
 		<div class="title_left am-text-lg">问答</div>
-		<ul class="ques_menu flex_normal am-text-sm">
+		<ul class="ques_menu flex_normal ">
 			<li {if condition="$id eq 0"} class="active" {else /} class="" {/if} ><a class="am-block" href="{:url('Question/index')}">全部</a></li>
 			<li {if condition="$id eq 1"} class="active" {else /} class="" {/if} ><a class="am-block" href="{:url('Question/index',array('id'=>1))}">最新</a></li>
 		</ul>
@@ -48,7 +48,7 @@
 			<img class="bd_radius_50 mar_rt_6" src="{$v.image}" width="30" height="30" alt=""><span>{$v.nickname}</span>
           {/empty}
 		</div>
-		<div class="flex_normal"><span class="mar_rt_6 col_main">（{$v.cou}个回答）</span><span class="am-text-sm col_nine">{$v.time|date="Y-m-d",###}</span></div>
+		<div class="flex_normal"><span class="mar_rt_6 col_main">（{$v.cou}个回答）</span><span class=" col_nine">{$v.time|date="Y-m-d",###}</span></div>
 	</div>
 </a>
 			</li>

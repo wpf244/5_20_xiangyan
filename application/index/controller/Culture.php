@@ -129,22 +129,30 @@ class Culture extends BaseHome
     {
         //游记
 
+        $title=input("title");
+
+        if($title){
+            $map['title']=["like","%".$title."%"];
+        }else{
+            $map=[];
+        }
+
         $city_index=session("city_index");
         
-        $publish=db("publish")->where(["status"=>1,"recom"=>1])->where("addr","like","%".$city_index."%")->order(["sort asc","id desc"])->select();
+        $publish=db("publish")->where(["status"=>1,"recom"=>1])->where("addr","like","%".$city_index."%")->where($map)->order(["sort asc","id desc"])->select();
 
         $this->assign("publish",$publish);
 
-        $publishs=db("publish")->where(["status"=>1,"recom"=>0])->where("addr","like","%".$city_index."%")->order(["sort asc","id desc"])->select();
+        $publishs=db("publish")->where(["status"=>1,"recom"=>0])->where("addr","like","%".$city_index."%")->where($map)->order(["sort asc","id desc"])->select();
 
         $this->assign("publishs",$publishs);
 
         //攻略
-        $strat=db("strat")->where(["status"=>1,"recome"=>1])->where("addr","like","%".$city_index."%")->order(["sort asc","id desc"])->select();
+        $strat=db("strat")->where(["status"=>1,"recome"=>1])->where("addr","like","%".$city_index."%")->where($map)->order(["sort asc","id desc"])->select();
 
         $this->assign("strat",$strat);
 
-        $strats=db("strat")->where(["status"=>1,"recome"=>0])->where("addr","like","%".$city_index."%")->order(["sort asc","id desc"])->select();
+        $strats=db("strat")->where(["status"=>1,"recome"=>0])->where("addr","like","%".$city_index."%")->where($map)->order(["sort asc","id desc"])->select();
 
         $this->assign("strats",$strats);
         

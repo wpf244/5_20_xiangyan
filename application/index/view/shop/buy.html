@@ -34,7 +34,7 @@
 	<!-- 有收货地址时显示 -->
 	<a href="{:url('Users/choose_addr')}" class="deliver bd_btm_10 flex_between p_12">
 		<img src="__HOME__/img/icon_mall_position.png" class="mar_rt_12" width="16" height="16" alt="">
-		<div class="flex_1 am-text-sm">
+		<div class="flex_1 ">
 			<div class="flex_between">
 				<span>收货人：{$addr.username}</span><span>电话：{$addr.phone}</span>
 			</div>
@@ -56,12 +56,12 @@
 					<h5 class="am-text-truncate">{$v.name}</h5>
 					<span class="mar_lt_12">￥{$v.price}</span>
 				</div>
-				<div class="order_desc am-text-sm col_nine">
+				<div class="order_desc  col_nine">
 					<h6>{$v.s_name}</h6>
 					<span class="hotel_line mar_lt_12">￥{$v.xprice}</span>
 				</div>
 			</div>
-			<div class="am-text-right col_nine am-text-sm">X{$v.num}</div>
+			<div class="am-text-right col_nine ">X{$v.num}</div>
 		</div>
 	</div>
 </div>

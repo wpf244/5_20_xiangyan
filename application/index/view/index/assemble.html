@@ -7,10 +7,16 @@
 
 	<!-- 返回 -->
 	<div class="back_box">
-		参与拼单
-		<a class="back_icon" href="javascript:history.back(-1)">
-			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
-		</a>		
+		
+		<ul class="bread">
+				<li>
+				 <a href="{:url('Index/index')}">首页</a>&nbsp;&gt;
+				</li>
+			
+				<li>
+				<a href="javascript:;">参与拼单</a>
+				</li>
+			   </ul>		
 	</div>
 
 	<div class="order_goods">
@@ -22,7 +28,7 @@
 							<h5 class="am-text-truncate">{$goods['name']}</h5>
 							<span class="mar_lt_12">￥{$goods['floor_price']}</span>
 						</div>
-						<div class="order_desc am-text-sm col_nine">
+						<div class="order_desc  col_nine">
 							<h6>{$goods.tag}</h6>
 							<span class="hotel_line mar_lt_12">{$goods.price}</span>
 						</div>
@@ -35,7 +41,7 @@
 	<div class="bd_btm_10">
 		<div class="am-text-center p_12">
 			<div class="mar_btm_12">参与{$users.nickname}的拼单</div>
-			<div class="am-text-sm mar_btm_12">
+			<div class=" mar_btm_12">
 				<a href="javascript:;" class="mar_rt_12">仅剩 <span class="col_main am-text-default">{$num}</span> 个名额</a>
 				{if condition="$re.status eq 1"}
 				<a class="count_down">剩余

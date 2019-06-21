@@ -29,7 +29,7 @@ class Assemble extends BaseUser
         foreach($res as $k => $v){
             $res[$k]['nums']=$v['number']-$v['num'];
             $date=$v['time']+$v['date']*60*60;
-            $res[$k]['dates']=date("Y-m-d H:i:s",$date);
+            $res[$k]['dates']=date("Y/m/d H:i:s",$date);
         }
       
        // var_dump($res);

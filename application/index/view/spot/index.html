@@ -25,7 +25,7 @@
 <div class="search_box p_12 bg_normal">
 		<form action="{:url('Spot/search')}" method="post">
 	<div class="flex_normal">
-		<div class="search_wrap pad_12 flex_1 bg_white bd_radius am-text-sm flex_between">
+		<div class="search_wrap pad_12 flex_1 bg_white bd_radius  flex_between">
 			<div class="search_location flex_normal pad_rt_12 mar_rt_12 col_main">
 				<img class="mar_rt_6" src="__HOME__/img/icon_location.png" width="16" height="16" alt=""><span class="city"></span>
 			</div>
@@ -47,7 +47,7 @@
 </div>
 
 	<div class="kind_box webkit_cont">
-		<ul class="kind_menu am-text-sm">
+		<ul class="kind_menu ">
 		  {volist name="res" id="v" key="k"}	
 			<li {if condition="$k eq 1"} class="kind_item active" {else /} class="kind_item" {/if} >{$v.name}</li>
 		  {/volist}
@@ -62,7 +62,7 @@
 					<a href="{:url('Spot/detail',array('id'=>$p['id']))}" class="am-u-sm-6 am-block mar_btm_12">
 						<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url({$p.image});"><span class="kind_tag">top{$kp}</span></div>
 <div class="flex_normal">
-	<h5 class="flex_1 am-text-truncate am-text-sm">{$p.name}</h5>
+	<h5 class="flex_1 am-text-truncate ">{$p.name}</h5>
 	<span class="mar_lt_6 am-text-xs col_deputy">{$p.comfort}</span>
 </div>
 <ul class="am-text-xs col_nine">
@@ -76,7 +76,7 @@
 					<!-- <a href="scenic_detail.html" class="am-u-sm-6 am-block mar_btm_12">
 						<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url(__HOME__/img/common_pic.jpg);"><span class="kind_tag">top1</span></div>
 <div class="flex_normal">
-	<h5 class="flex_1 am-text-truncate am-text-sm">滇西密境大理丽...</h5>
+	<h5 class="flex_1 am-text-truncate ">滇西密境大理丽...</h5>
 	<span class="mar_lt_6 am-text-xs col_deputy">舒适</span>
 </div>
 <ul class="am-text-xs col_nine">
@@ -89,7 +89,7 @@
 					<a href="scenic_detail.html" class="am-u-sm-6 am-block mar_btm_12">
 						<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url(__HOME__/img/common_pic.jpg);"><span class="kind_tag">top1</span></div>
 <div class="flex_normal">
-	<h5 class="flex_1 am-text-truncate am-text-sm">滇西密境大理丽...</h5>
+	<h5 class="flex_1 am-text-truncate ">滇西密境大理丽...</h5>
 	<span class="mar_lt_6 am-text-xs col_deputy">舒适</span>
 </div>
 <ul class="am-text-xs col_nine">
@@ -109,7 +109,7 @@
 					<a href="scenic_detail.html" class="am-u-sm-6 am-block mar_btm_12">
 						<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url(__HOME__/img/common_pic.jpg);"><span class="kind_tag">top1</span></div>
 <div class="flex_normal">
-	<h5 class="flex_1 am-text-truncate am-text-sm">滇西密境大理丽...</h5>
+	<h5 class="flex_1 am-text-truncate ">滇西密境大理丽...</h5>
 	<span class="mar_lt_6 am-text-xs col_deputy">舒适</span>
 </div>
 <ul class="am-text-xs col_nine">
@@ -122,7 +122,7 @@
 					<a href="scenic_detail.html" class="am-u-sm-6 am-block mar_btm_12">
 						<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url(__HOME__/img/common_pic.jpg);"><span class="kind_tag">top1</span></div>
 <div class="flex_normal">
-	<h5 class="flex_1 am-text-truncate am-text-sm">滇西密境大理丽...</h5>
+	<h5 class="flex_1 am-text-truncate ">滇西密境大理丽...</h5>
 	<span class="mar_lt_6 am-text-xs col_deputy">舒适</span>
 </div>
 <ul class="am-text-xs col_nine">
@@ -141,7 +141,7 @@
 					<a href="scenic_detail.html" class="am-u-sm-6 am-block mar_btm_12">
 						<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url(__HOME__/img/common_pic.jpg);"><span class="kind_tag">top1</span></div>
 <div class="flex_normal">
-	<h5 class="flex_1 am-text-truncate am-text-sm">滇西密境大理丽...</h5>
+	<h5 class="flex_1 am-text-truncate ">滇西密境大理丽...</h5>
 	<span class="mar_lt_6 am-text-xs col_deputy">舒适</span>
 </div>
 <ul class="am-text-xs col_nine">

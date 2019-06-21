@@ -28,7 +28,7 @@
 				入住<span class="mar_rt_12 col_nine">{$re.start}</span>离店<span class="mar_rt_12 col_nine">{$re.end}</span>共{$re.days}晚
 			</div>
 			<h6 class="mar_btm_6">{$room.name}</h6>
-			<div class="flex_between am-text-sm col_nine">
+			<div class="flex_between  col_nine">
 				<span class="bd_all pad_6 bd_radius">{if condition="$room.cancel eq 0"}不可取消 {else /}可取消{/if}</span>
 				<a class="flex_normal" href="javascript:;" data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 300, height: 225}">
 					<span class="mar_rt_6">取消规则</span><span class="bd_radius_50 bg_normal col_white pad_6">?</span>
@@ -53,12 +53,12 @@
 
 	<div class="flex_normal p_12 bd_btm bg_white">
 		<label for="name" class="mar_rt_12">入住人</label>
-		<input type="text" id="name" class="flex_1 am-text-right lg" placeholder="需填1人姓名" required>
+		<input type="text" id="name" class="flex_1 am-text-right" placeholder="需填1人姓名" required>
 	</div>
 
 	<div class="flex_normal p_12 bd_btm bg_white">
 		<label for="phone" class="mar_rt_12">联系手机</label>
-		<input id="phone" class="flex_1 am-text-right lg" type="number" placeholder="请输入手机号码" >
+		<input id="phone" class="flex_1 am-text-right" type="number" placeholder="请输入手机号码" >
 	</div>
 
 	{notempty name="coupon"}
@@ -70,7 +70,7 @@
 			</div>
 		<div class="coupon" style="float: right; {if condition='$price lt $coupon.money'} display: none; {/if}">
 			
-			￥{$coupon.coupon}&nbsp;&nbsp;<input class="flex_1 am-text-right lg" id="coupon" type="checkbox"  value="1">
+			￥{$coupon.coupon}&nbsp;&nbsp;<input class="flex_1 am-text-right" id="coupon" type="checkbox"  value="1">
 		</div>
 	</div>
 
@@ -85,7 +85,7 @@
 			</div>
 		<div class="coupon" style="float: right; {if condition='$price lt $only.money'} display: none; {/if}">
 			
-			￥{$only.coupon}&nbsp;&nbsp;<input class="flex_1 am-text-right lg" id="only" type="checkbox"  value="{$only.id}">
+			￥{$only.coupon}&nbsp;&nbsp;<input class="flex_1 am-text-right" id="only" type="checkbox"  value="{$only.id}">
 		</div>
 	</div>
 

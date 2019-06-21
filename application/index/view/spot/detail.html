@@ -23,7 +23,7 @@
 	{include file="public:top"}
 
 	<div class="scenic_box">
-		<div class="scenic_top col_white am-text-sm">
+		<div class="scenic_top col_white ">
 			<div class="scenic_bg bg_cover" style="background-image: url({$re.banner});"></div>
 			<h2 class="mar_btm_6"><span class="mar_rt_12 am-text-lg font_bold">{$re.name}</span>{$re.comfort}</h2>
 			<div class="mar_btm_6"><span class="mar_rt_12">{$re.level}</span><span>开放时间：{$re.open_time}</span></div>
@@ -37,10 +37,10 @@
 				<div class="scenic_intro flex_between mar_btm_6">
 					<h4>简介</h4>
 					<div class="flex_normal">
-						<span class="mar_rt_12 col_nine am-text-sm">展开</span><img class="icon" src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+						<span class="mar_rt_12 col_nine ">展开</span><img class="icon" src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
 					</div>
 				</div>
-				<div class="scenic_cont am-text-sm">
+				<div class="scenic_cont ">
 					{$re.content}
 				</div>
 			</div>
@@ -63,7 +63,7 @@
 				<img class="box_shadow bd_radius mar_rt_12" src="{$gl.s_image}" width="90" height="110" alt="">
 				<div class="flex_1">
 					<h5 class="am-text-truncate mar_btm_12">{$gl.s_title}</h5>
-					<div class="scenic_content am-text-sm">{$gl.s_content}...</div>
+					<div class="scenic_content ">{$gl.s_content}...</div>
 				</div>
 		
 			</a>
@@ -84,11 +84,11 @@
 					<div class="box_shadow bg_white bd_radius mar_btm_12">
 						<a href="{:url('Rural/detail',array('id'=>$vr['id']))}" class="am-block pic_big bg_cover" style="background-image: url({$vr.image});"></a>
 						<div class="p_12">
-							<h3 class="pic_title am-text-sm mar_btm_6"><a href="{:url('Rural/detail',array('id'=>$vr['id']))}">{$vr.title}</a></h3>
+							<h3 class="pic_title  mar_btm_6"><a href="{:url('Rural/detail',array('id'=>$vr['id']))}">{$vr.title}</a></h3>
 							<div class="flex_between">
 								<div class="flex_normal">
-									<img class="bd_radius_50 mar_rt_6" src="{$vr.photo}" width="20" height="20" alt="">
-									<span class="am-text-xs">{$vr.nickname}</span>
+									<!-- <img class="bd_radius_50 mar_rt_6" src="" width="20" height="20" alt=""> -->
+									<span class="am-text-xs">{$vr.author}</span>
 								</div>
 								<div class="pic_scan am-text-xs">{$vr.looks}</div>
 							</div>
@@ -111,7 +111,7 @@
 					<a class="am-block mar_btm_12" href="{:url('Spot/play_detail',array('id'=>$vy['id']))}">
 	<div class="play_pic mar_btm_6 bd_radius bg_cover" style="background-image: url({$vy.image});"></div>
 	<h5 class="am-text-truncate mar_btm_6">{$vy.title}</h5>
-	<div class="am-text-sm col_nine">{$vy.marray}</div>
+	<div class=" col_nine">{$vy.marray}</div>
 </a>
 				</div>
 			{/volist}
@@ -123,11 +123,11 @@
 			<div class="play_intro flex_between mar_btm_6">
 				<h4>景点我知道</h4>
 				<div class="flex_normal">
-					<span class="mar_rt_12 col_nine am-text-sm">展开</span><img class="icon" src="__HOME__/img/icon_right.png"
+					<span class="mar_rt_12 col_nine ">展开</span><img class="icon" src="__HOME__/img/icon_right.png"
 						width="6" height="11" alt="">
 				</div>
 			</div>
-			<div class="play_cont am-text-sm">{$re.knows}</div>
+			<div class="play_cont ">{$re.knows}</div>
 		</div>
 {notempty name="$sever"}
 		<div class="bd_btm_10">
@@ -135,7 +135,7 @@
 				<div class="mar_btm_6">
 					<h4>支持服务</h4>
 				</div>
-				<div class="am-g am-text-sm">
+				<div class="am-g ">
 			{volist name="sever" id="vs"}
 	<div class="am-u-sm-4">
 		<div class="flex_normal mar_btm_6">
@@ -159,7 +159,7 @@
 				<li class="ticket_item flex_normal mar_btm_12 col_white bd_radius">
 	<div class="ticket_lt p_12 flex_1">
 		<h4 class="am-text-truncate">{$ticket.title}</h4>
-		<div class="am-text-sm">{$ticket.type}</div>
+		<div class="">{$ticket.type}</div>
 		<div class="ticket_btn transparent">{$ticket.marray}</div>
 	</div>
 	<div class="ticket_buy am-text-center">

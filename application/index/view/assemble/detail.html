@@ -24,7 +24,7 @@
 {include file="public:top"}
 
 	<div class="scenic_box">
-		<div class="scenic_top col_white am-text-sm">
+		<div class="scenic_top col_white ">
 			<div class="scenic_bg bg_cover" style="background-image: url(__HOME__/img/common_bg_pic.jpg);"></div>
 			<h2 class="mar_btm_6"><span class="mar_rt_12 am-text-lg font_bold">{$re.name}</span></h2>
 			
@@ -39,7 +39,7 @@
 
 		<div class="p_12" >
 			<h6 class="mar_btm_12">{$re.tag}</h6>
-			<!-- <div class="flex_between mar_btm_12 am-text-sm">
+			<!-- <div class="flex_between mar_btm_12 ">
 				<div>活动进度<span class="mar_lt_6 col_main">50%</span></div>
 				<div>仅剩666名额</div>
 			</div>
@@ -51,7 +51,7 @@
 		<div class="piao_all bd_btm pad_12 flex_between pad_btm_12" data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 350}">
 			<h5>{$cou}人在拼单，可直接参与</h5>
 			<div class="flex_normal">
-				<span class="mar_rt_12 am-text-sm">全部</span><img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+				<span class="mar_rt_12 ">全部</span><img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
 			</div>
 		</div>
 	   {/notempty}
@@ -63,7 +63,7 @@
 					<img class="bd_radius_50 mar_rt_12" src="{$v.image}" width="36" height="36" alt=""><span>{$v.nickname}</span>
 				</div>
 				<div class="flex_normal">
-					<div class="am-text-right am-text-sm">
+					<div class="am-text-right ">
 						<div>还差<span class="col_main">{$v.nums}人</span>拼成</div>
 						<div class="count_down_{$k}">剩余<span class="hour_num_{$k}">00</span>:<span class="min_num_{$k}">00</span>:<span class="sec_num_{$k}">00</span></div>
 					</div>
@@ -98,10 +98,10 @@
 				<div class="scenic_intro flex_between mar_btm_6">
 					<h4>团购规则</h4>
 					<div class="flex_normal">
-						<span class="mar_rt_12 col_nine am-text-sm">展开</span><img class="icon" src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+						<span class="mar_rt_12 col_nine ">展开</span><img class="icon" src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
 					</div>
 				</div>
-				<div class="scenic_cont am-text-sm">
+				<div class="scenic_cont ">
 					{$rule.desc}
 				</div>
 			</div>
@@ -137,7 +137,7 @@
 				<div class="flex_1">
 					<div class="hotel_wrap">
 						<h3 class="am-text-truncate">{$re.name}</h3>
-						<div class="flex_1 am-text-sm col_nine">{$re.tag}</div>
+						<div class="flex_1  col_nine">{$re.tag}</div>
 						<div class="flex_between">
 							<!-- <span class="col_deputy">抢购</span> -->
 							<div class="col_main mar_rt_6 am-text-default">￥{$re.floor_price}</div>
@@ -148,7 +148,7 @@
 
 			<!-- <div class="mar_btm_12 bd_btm">
 				<h6 class="mar_btm_12">种类</h6>
-				<ul class="flex_normal flex_wrap am-text-sm">
+				<ul class="flex_normal flex_wrap ">
 					<li class="feed_item active">3-5人</li>
 					<li class="feed_item">7-9人</li>
 					<li class="feed_item">10人以上</li>
@@ -209,7 +209,7 @@
 							<img class="bd_radius_50 mar_rt_12" src="{$v.image}" width="36" height="36" alt=""><span>{$v.nickname}</span>
 						</div>
 						<div class="flex_normal">
-							<div class="am-text-right am-text-sm">
+							<div class="am-text-right ">
 								<div>还差<span class="col_main">{$v.nums}人</span>拼成</div>
 								<div class="count_down_{$k}">剩余<span class="hour_num_{$k}">00</span>:<span class="min_num_{$k}">00</span>:<span class="sec_num_{$k}">00</span></div>
 							</div>

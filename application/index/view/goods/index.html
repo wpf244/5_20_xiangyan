@@ -23,7 +23,7 @@
 		<div class="p_12 bg_white">
 			<a href="{:url('Goods/search')}" class="search_unit flex_normal mar_btm_12">
 				<img src="__HOME__/img/icon_search.png" class="mar_rt_12" width="18" height="18" alt="">
-				<input type="text" class="flex_1 lg" placeholder="请输入搜索关键词" readonly>
+				<input type="text" class="flex_1" placeholder="请输入搜索关键词" readonly>
 			</a>
 			<!-- banner -->
 			<div data-am-widget="slider" class="am-slider am-slider-a1 mar_btm_12"
@@ -37,7 +37,7 @@
 
 			<div class="am-cf">
 			  {volist name="type" id="vt"}
-				<a href="{:url('Goods/kind',array('id'=>$vt['type_id']))}" style="width: 20%;" class="kind_cell am-text-sm am-text-center">
+				<a href="{:url('Goods/kind',array('id'=>$vt['type_id']))}" style="width: 20%;" class="kind_cell  am-text-center">
 					<img src="{$vt.type_image}" width="32" height="32" alt="">
 					<div class="mar_top_12 am-text-truncate">{$vt.type_name}</div>
 				<a>

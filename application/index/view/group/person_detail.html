@@ -25,34 +25,34 @@
 
 	<div class="made_top">
 		<div class="am-text-xl font_bold">{$lb.name}</div>
-		<div class="am-text-sm">{$lb.desc}</div>
+		<div class="">{$lb.desc}</div>
 	</div>
 
 	<div class="made_box">
 		<div class="flex_between bd_btm pad_btm_12">
-			<input class="am-text-left flex_1 lg" type="text" value="{$re.start_place}" readonly>
+			<input class="am-text-left flex_1" type="text" value="{$re.start_place}" readonly>
 			<img src="__HOME__/img/icon_to.png" width="18" height="7" alt="">
-			<input class="am-text-right flex_1 lg" value="{$re.end_place}" type="text" readonly>
+			<input class="am-text-right flex_1" value="{$re.end_place}" type="text" readonly>
 		</div>
 		<div class="flex_between bd_btm pd_12">
-			<input class="am-text-left flex_1 lg" type="text" value="{$re.start_time}" readonly>
-			<input type="text" value="{$re.days}" class="am-text-center flex_1 lg" readonly>
-			<input class="am-text-right flex_1 lg" type="text" value="{$re.end_time}" readonly>
+			<input class="am-text-left flex_1" type="text" value="{$re.start_time}" readonly>
+			<input type="text" value="{$re.days}" class="am-text-center flex_1" readonly>
+			<input class="am-text-right flex_1" type="text" value="{$re.end_time}" readonly>
 		</div>
 		<div class="font_bold pd_12 bd_btm">{$re.num}人</div>
 		<div class="pd_12 bd_btm">
 			<input class="lg" type="text" value="{$re.money}元" readonly>
 		</div>
 		<div class="bd_btm pd_12">
-			<h6 class="am-text-sm col_nine mar_btm_12">需要提供什么？（多选）</h6>
-			<ul class="flex_normal flex_wrap am-text-sm">
+			<h6 class=" col_nine mar_btm_12">需要提供什么？（多选）</h6>
+			<ul class="flex_normal flex_wrap ">
 			 {volist name="sever" id="v"}
 				<li class="feed_item active">{$v}</li>
 			 {/volist}
 			</ul>
 		</div>
 		<div class="bd_btm pd_12">
-			<h6 class="am-text-sm col_nine mar_btm_12">备注</h6>
+			<h6 class=" col_nine mar_btm_12">备注</h6>
 			<textarea class="am-block bg_normal p_12" style="height:120px;" readonly>{$re.content}</textarea>
 		</div>
 		<div class="pd_12 bd_btm">

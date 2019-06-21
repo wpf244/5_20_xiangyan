@@ -454,7 +454,7 @@ class Pay extends BaseHome
 
         $time=$re['time']+$re['date']*60*60;
 
-        $date=\date("Y-m-d H:i:s",$time);
+        $date=\date("Y/m/d H:i:s",$time);
 
         $this->assign("date",$date);
 

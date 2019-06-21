@@ -249,7 +249,7 @@ class Index extends BaseHome
 
         }else{
 
-            $date=date("Y-m-d H:i:s",$end_time);
+            $date=date("Y/m/d H:i:s",$end_time);
         }
 
         $this->assign("date",$date);
@@ -351,7 +351,7 @@ class Index extends BaseHome
                     $can_price=$bargain['can_price'];
 
                     if($money > $can_price){
-                        $money=$money-$can_price;
+                        $money=$can_price;
                         $data['status']=1;
                     }
                     $data['number']=$bargain['number']+1;
@@ -487,7 +487,7 @@ class Index extends BaseHome
 
         $time=$re['time']+$re['date']*60*60;
 
-        $date=date("Y-m-d H:i:s",$time);
+        $date=date("Y/m/d H:i:s",$time);
 
         $this->assign("date",$date);
 

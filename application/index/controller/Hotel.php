@@ -138,11 +138,11 @@ class Hotel extends BaseUser
 
         $this->assign("banner",$banner);
 
-        $today=\date("Y-m-d");
+        $today=\date("Y/m/d");
 
         $this->assign("today",$today);
 
-        $tomorrow=date("Y-m-d",strtotime("+1 day"));
+        $tomorrow=date("Y/m/d",strtotime("+1 day"));
 
         $this->assign("tomorrow",$tomorrow);
 

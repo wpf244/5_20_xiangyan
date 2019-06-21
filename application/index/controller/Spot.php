@@ -74,10 +74,10 @@ class Spot extends BaseHome
         $this->assign("sever",$sever);
 
         //游记推荐
-        $rural=db("rural")->alias("a")->field("a.*,b.nickname,b.image as photo")->where(["title"=>["like","%".$re['name']."%"],"status"=>1])->join("user b","a.uid = b.uid")->order(["id desc"])->limit("0,4")->select();
+        $rural=db("rural")->where(["title"=>["like","%".$re['name']."%"],"status"=>1])->order(["id desc"])->limit("0,4")->select();
 
         if(empty($rural)){
-            $rural=db("rural")->alias("a")->field("a.*,b.nickname,b.image as photo")->where(["recom"=>1,"status"=>1])->join("user b","a.uid = b.uid")->order(["id desc"])->limit("0,4")->select();
+            $rural=db("rural")->where(["recom"=>1,"status"=>1])->order(["id desc"])->limit("0,4")->select();
         }
 
         $this->assign("rural",$rural);

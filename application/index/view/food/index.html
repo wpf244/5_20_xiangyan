@@ -26,13 +26,13 @@
 <div class="choice_box bd_btm ">
 	<ul class="choice_ceng flex_around bg_white p_12">
 		<li class="choice_item flex_center">
-			<span class="mar_rt_6">区域</span><img src="__HOME__/img/icon_down.png" width="12" height="12" alt="">
+			<span class="mar_rt_6">{$arr.cname}</span><img src="__HOME__/img/icon_down.png" width="12" height="12" alt="">
 		</li>
 		<li class="choice_item flex_center">
-			<span class="mar_rt_6">分类</span><img src="__HOME__/img/icon_down.png" width="12" height="12" alt="">
+			<span class="mar_rt_6">{$arr.tname}</span><img src="__HOME__/img/icon_down.png" width="12" height="12" alt="">
 		</li>
 		<li class="choice_item flex_center">
-			<span class="mar_rt_6">价格</span><img src="__HOME__/img/icon_down.png" width="12" height="12" alt="">
+			<span class="mar_rt_6">{$arr.pname}</span><img src="__HOME__/img/icon_down.png" width="12" height="12" alt="">
 		</li>
 	</ul>
  <form method="POST" id="food" action="{:url('Food/index')}">	
@@ -44,7 +44,7 @@
 				</label>
 			  {volist name="city" id="v" key="k"}	 
 				<label for="area_2" class="choice_lb p_12 flex_between bd_btm">
-					<h6>{$v.name}</h6><input type="radio" name="cid" id="area_{$k+1}"  value="{$v.id}">
+					<h6>{$v.name}</h6><input type="radio" name="cid" id="area_{$k+1}" {if condition="$arr.cid eq $v.id"} checked {/if}  value="{$v.id}">
 				</label>
 			{/volist}
 			</div>
@@ -60,7 +60,7 @@
 				</label>
 				{volist name="type" id="vt" key="kt"}	
 				<label for="kind_2" class="choice_lb p_12 flex_between bd_btm">
-					<h6>{$vt.name}</h6><input type="radio" id="kind_{$kt+1}" name="tid" value="{$vt.id}">
+					<h6>{$vt.name}</h6><input type="radio" id="kind_{$kt+1}" name="tid" {if condition="$arr.tid eq $vt.id"} checked {/if} value="{$vt.id}">
 				</label>
 				{/volist}
 			</div>
@@ -75,10 +75,10 @@
 					<h6>不限</h6><input type="radio" id="price_1" name="prices" value="0">
 				</label>
 				<label for="price_2" class="choice_lb p_12 flex_between bd_btm">
-					<h6>由高到低</h6><input type="radio" id="price_2" name="prices" value="1">
+					<h6>由高到低</h6><input type="radio" id="price_2" name="prices" {if condition="$arr.pid eq 1"} checked {/if}  value="1">
 				</label>
 				<label for="price_3" class="choice_lb p_12 flex_between bd_btm">
-					<h6>由低到高</h6><input type="radio" id="price_3" name="prices" value="2">
+					<h6>由低到高</h6><input type="radio" id="price_3" name="prices" {if condition="$arr.pid eq 2"} checked {/if}  value="2">
 				</label>
 			</div>
 			<div class="choice_flex flex_normal">
@@ -102,9 +102,9 @@
 		<div class="hotel_wrap">
 			<div class="flex_1">
 				<h3 class="am-text-truncate">{$v.name}</h3>
-				<div class="am-text-sm col_nine col_deputy">{$v.tname}   {$v.marray}</div>
+				<div class=" col_nine col_deputy">{$v.tname}   {$v.marray}</div>
 			</div>
-			<div class="col_nine am-text-sm"><span class="col_main mar_rt_6 am-text-default">￥{$v.price}</span>/人</div>
+			<div class="col_nine "><span class="col_main mar_rt_6 am-text-default">￥{$v.price}</span>/人</div>
 		</div>
 	</div>
 </a>

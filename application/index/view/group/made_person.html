@@ -26,7 +26,7 @@
 
 	<div class="made_top">
 		<div class="am-text-xl font_bold">{$lb.name}</div>
-		<div class="am-text-sm">{$lb.desc}</div>
+		<div class="">{$lb.desc}</div>
 	</div>
 
 	<div class="made_box">
@@ -39,17 +39,17 @@
 			<p>返回日期应大于出发日期！</p>
 		</div>
 		<div class="flex_between bd_btm pd_12">
-			<input class="am-text-left flex_1 lg" type="text" placeholder="出发日期" readonly id="my-start">
-			<input type="text" value="0天" id="day" class="am-text-center flex_1 lg" readonly>
-			<input class="am-text-right flex_1 lg" type="text" placeholder="返回日期" readonly id="my-end">
+			<input class="am-text-left flex_1" type="text" placeholder="出发日期" readonly id="my-start">
+			<input type="text" value="0天" id="day" class="am-text-center flex_1" readonly>
+			<input class="am-text-right flex_1" type="text" placeholder="返回日期" readonly id="my-end">
 		</div>
 		<div class="font_bold pd_12 bd_btm"><input class="lg" type="text" id="num" placeholder="出行人数"></div>
 		<div class="pd_12 bd_btm">
 			<input class="lg" type="text" id="money" placeholder="预估人均预算（选填）">
 		</div>
 		<div class="bd_btm pd_12">
-			<h6 class="am-text-sm col_nine mar_btm_12">需要提供什么？（多选）</h6>
-			<div class="flex_normal flex_wrap am-text-sm">
+			<h6 class=" col_nine mar_btm_12">需要提供什么？（多选）</h6>
+			<div class="flex_normal flex_wrap ">
 			  {volist name="res" id="v" key="k"}	
 			  <li {if condition="$k eq 1 "} class="feed_item active" {else /} class="feed_item" {/if} >{$v.name}</li>
 			  {/volist}	
@@ -59,7 +59,7 @@
 			</div>
 		</div>
 		<div class="bd_btm pd_12">
-			<h6 class="am-text-sm col_nine mar_btm_12">备注</h6>
+			<h6 class=" col_nine mar_btm_12">备注</h6>
 			<textarea class="am-block bg_normal bd_radius p_12" id="content" placeholder="选填，您可以在此输入更多个性化需求，如希望定制何时联系您，对行程的具体要求等。" style="height:120px;"></textarea>
 		</div>
 		<div class="pd_12 bd_btm">

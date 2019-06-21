@@ -39,15 +39,15 @@
 			<div class="col_main">￥{$re.xprice}</div>
 			<span {if condition="$collect eq 0"} class="goods_collect mar_lt_12" {else /} class="goods_collect mar_lt_12 active" {/if} ></span>
 		</div>
-		<div class="flex_between col_nine am-text-sm mar_btm_6">
+		<div class="flex_between col_nine  mar_btm_6">
 			<span>剩余:{$re.kc}</span><span>销量:{$re.sales}</span>
 		</div>
 		<div class="flex_normal">
-			<img class="mar_rt_12" src="__HOME__/img/icon_you.png" width="14" height="14" alt=""><span class="am-text-sm" style="color: #3388FF;">{$re.tag}</span>
+			<img class="mar_rt_12" src="__HOME__/img/icon_you.png" width="14" height="14" alt=""><span class="" style="color: #3388FF;">{$re.tag}</span>
 		</div>
 	</div>
 
-	<div class="am-g bd_btm_10 pd_12 am-text-sm col_nine">
+	<div class="am-g bd_btm_10 pd_12  col_nine">
 		{volist name="lb" id="l"}
 		<div class="am-u-sm-4">
 			<img class="am-center mar_btm_12" src="{$l.image}" width="24" height="24" alt="">
@@ -137,7 +137,7 @@
 					<div class="hotel_wrap">
 						<h3 class="am-text-truncate">{$re.name}</h3>
 						<div class="flex_between">
-							<span class="hotel_line col_nine am-text-sm">原价￥{$re.xprice}</span>
+							<span class="hotel_line col_nine ">原价￥{$re.xprice}</span>
 						{notempty name="$spec"}	<div class="col_main mar_rt_6 am-text-lg">￥<span class="price">{$spec[0]['s_xprice']}</span></div> {else /}
 						<div class="col_main mar_rt_6 am-text-lg">￥{$re.xprice}</div>
 						{/notempty}
@@ -148,7 +148,7 @@
 			{notempty name="$spec"}
 			<div class="mar_btm_12 bd_btm">
 				<h6 class="mar_btm_12">规格</h6>
-				<ul class="flex_normal flex_wrap am-text-sm">
+				<ul class="flex_normal flex_wrap ">
 					<!-- <li class="feed_item active">15g</li> -->
 					{volist name="spec" id="vs" key="ks"}
 					<li {if condition="$ks eq 1"} class="feed_item active" {else /} class="feed_item" {/if} data-id="{$vs.sid}" >{$vs.s_name}</li>

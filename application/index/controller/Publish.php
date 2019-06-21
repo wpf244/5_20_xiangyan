@@ -6,7 +6,7 @@ class Publish extends BaseUser
     public function publish()
     {
         
-        $dates=date("Y-m-d");
+        $dates=date("Y/m/d");
 
         $this->assign("dates",$dates);
         

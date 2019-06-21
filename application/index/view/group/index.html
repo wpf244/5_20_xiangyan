@@ -28,7 +28,7 @@
 	<!-- 搜索框 -->
 <!-- <div class="search_box p_12 bg_normal">
 	<div class="flex_normal">
-		<div class="search_wrap pad_12 flex_1 bg_white bd_radius am-text-sm flex_between">
+		<div class="search_wrap pad_12 flex_1 bg_white bd_radius  flex_between">
 			<div class="search_location flex_normal pad_rt_12 mar_rt_12 col_main">
 				<img class="mar_rt_6" src="__HOME__/img/icon_location.png" width="16" height="16" alt=""><span>郑州</span>
 			</div>
@@ -56,7 +56,7 @@
                    {/if}
 					<div class="group_made am-text-center">
 						<img src="{$v['image']}" width="40" height="40" alt="">
-						<div class="am-text-sm col_nine">{$v['name']}</div>
+						<div class=" col_nine">{$v['name']}</div>
 					</div>
 					
 				   {/volist}
@@ -67,7 +67,7 @@
 			</div>
 
 			<div class="group_person flex_between bg_cover pad_12 mar_btm_12">
-				<div class="col_white am-text-sm">
+				<div class="col_white ">
 					<div class="mar_btm_6"><span class="am-text-lg font_bold">个人定制</span>
 						{volist name="personal" id="vp" offset="0" length="2"}
 						
@@ -87,7 +87,7 @@
 			</div>
 
 			<div class="group_person group flex_between bg_cover pad_12">
-				<div class="col_white am-text-sm">
+				<div class="col_white ">
 					<div class="mar_btm_6"><span class="am-text-lg font_bold">团队定制</span>
 						{volist name="team" id="vt" offset="0" length="2"}
 						
@@ -115,7 +115,7 @@
 	<a href="{:url('Group/detail',array('id'=>$v['id']))}">
 		<div class="group_pic bd_radius bg_cover mar_btm_6" style="background-image:url({$v.image});"></div>
 		<h4 class="am-text-truncate mar_btm_6">{$v.title}</h4>
-		<div class="am-text-sm am-text-truncate col_nine">{$v.marray}</div>
+		<div class=" am-text-truncate col_nine">{$v.marray}</div>
 	</a>
 </li>
 		{/volist}	

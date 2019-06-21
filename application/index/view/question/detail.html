@@ -29,7 +29,7 @@
 
 	<div class="flex_between p_12 bg_white bd_btm">
 		<div class="title_left am-text-lg">问答</div>
-		<ul class="ques_menu flex_normal am-text-sm">
+		<ul class="ques_menu flex_normal ">
 				<li  class="active"  ><a class="am-block" href="{:url('Question/index')}">全部</a></li>
 				<li  class="" ><a class="am-block" href="{:url('Question/index',array('id'=>1))}">最新</a></li>
 		</ul>
@@ -47,7 +47,7 @@
 			   {else /}
 			   <div class="flex_normal"><img class="bd_radius_50 mar_rt_6" src="{$user.image}" width="30" height="30" alt=""><span>{$user.nickname}</span></div>
 				{/empty}
-				<span class="am-text-sm col_nine">{$re.time|date="Y-m-d",###}</span>
+				<span class=" col_nine">{$re.time|date="Y-m-d",###}</span>
 			</div>
 		</div>
 	</div>

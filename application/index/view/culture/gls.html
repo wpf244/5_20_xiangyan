@@ -23,10 +23,10 @@
 {include file="public:top"}
 
 	<!-- 搜索框 -->
-<!-- <div class="search_box p_12 bg_normal">
-  <form action="{:url('Hotel/search')}" method="post">
+<div class="search_box p_12 bg_normal">
+  <form action="" >
 	<div class="flex_normal">
-		<div class="search_wrap pad_12 flex_1 bg_white bd_radius am-text-sm flex_between">
+		<div class="search_wrap pad_12 flex_1 bg_white bd_radius  flex_between">
 			<div class="search_location flex_normal pad_rt_12 mar_rt_12 col_main">
 				<img class="mar_rt_6" src="__HOME__/img/icon_location.png" width="16" height="16" alt=""><span class="city"></span>
 			</div>
@@ -36,7 +36,7 @@
 		<button class="mar_lt_12" type="submit">搜索</button>
 	</div>
 </form>	
-</div> -->
+</div>
 
 	<ul class="order_hd flex_around bd_btm">
 		<li class="order_item active tab_item">游记</li>
@@ -46,10 +46,10 @@
 	<ul class="tab_wrap">
 		<li class="tab_cont active">
 			<!-- 酒店 -->
-			<!-- <a href="javascript:;" class="am-block p_12 bg_white">
-				<div class="title_left am-text-lg font_bold"></div>
-				<div class="title_desc am-text-sm col_nine"></div>
-			</a> -->
+			<a href="javascript:;" class="am-block p_12 bg_white">
+				<div class="title_left am-text-lg font_bold">精品游记推荐</div>
+				
+			</a>
 			<div class="list_box pad_lt_12 pad_btm_12 bd_btm">
 			{volist name="publish" id="v"}
 				<a class="mar_rt_12" href="{:url('Culture/detail_publish',array('id'=>$v['id']))}">
@@ -62,7 +62,7 @@
 		{/volist}		
 			</div>
 
-			<!-- <h5 class="p_12 am-text-lg">热销推荐</h5> -->
+			<h5 class="p_12 am-text-lg">热门推荐</h5>
 			<div class="pad_12">
 			{volist name="publishs" id="vs"}	
 				<a href="{:url('Culture/detail_publish',array('id'=>$vs['id']))}" class="flex_normal pd_12 bd_btm">
@@ -71,7 +71,7 @@
 		<div class="hotel_wrap">
 			<div class="flex_1">
 				<h3 class="am-text-truncate">{$vs.title}</h3>
-				<div class="am-text-sm col_nine">{$vs.addr}</div>
+				<div class=" col_nine">{$vs.addr}</div>
 			</div>			
 			<div class="flex_between">
 				<span class="col_deputy">{$vs.dates}</span>
@@ -89,10 +89,10 @@
 
 		<li class="tab_cont">
 			<!-- 民宿 -->
-			<!-- <a href="javascript:;" class="am-block p_12 bg_white">
-				<div class="title_left am-text-lg font_bold">{</div>
-				<div class="title_desc am-text-sm col_nine"></div>
-			</a> -->
+			<a href="javascript:;" class="am-block p_12 bg_white">
+				<div class="title_left am-text-lg font_bold">精品攻略推荐</div>
+				
+			</a>
 			<div class="list_box pad_lt_12 pad_btm_12 bd_btm">
 				{volist name="strat" id="vh"}
 				<a class="mar_rt_12" href="{:url('Culture/detail_strat',array('id'=>$vh['id']))}">
@@ -105,7 +105,7 @@
 		{/volist}
 			</div>
 
-			<!-- <h5 class="p_12 am-text-lg">热销推荐</h5> -->
+			<h5 class="p_12 am-text-lg">热门推荐</h5>
 			<div class="pad_12">
 				{volist name="strats" id="p"}	
 				<a href="{:url('Culture/detail_strat',array('id'=>$p['id']))}" class="flex_normal pd_12 bd_btm">
@@ -114,7 +114,7 @@
 		<div class="hotel_wrap">
 			<div class="flex_1">
 				<h3 class="am-text-truncate">{$p.title}</h3>
-				<div class="am-text-sm col_nine">{$p.tag}</div>
+				<div class=" col_nine">{$p.tag}</div>
 			</div>			
 			<div class="flex_between">
 				<span class="col_deputy">{$p.author}</span>

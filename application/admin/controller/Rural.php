@@ -365,8 +365,6 @@ class Rural extends BaseAdmin
 
         if(!empty($result['data'][0])){
             return $result['data'][0]['location'];
-        }else{
-            echo '0';
         }
         
       
