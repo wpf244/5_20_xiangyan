@@ -5,13 +5,64 @@ class Spot extends BaseHome
 {
     public function index()
     {
-        $res=db("spot_city")->where(["status"=>1])->order(["sort asc","id desc"])->select();
+        $id=input("id");
+        
+        $res=db("spot_city")->where(["status"=>1,"pid"=>0])->order(["sort asc","id desc"])->select();
 
-        foreach($res as $k => $v){
+       
+        $pid=input("pid");
+
+        if($id){
+            $re=db("spot_city")->where("id",$id)->find();
+
+                $pid=$re['pid'];
+            foreach($res as $k => $v){
+            $res[$k]['list']=db("spot")->where(["xid"=>$id,"status"=>1])->order(["sort asc","id desc"])->select();
+            $res[$k]['type']=db("spot_city")->where(["status"=>1,"pid"=>$v['id']])->select();
+            }
+        }elseif($pid){
+            foreach($res as $k => $v){
+                $res[$k]['list']=db("spot")->where(["cid"=>$pid,"status"=>1])->order(["sort asc","id desc"])->select();
+                $res[$k]['type']=db("spot_city")->where(["status"=>1,"pid"=>$v['id']])->select();
+                }
+        }else{
+            $pid=0;
+            foreach($res as $k => $v){
             $res[$k]['list']=db("spot")->where(["cid"=>$v['id'],"status"=>1])->order(["sort asc","id desc"])->select();
+            $res[$k]['type']=db("spot_city")->where(["status"=>1,"pid"=>$v['id']])->select();
+            }
         }
+       
+        // foreach($res as $k => $v){
+        //    if($id){
+
+        //     $re=db("spot_city")->where("id",$id)->find();
+
+        //     $pid=$re['pid'];
+
+            
+        //     // if($pid == $v['id']){
+        //       //  var_dump($id);
+             
+        //     // }else{
+        //     //   //  var_dump(22);
+        //     //     $res[$k]['list']=db("spot")->where(["cid"=>$v['id'],"status"=>1])->order(["sort asc","id desc"])->select();
+        //     // }
+
+        //    } else {
+        //    // var_dump(33);
+            
+        //    }
+           
+
+        //     $res[$k]['type']=db("spot_city")->where(["status"=>1,"pid"=>$v['id']])->select();
+        // }
 
         $this->assign("res",$res);
+
+  
+
+        $this->assign("pid",$pid);
 
         //热门抢购banner
         $assmeble=db("lb")->where("fid",39)->find();
@@ -88,6 +139,47 @@ class Spot extends BaseHome
         $this->assign("ticket",$ticket);
 
 
+        $assess=db("assess")->alias("a")->where(["status"=>1,"type"=>3])->join("user b","a.u_id=b.uid")->order("id desc")->select();
+
+        $this->assign("assess",$assess);
+
+        $cou=count($assess);
+
+        $this->assign("cou",$cou);
+
+        //收藏
+        $uids=session("userid");
+        if($uids){
+            $collect=db("collect")->where(["uid"=>$uids,"gid"=>$id,"type"=>3])->find();
+
+            if($collect){
+                $collect=1;
+            }else{
+                $collect=0;
+            }
+
+        }else{
+            $collect=0;
+        }
+
+        $this->assign("collect",$collect);
+
+        if($uids){
+            $assist=db("assist")->where(["uid"=>$uids,"nid"=>$id,"type"=>3])->find();
+
+            if($assist){
+                $assist=1;
+            }else{
+                $assist=0;
+            }
+
+        }else{
+            $assist=0;
+        }
+
+        $this->assign("assist",$assist);
+
+
         
         return $this->fetch();
     }
@@ -151,6 +243,7 @@ class Spot extends BaseHome
             $data['end_time']=input("end_time");
             $data['uid']=$uid;
             $data['gid']=$id;
+            $data['shop_id']=$re['sid'];
             $data['num']=$num;
             $data['price']=$num*$re['price'];
             $data['name']=$re['title'];
@@ -180,6 +273,93 @@ class Spot extends BaseHome
             echo '0';
         }
     }
-    
+    /**
+    * 保存评价
+    *
+    * @return void
+    */
+    public function save_assess()
+    {
+        $uid=session("userid");
+
+        if($uid){
+
+            $data=input("post.");
+            $data['u_id']=$uid;
+            $data['type']=3;
+            $data['addtime']=time();
+
+            $re=db("assess")->insert($data);
+
+            if($re){
+                echo '0';
+            }else{
+                echo '2';
+            }
+
+        }else{
+            echo '1';
+        }
+    }
+    /**
+    * 收藏
+    *
+    * @return void
+    */
+    public function save_collect()
+    {
+        $uid=session("userid");
+
+        if($uid){
+
+            $nid=input("nid");
+
+            $re=db("collect")->where(["gid"=>$nid,"uid"=>$uid,"type"=>3])->find();
+
+            if($re){
+                db("collect")->where("id",$re['id'])->delete();
+            }else{
+                $data['gid']=$nid;
+                $data['uid']=$uid;
+                $data['type']=3;
+
+                db("collect")->insert($data);
+            }
+            echo '0';
+
+        }else{
+            echo '1';
+        }
+    }
+    /**
+    * 点赞
+    *
+    * @return void
+    */
+    public function save_assist()
+    {
+        $uid=session("userid");
+
+        if($uid){
+
+            $nid=input("nid");
+
+            $re=db("assist")->where(["nid"=>$nid,"uid"=>$uid,"type"=>3])->find();
+
+            if($re){
+                db("assist")->where("id",$re['id'])->delete();
+            }else{
+                $data['nid']=$nid;
+                $data['uid']=$uid;
+                $data['type']=3;
+
+                db("assist")->insert($data);
+            }
+            echo '0';
+
+        }else{
+            echo '1';
+        }
+    }
 
 }

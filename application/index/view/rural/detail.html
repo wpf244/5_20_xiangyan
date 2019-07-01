@@ -3,7 +3,7 @@
 
 {include file="public:header"}
 
-<body class="">
+<body class="" style="padding-bottom: 50px;">
 
 		<div class="back_box">
 			
@@ -15,7 +15,7 @@
 						 <a href="{:url('Rural/index')}">乡村旅游</a>&nbsp;&gt;
 						</li>
 						<li>
-						<a href="javascript:;">旅拍详情</a>
+						<a href="javascript:;">{$re.title|mb_substr=###,0,15,'utf8'}...</a>
 						</li>
 					   </ul>			
 			</div>
@@ -32,6 +32,25 @@
 		</ul>
 	</div>
 
+	<div class="am-g am-text-center pad_top_12 dmenu">
+		<a href="{:url('Rural/play',array('id'=>$re['id']))}" class="am-u-sm-3">
+			<img src="__HOME__/img/pic_travel_1.png" class="am-center mar_btm_6" width="80" height="50" alt="">
+			<div class="am-text-truncate">周边游</div>
+		</a>
+		<a href="{:url('Rural/goods',array('id'=>$re['id']))}" class="am-u-sm-3">
+			<img src="__HOME__/img/pic_travel_2.png" class="am-center mar_btm_6" width="80" height="50" alt="">
+			<div class="am-text-truncate">当地特产</div>
+		</a>
+		<a href="{:url('Rural/hotel',array('id'=>$re['id']))}" class="am-u-sm-3">
+			<img src="__HOME__/img/pic_travel_3.png" class="am-center mar_btm_6" width="80" height="50" alt="">
+			<div class="am-text-truncate">当地民宿</div>
+		</a>
+		<a href="http://apis.map.qq.com/uri/v1/routeplan?type=drive&to={$re.addr}&tocoord={$re.lats},{$re.longs}&policy=1&referer=myapp" class="am-u-sm-3">
+			<img src="__HOME__/img/pic_travel_4.png" class="am-center mar_btm_6" width="80" height="50" alt="">
+			<div class="am-text-truncate">一键导航</div>
+		</a>
+	</div>
+
 	<div class="p_12">
 		<h3 class="am-text-lg mar_btm_12 font_bold">{$re.title}</h3>
 		<div class="flex_between">
@@ -41,29 +60,129 @@
 				<span class="am-text-xs">{$re.author}</span>
 			</div>
 		</div>
+		<!-- 新增 -->
+		<div class="q_info">
+			
+			<div class="q_info_item">
+				<div class="q_info_title">路线</div>
+				<div class="q_info_content">
+					{$re.route}
+			</div>
+			</div>
+			<div class="q_info_item">
+				<div class="q_info_title">最佳游玩时间</div>
+				<div class="q_info_content">
+					{$re.play}
+			</div>
+			</div>
+		</div>
+
+
 		<div class="detail_box">
 			{$re.content}
 		</div>
+
+		<div class="q_info_item">
+			<div class="q_info_title">行程</div>
+			<div class="q_info_content">
+				{$re.trip}
+		</div>
+		</div>
+
+		<div class="title_left flex_normal">
+			<span>评论({$cou})</span>
+		</div>
+	
+		<div class="q_comment">
+			<ul>
+				{volist name="assess" id="va"}
+					<li class="q_comment_wrap">
+						<div class="q_comment_item">
+							<div class="q_comment_avatar" style="background-image: url('{$va.image}');"></div>
+							<div class="q_comment_name">{$va.nickname}</div>
+						</div>
+						<div style="padding-left: 34px;">
+								{$va.content}
+								<div style="margin-top: 10px;"><span style="color: #B3B3B3;margin-right:20px;">{$va.addtime|date="Y/m/d",###}</span></div>
+						</div>
+						</li>
+					{/volist}	
+			</ul>
+	
+		</div>
+
 	</div>
 
-	<div class="am-g am-text-center  pad_btm_12">
-			<a href="{:url('Rural/play',array('id'=>$re['id']))}" class="am-u-sm-3">
-				<img src="__HOME__/img/pic_travel_1.png" class="am-center mar_btm_6" width="80" height="50" alt="">
-				<div class="am-text-truncate">周边游</div>
-			</a>
-			<a href="{:url('Rural/goods',array('id'=>$re['id']))}" class="am-u-sm-3">
-				<img src="__HOME__/img/pic_travel_2.png" class="am-center mar_btm_6" width="80" height="50" alt="">
-				<div class="am-text-truncate">当地特产</div>
-			</a>
-			<a href="{:url('Rural/hotel',array('id'=>$re['id']))}" class="am-u-sm-3">
-				<img src="__HOME__/img/pic_travel_3.png" class="am-center mar_btm_6" width="80" height="50" alt="">
-				<div class="am-text-truncate">当地民宿</div>
-			</a>
-			<a href="http://apis.map.qq.com/uri/v1/routeplan?type=drive&to={$re.addr}&tocoord={$re.lats},{$re.longs}&policy=1&referer=myapp" class="am-u-sm-3">
-				<img src="__HOME__/img/pic_travel_4.png" class="am-center mar_btm_6" width="80" height="50" alt="">
-				<div class="am-text-truncate">一键导航</div>
-			</a>
+	<div class="mess-bar">
+		<div class="mess-bar-text">
+			<input type="text" id="content" placeholder="欢迎发表你的评论">
 		</div>
+		<div class="mess-bar-btn" id="send" >发送</div>
+		<div {if condition="$collect eq 0"} class="mess-bar-collect" {else /} class="mess-bar-collect on" {/if} id="collect"></div>
+		<div {if condition="$assist eq 0"} class="mess-bar-like" {else /} class="mess-bar-like on" {/if} id="assist"></div>
+	</div>
+
+	<script>
+	   $("#send").click(function(){
+		    var content = $("#content").val();
+            var nid = "{$re.id}"; 
+			$.ajax({
+				type:"post",
+				url:"__URL__/save_assess",
+				data:{content:content,g_id:nid},
+				dataType:"text",
+				success:function(re){
+                   if(re == 0){
+					   layer.msg("发表成功");
+					   setTimeout("location.reload()",1000);
+				   }
+				   if(re == 1){
+					   location.href="{:url('Login/login')}";
+				   }
+				   if(re == 2){
+					   layer.msg("发表失败,请稍后再试");
+					   setTimeout("location.reload()",1000);
+				   }
+				}
+			})
+	   })
+
+	   $("#collect").click(function(){
+		 
+            var nid = "{$re.id}"; 
+			$.ajax({
+				type:"post",
+				url:"__URL__/save_collect",
+				data:{nid:nid},
+				dataType:"text",
+				success:function(re){
+					if(re == 1){
+					   location.href="{:url('Login/login')}";
+				   }
+				}
+			})
+	   })
+
+	   $("#assist").click(function(){
+		 
+		 var nid = "{$re.id}"; 
+		 $.ajax({
+			 type:"post",
+			 url:"__URL__/save_assist",
+			 data:{nid:nid},
+			 dataType:"text",
+			 success:function(re){
+				 if(re == 1){
+					location.href="{:url('Login/login')}";
+				}
+			 }
+		 })
+	})
+
+	   
+	
+	</script>
+	
 
 	<!-- <div class="pad_12 mar_btm_12 bg_white">
 		<span>附近好玩儿</span>

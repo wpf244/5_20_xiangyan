@@ -124,7 +124,7 @@ class Users extends BaseUser
      {
         $uid=session("userid");
         
-        $res=db("collect")->alias("a")->where("uid",$uid)->join("goods b","a.gid=b.id")->select();
+        $res=db("collect")->alias("a")->where(["uid"=>$uid,"type"=>0])->join("goods b","a.gid=b.id")->select();
 
         $this->assign("res",$res);
         
@@ -326,6 +326,14 @@ class Users extends BaseUser
                 $arr=\explode(",", $pay);
                
                 $integ=db("integ")->where("id",1)->find();
+
+                $money=$re['zprice'];
+                $datas['money']=$money;
+                $datas['did']=$re['did'];
+                $datas['shop_type']=4;
+                $datas['shop_id']=$re['shop_id'];
+                $datas['time']=time();
+                $admin=db("admin")->where("shop_id",$re['shop_id'])->find();
                 
                  // 启动事务
                  Db::startTrans();
@@ -347,6 +355,11 @@ class Users extends BaseUser
                         db("integ_log")->insert($log);
 
                         db("user")->where("uid",$re['uid'])->setInc("integ",$integs);
+                    }
+
+                    db("admin_money")->insert($datas);
+                    if($admin){
+                        db("admin")->where(["shop_id"=>$re['shop_id'],"shop_type"=>4])->setInc("money",$money);
                     }
 
                     echo '0';
@@ -550,21 +563,24 @@ class Users extends BaseUser
         $arr=array();
 
         $files = request()->file('image');
-        foreach($files as $file){
-            // 移动到框架应用根目录/public/uploads/ 目录下
-            $info = $file->validate(['size'=>31457280,'ext'=>'jpg,png,gif,jpeg'])->move(ROOT_PATH . 'public' . DS . 'uploads');
-            if($info){
-                // 成功上传后 获取上传信息
-                $pa=$info->getSaveName();
-                $path=str_replace("\\", "/", $pa);
-                $paths='/uploads/'.$path;
-              
-                $arr[]=$paths;
-            }else{
-                // 上传失败获取错误信息
-                $this->error($file->getError());
-            }    
+        if($files){
+            foreach($files as $file){
+                // 移动到框架应用根目录/public/uploads/ 目录下
+                $info = $file->validate(['size'=>31457280,'ext'=>'jpg,png,gif,jpeg'])->move(ROOT_PATH . 'public' . DS . 'uploads');
+                if($info){
+                    // 成功上传后 获取上传信息
+                    $pa=$info->getSaveName();
+                    $path=str_replace("\\", "/", $pa);
+                    $paths='/uploads/'.$path;
+                  
+                    $arr[]=$paths;
+                }else{
+                    // 上传失败获取错误信息
+                    $this->error($file->getError());
+                }    
+            }
         }
+        
         
         $did=input("did");
         $re=db("car_dd")->where("did",$did)->find();

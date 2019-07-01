@@ -81,6 +81,20 @@
 		</div>
 	</div>
 
+	<div class="am-popup" id="my-popup">
+			<div class="am-popup-inner">
+				<div class="am-popup-hd">
+					<h4 class="am-popup-title">关注公众号</h4>
+					<span data-am-modal-close
+								class="am-close">&times;</span>
+				</div>
+				<div class="am-popup-bd">
+					<img class="am-block am-center" src="{$sys.wx}" alt="">
+					<div class="am-text-center">长按识别图中二维码</div>
+				</div>
+			</div>
+		</div>
+
 	<!-- 砍价弹窗 -->
 	<div class="common_bg" id="common_bg"></div>
 	<div class="bargain_tan" id="bargain_tan">
@@ -97,7 +111,7 @@
 			</a> -->
 			<a href="javascript:;" class="am-block" id="wxs">
 				<img src="__HOME__/img/pic_friend.png" class="am-center mar_btm_12" width="36" height="36" alt="">
-				<div class="">朋友圈</div>
+					<div class="">朋友圈</div>
 			</a>
 		</div>
 	</div>
@@ -106,6 +120,8 @@
 
 	<script>
 		$(function(){
+			$('#my-popup').modal('open')
+
 			var date="{$date}";
 			//倒计时
 			$(".count_down").countDown({

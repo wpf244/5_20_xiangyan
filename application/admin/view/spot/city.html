@@ -56,12 +56,9 @@
                 <thead>
                 <tr>
                   <th class="center">
-                    <label class="pos-rel">
-                      <input type="checkbox" class="ace checkAll">
-                      <span class="lbl"></span>
-                    </label>
+                  
                   </th>
-                  <th>ID</th>
+               
                   <th class="hidden-480">排序</th>
                   <th>城市名称</th>
             
@@ -73,7 +70,83 @@
               <form id="sortForm" action="{:url('Spot/sort_type')}" method="post"> 
                 
                 <tbody>
-                {volist name="list" id="v"}
+
+                    {volist name="list" id="v"}
+  
+                      <tr class="ace-thumbnails tri{$v.id}" id="tr{$v.id}">
+                        <td class="center"><span class="glyphicon glyphicon-plus" power="jia" id="jiajian{$v.id}" onclick="gg({$v.id})"></span>	<!-- glyphicon glyphicon-minus -->
+                        </td>
+                       
+                        <td class="hidden-480"><input class="input-small" type="number" name="{$v.id}" value="{$v.sort}"></td>
+                        <td class="ace-thumbnails hidden-480">{$v.name}</td>
+                        <td class="ace-thumbnails hidden-480" style="background:#c9c6cc;">
+                            {notempty name="$v.image"}
+                            <li><a href="{$v.image}" data-rel="colorbox">
+                              <img width="80" height="80" alt="150x150" src="{$v.image}"/>
+                              <div class="text">
+                                <div class="inner">点击放大</div>
+                              </div>
+                            </a></li>
+                            {/notempty}
+                          </td>
+                          <td>
+                              <label>
+                                <input class="ace ace-switch ace-switch-6" onclick="change({$v.id})" type="checkbox" {if condition="$v.status eq 1" }checked{/if} />
+                                <span class="lbl"></span>
+                              </label>
+                            </td>
+                        <td>
+                          <a class="btn btn-xs btn-info" onclick="ajaxQuery('__URL__/modifys_type',{$v.id},readData)" title="修改信息">
+                            <i class="ace-icon fa fa-pencil bigger-120"></i>
+                          </a>
+                          <button class="btn btn-xs btn-danger" type="button" onclick="dels({$v.id})" title="删除">
+                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                          </button>
+                        </td> 
+                      </tr>
+                        {volist name="$v['list1']" id="p"}
+
+                     
+                        <tr class="ace-thumbnails tr{$p.pid} tri{$p.id}" style="display:none;">
+
+                                <td class="center">
+                                  </td>
+                                 
+                   
+                        <td class="hidden-480"><input class="input-small" type="number" name="{$p.id}" value="{$p.sort}"></td>
+                                <td class="ace-thumbnails hidden-480">&nbsp&nbsp&nbsp&nbsp|--{$p.name}</td>
+                                <td class="ace-thumbnails hidden-480" style="background:#c9c6cc;">
+                                    {notempty name="$p.image"}
+                                    <li><a href="{$p.image}" data-rel="colorbox">
+                                      <img width="80" height="80" alt="150x150" src="{$p.image}"/>
+                                      <div class="text">
+                                        <div class="inner">点击放大</div>
+                                      </div>
+                                    </a></li>
+                                    {/notempty}
+                                  </td>
+                               
+                                  <td>
+                                      <label>
+                                        <input class="ace ace-switch ace-switch-6" onclick="change({$p.id})" type="checkbox" {if condition="$v.status eq 1" }checked{/if} />
+                                        <span class="lbl"></span>
+                                      </label>
+                                    </td>
+                                 <td>
+                                    <a class="btn btn-xs btn-info" onclick="ajaxQuery('__URL__/modifys_type',{$p.id},readData)" title="修改信息">
+                                    <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                    </a>
+                                    <button class="btn btn-xs btn-danger" type="button" onclick="dels({$p['id']})" title="删除">
+                                    <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                    </button>
+                                </td> 
+                            </tr>
+
+                            
+                        {/volist}
+                     
+                      {/volist}
+                <!-- {volist name="list" id="v"}
                 
                 <tr>
                   <td class="center"><label class="pos-rel">
@@ -112,16 +185,14 @@
                   </td>
                 </tr>
                 
-                 {/volist}
+                 {/volist} -->
                  {empty name="list"}<tr><td colspan="11" class="text-center">暂无数据</td></tr>{/empty}
                 </tbody>
                
               </form>
               </table>
               <div class="text-center">
-                <ul class="pagination">
-                  {$page}
-                </ul>
+               
               </div>
             </div>
             <!-- PAGE CONTENT BEGINS -->
@@ -144,6 +215,18 @@
   <form id="modal-form" class="form-horizontal" action="{:url('Spot/save_type')}" method="post" enctype="multipart/form-data">
         
         <div class="modal-body">
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label no-padding-right" for="">请选择上级</label>
+                <div class="col-sm-5">
+                    <select class="form-control" id="sid" name="pid" required>
+                        <option value="0">一级分类</option>
+                        {volist name="res" id="m"}
+                        <option value="{$m.id}">{$m.name}</option>
+                        {/volist}
+                    </select>
+                </div>
+            </div>
 
             <div class="form-group">
               <label class="col-sm-2 control-label no-padding-right" for="">名称</label>
@@ -192,7 +275,34 @@
     });
 
   })
-
+  function gg(id){
+        var ggid = $("#jiajian"+id);
+        if(ggid.attr('power') == 'jia'){
+            ggid.attr('class','glyphicon glyphicon-minus')
+            ggid.attr('power','jian')
+            $(".tr"+id).attr('style','display:black;')
+        }else{
+            ggid.attr('class','glyphicon glyphicon-plus')
+            ggid.attr('power','jia')
+            $(".tr"+id).attr('style','display:none;')
+        }
+        
+    }
+    function ggs(id){
+      // console.log(111);
+       
+        var ggid = $("#jiajians"+id);
+        if(ggid.attr('power') == 'jia'){
+            ggid.attr('class','glyphicon glyphicon-minus')
+            ggid.attr('power','jian')
+            $(".tr"+id).attr('style','display:black;')
+        }else{
+            ggid.attr('class','glyphicon glyphicon-plus')
+            ggid.attr('power','jia')
+            $(".tr"+id).attr('style','display:none;')
+        }
+        
+    }
  
 </script>
 <script type="text/javascript">
@@ -322,7 +432,7 @@ function change(id){
     function readData(data) {
       $(".modal-title").text('修改');
       $("#id").val(data.id);
-    
+      $("#sid").val(data.pid);
       $("#name").val(data.name);
      
       $("#statu").prop("checked", data.status);

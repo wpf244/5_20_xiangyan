@@ -5,7 +5,7 @@ class Question extends BaseHome
 {
     public function index()
     {
-        $lb=db("lb")->where("fid",5)->find();
+        $lb=db("lb")->where(["fid"=>5,"status"=>1])->order(["sort asc","id desc"])->select();
 
         $this->assign("lb",$lb);
 

@@ -6,7 +6,7 @@ class Culture extends BaseHome
     public function index()
     {
         //广告图
-        $lb=db("lb")->where("fid",8)->find();
+        $lb=db("lb")->where(["fid"=>8,"status"=>1])->order(["sort asc","id desc"])->select();
 
         $this->assign("lb",$lb);
 
@@ -155,6 +155,11 @@ class Culture extends BaseHome
         $strats=db("strat")->where(["status"=>1,"recome"=>0])->where("addr","like","%".$city_index."%")->where($map)->order(["sort asc","id desc"])->select();
 
         $this->assign("strats",$strats);
+
+        //广告图
+        $lb=db("lb")->where(["fid"=>44,"status"=>1])->order(["sort asc","id desc"])->select();
+
+        $this->assign("lb",$lb);
         
         return $this->fetch();
     }

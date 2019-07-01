@@ -97,7 +97,8 @@
                     </label>
                   </th>
                   <th>ID</th>
-                  <th>商品名称</th>
+                  <th>评论类型</th>
+                  <th>名称</th>
                   <th>评价内容</th>
                   <th>几星</th>
                   <th>评价时间</th>
@@ -115,7 +116,20 @@
                   </label>
                   </td>
                   <td><span class="badge badge-grey">{$v.id}</span></td>
-                  <td>{$v.name}</td>
+                  <td>
+                      {if condition="$v.type eq 0"}商品评论{/if}
+                      {if condition="$v.type eq 1"}乡村旅游评论{/if}
+                      {if condition="$v.type eq 2"}酒店民宿评论{/if}
+                      {if condition="$v.type eq 3"}景区评论{/if}
+                      {if condition="$v.type eq 4"}美食评论{/if}
+                      </td>
+                      <?php if($v['type'] == 0){ $name=db("goods")->where("id",$v['g_id'])->find(); }
+                      if($v['type'] == 1){ $name=db("rural")->field("title as name")->where("id",$v['g_id'])->find(); }
+                      if($v['type'] == 2){ $name=db("hotel")->field("name")->where("id",$v['g_id'])->find(); }
+                      if($v['type'] == 3){ $name=db("spot")->field("name")->where("id",$v['g_id'])->find(); }
+                      if($v['type'] == 4){ $name=db("food")->field("name")->where("id",$v['g_id'])->find(); }
+                ?>
+                  <td>{$name.name}</td>
               
                   <td>{$v.content}</td>
                   <td>{$v.number}</td>

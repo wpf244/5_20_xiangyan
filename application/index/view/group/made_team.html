@@ -105,6 +105,25 @@
 			</div>
 		</div>
 
+		<div class="font_bold pd_12 bd_btm">旅行社信息</div>
+
+		<div class="pd_12 bd_btm">
+				
+				<select class="form-control" id="shop_id" required>
+						<option value="0">请选择旅行社</option>
+						{volist name="shop" id="vs"}
+						 <option value="{$vs.id}">{$vs.name}</option>
+						{/volist}
+					   </select>
+			</div>
+
+			<div class="pd_12 bd_btm">
+					<input class="" type="text" placeholder="旅行社联系电话" id="cid" value=""  readonly>
+				</div>
+				<div class="pd_12 bd_btm">
+					<input class="" type="text" placeholder="旅行社证书号" id="code" value=""  readonly>
+				</div>
+
 		<div class="font_bold pd_12 bd_btm">联系人信息</div>
 		<div class="flex_normal pd_12 bd_btm">
 			<label class="made_lb">联系人</label>
@@ -799,6 +818,9 @@
 
 				var email = $("#email").val();
 
+				var shop_id = $("#shop_id").val();
+
+				
 				if(start_place == "出发地"){
 					layer.msg("请选择出发地");return false;
 				}
@@ -814,6 +836,10 @@
 				if($.trim(dining) == ''){
 					layer.msg("请填写用餐标准");return false;
 				}
+				if(shop_id == 0){
+					layer.msg("请选择旅行社");return false;
+				}
+
 				if($.trim(username) == ''){
 					layer.msg("请填写联系人");return false;
 				}
@@ -827,7 +853,7 @@
 				$.ajax({
 					type:"post",
 					url:"{:url('Group/save_team')}",
-					data:{start_place:start_place,end_place:end_place,start_time:start_time,end_time:end_time,nums:nums,num:num,money:money,hotel:hotel,car:car,dining,content:content,username:username,company:company,phone:phone,email:email},
+					data:{start_place:start_place,end_place:end_place,start_time:start_time,end_time:end_time,nums:nums,num:num,money:money,hotel:hotel,car:car,dining,content:content,username:username,company:company,phone:phone,email:email,shop_id:shop_id},
 					dataType:"text",
 					success:function(re){
 						if(re == 0){
@@ -900,6 +926,34 @@
 			})
 		})
 	</script>
+
+<script>
+		$("#shop_id").change(function(){
+		   var shop_id = $("#shop_id").val();
+		 
+		   
+			$.ajax({
+			   type:"post",
+			   url:"{:url('Group/getnexts')}",
+			   data:{shop_id:shop_id},
+			   datatype:"text",
+			   success:function(re)
+			   {
+				if(re != 0){
+					var data = JSON.parse(re);
+					
+					
+					$('#cid').val(data.phone);
+					$('#code').val(data.code);
+					
+				}
+			  
+				  
+			   }
+			})
+		
+		 })
+		</script>
 	
 </body>
 

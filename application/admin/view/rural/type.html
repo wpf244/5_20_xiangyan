@@ -95,15 +95,10 @@
                     </a></li>
                     {/notempty}
                   </td>
-                  <td class="ace-thumbnails hidden-480" style="background:#c9c6cc;">
-                      {notempty name="$v.images"}
-                      <li><a href="{$v.images}" data-rel="colorbox">
-                        <img width="80" height="80" alt="150x150" src="{$v.images}"/>
-                        <div class="text">
-                          <div class="inner">点击放大</div>
-                        </div>
-                      </a></li>
-                      {/notempty}
+                  <td class="ace-thumbnails hidden-480">
+                      <a class="btn btn-xs btn-info"href="{:url('Rural/banner',array('id'=>$v['id']))}">
+                        查看
+                      </a>
                     </td>
                   <td>
                     <label>
@@ -168,13 +163,7 @@
                 <img src="" id="image" class="img-responsive" />
               </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label no-padding-right" for="">banner</label>
-                <div class="col-xs-8">
-                  <input multiple="" type="file" id="pics" name="images" />
-                  <img src="" id="images" class="img-responsive" />
-                </div>
-              </div>
+          
             <input id="id" name="id" type="hidden">
         
         </div>
@@ -344,7 +333,7 @@ function change(id){
       $("#statu").prop("checked", data.status);
    
       $("#image").attr('src',data.image);
-      $("#images").attr('src',data.images);
+     
       $('#add').modal('show');
     }
 
@@ -363,7 +352,7 @@ function change(id){
   $(".modal-title").text('添加');
  
   $("#image").attr('src','');
-  $("#images").attr('src','');
+ 
   $("#id").val("");
 	})
   </script>

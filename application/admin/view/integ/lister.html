@@ -38,6 +38,7 @@
                 <a class="btn btn-success btn-white btn-bold" href="{:url('Integ/add')}">
                   <i class="ace-icon fa fa-plus icon-only"></i>
                   添加</a>
+                  {if condition="$admin.level neq 2"}
                 <button id="change" class="btn btn-warning btn-white btn-bold">
                   <i class="fa fa-exchange"></i>
                   排序
@@ -46,6 +47,7 @@
                   <i class="ace-icon fa fa-trash-o icon-only"></i>
                   删除
                 </button>
+                {/if}
                 </div>
 
                 <div class="col-sm-8 clearfix">
@@ -80,6 +82,7 @@
                   </th>
                   <th>ID</th>
                   <th class="hidden-480">排序</th>
+                  <th>所属商户</th>
                   <th>商品名称</th>
                   <th>商品积分</th>
                   <th>商品库存</th>
@@ -100,6 +103,7 @@
                   </td>
                   <td><span class="badge badge-grey">{$v.id}</span></td>
                   <td class="hidden-480"><input class="input-small" type="number" name="{$v.id}" value="{$v.sort}"></td>
+                  <td>{$v.sname}</td>
                   <td>{$v.name}</td>
                   <td>{$v.integ}</td>
                   <td>{$v.kc}</td>

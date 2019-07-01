@@ -13,11 +13,27 @@ class Dd extends BaseAdmin
 {
     public function dai_dd()
     {
+        $map=[];
+
         $start=input('start');
         $end=input('end');
         $code=\input('code');
       
         $addr=\input('addr');
+
+        $uid=session("uid");
+
+        $shop_id=input("shop_id");
+       
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }else{
+            if($shop_id){
+                $map['shop_id']=['eq',$shop_id];
+            }
+        }
        
         if($start || $code ||  $addr){
             if($start){
@@ -46,27 +62,49 @@ class Dd extends BaseAdmin
         
             $addr="";
             $code="";
-            $map=[];
+           
         }
         $this->assign("start",$start);
         $this->assign("end",$end);
       
         $this->assign("addr",$addr);
         $this->assign("code",$code);
+
+        $this->assign("shop_id",$shop_id);
         
-        $list=db("car_dd")->alias('a')->where("status=0 and gid=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("did desc")->paginate(20,false,['query'=>request()->param()]);
+        $list=db("car_dd")->alias('a')->where("status=0 and gid=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->join("goods_shop c","a.shop_id=c.sid")->order("did desc")->paginate(20,false,['query'=>request()->param()]);
         $this->assign("list",$list);
         $page=$list->render();
         $this->assign("page",$page);
+
+        $shop=db("goods_shop")->select();
+
+        $this->assign("shop",$shop);
         
         return $this->fetch();
     }
     public function out(){
+        $map=[];
+
         $start=input('start');
         $end=input('end');
         $code=\input('code');
       
         $addr=\input('addr');
+
+        $uid=session("uid");
+
+        $shop_id=input("shop_id");
+       
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }else{
+            if($shop_id){
+                $map['shop_id']=['eq',$shop_id];
+            }
+        }
        
         if($start || $code ||  $addr){
             if($start){
@@ -89,11 +127,16 @@ class Dd extends BaseAdmin
           
             }
         }else{
-          
-            $map=[];
+            
+            $start="";
+            $end="";
+        
+            $addr="";
+            $code="";
+           
         }
         
-        $list=db("car_dd")->alias('a')->where("status=0 and gid=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("did desc")->select();
+        $list=db("car_dd")->alias('a')->where("status=0 and gid=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->join("goods_shop c","a.shop_id=c.sid")->order("did desc")->select();
         // var_dump($data);exit;
         vendor('PHPExcel.PHPExcel');//调用类库,路径是基于vendor文件夹的
         vendor('PHPExcel.PHPExcel.Worksheet.Drawing');
@@ -104,8 +147,8 @@ class Dd extends BaseAdmin
     
         $objActSheet = $objExcel->getActiveSheet();
         $key = ord("A");
-        $letter =explode(',',"A,B,C,D,E,F,G");
-        $arrHeader =  array("订单号","订单总金额","下单时间","收货人姓名","收货人电话","收货人地址","订单备注");
+        $letter =explode(',',"A,B,C,D,E,F,G,H");
+        $arrHeader =  array("订单号","订单总金额","下单时间","收货人姓名","收货人电话","收货人地址","订单备注","商户名称");
         //填充表头信息
         $lenth =  count($arrHeader);
         for($i = 0;$i < $lenth;$i++) {
@@ -122,7 +165,7 @@ class Dd extends BaseAdmin
             $objActSheet->setCellValue('E'.$k, $v['phone']);
             $objActSheet->setCellValue('F'.$k, $v['addr'].$v['addrs']);
             $objActSheet->setCellValue('G'.$k, $v['content']);
-    
+            $objActSheet->setCellValue('H'.$k, $v['sname']);
             // 表格高度
             $objActSheet->getRowDimension($k)->setRowHeight(20);
         }
@@ -136,7 +179,7 @@ class Dd extends BaseAdmin
         $objActSheet->getColumnDimension('E')->setWidth(25);
         $objActSheet->getColumnDimension('F')->setWidth(30);
         $objActSheet->getColumnDimension('G')->setWidth(30);
-
+        $objActSheet->getColumnDimension('H')->setWidth(30);
         if($start !=0 ){
              
             $times=($start."-".$end);
@@ -208,11 +251,27 @@ class Dd extends BaseAdmin
     }
     public function fa_dd()
     {
+        $map=[];
+
         $start=input('start');
         $end=input('end');
         $code=\input('code');
       
         $addr=\input('addr');
+
+        $uid=session("uid");
+
+        $shop_id=input("shop_id");
+       
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }else{
+            if($shop_id){
+                $map['shop_id']=['eq',$shop_id];
+            }
+        }
        
         if($start || $code ||  $addr){
             if($start){
@@ -241,27 +300,49 @@ class Dd extends BaseAdmin
         
             $addr="";
             $code="";
-            $map=[];
+           
         }
         $this->assign("start",$start);
         $this->assign("end",$end);
       
         $this->assign("addr",$addr);
         $this->assign("code",$code);
+
+        $this->assign("shop_id",$shop_id);
         
-        $list=db("car_dd")->alias('a')->where("status=1 and gid=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("did desc")->paginate(20,false,['query'=>request()->param()]);
+        $list=db("car_dd")->alias('a')->where("status=1 and gid=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->join("goods_shop c","a.shop_id=c.sid")->order("did desc")->paginate(20,false,['query'=>request()->param()]);
         $this->assign("list",$list);
         $page=$list->render();
         $this->assign("page",$page);
+
+        $shop=db("goods_shop")->select();
+
+        $this->assign("shop",$shop);
         
         return $this->fetch();
     }
     public function outf(){
+        $map=[];
+
         $start=input('start');
         $end=input('end');
         $code=\input('code');
       
         $addr=\input('addr');
+
+        $uid=session("uid");
+
+        $shop_id=input("shop_id");
+       
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }else{
+            if($shop_id){
+                $map['shop_id']=['eq',$shop_id];
+            }
+        }
        
         if($start || $code ||  $addr){
             if($start){
@@ -285,11 +366,15 @@ class Dd extends BaseAdmin
             }
         }else{
             
+            $start="";
+            $end="";
+        
+            $addr="";
+            $code="";
            
-            $map=[];
         }
     
-        $list=db("car_dd")->alias('a')->where("status=1 and gid=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("did desc")->select();
+        $list=db("car_dd")->alias('a')->where("status=1 and gid=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->join("goods_shop c","a.shop_id=c.sid")->order("did desc")->select();
         // var_dump($data);exit;
         vendor('PHPExcel.PHPExcel');//调用类库,路径是基于vendor文件夹的
         vendor('PHPExcel.PHPExcel.Worksheet.Drawing');
@@ -300,8 +385,8 @@ class Dd extends BaseAdmin
     
         $objActSheet = $objExcel->getActiveSheet();
         $key = ord("A");
-        $letter =explode(',',"A,B,C,D,E,F,G");
-        $arrHeader =  array("订单号","订单总金额","下单时间","收货人姓名","收货人电话","收货人地址","订单备注");
+        $letter =explode(',',"A,B,C,D,E,F,G,H");
+        $arrHeader =  array("订单号","订单总金额","下单时间","收货人姓名","收货人电话","收货人地址","订单备注","商户名称");
         //填充表头信息
         $lenth =  count($arrHeader);
         for($i = 0;$i < $lenth;$i++) {
@@ -318,7 +403,7 @@ class Dd extends BaseAdmin
             $objActSheet->setCellValue('E'.$k, $v['phone']);
             $objActSheet->setCellValue('F'.$k, $v['addr'].$v['addrs']);
             $objActSheet->setCellValue('G'.$k, $v['content']);
-    
+            $objActSheet->setCellValue('H'.$k, $v['sname']);
     
             // 表格高度
             $objActSheet->getRowDimension($k)->setRowHeight(20);
@@ -333,7 +418,7 @@ class Dd extends BaseAdmin
         $objActSheet->getColumnDimension('E')->setWidth(25);
         $objActSheet->getColumnDimension('F')->setWidth(30);
         $objActSheet->getColumnDimension('G')->setWidth(30);
-    
+        $objActSheet->getColumnDimension('H')->setWidth(30);
         if($start !=0 ){
              
             $times=($start."-".$end);
@@ -387,11 +472,27 @@ class Dd extends BaseAdmin
     }
     public function shou_dd()
     {
+        $map=[];
+
         $start=input('start');
         $end=input('end');
         $code=\input('code');
       
         $addr=\input('addr');
+
+        $uid=session("uid");
+
+        $shop_id=input("shop_id");
+       
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }else{
+            if($shop_id){
+                $map['shop_id']=['eq',$shop_id];
+            }
+        }
        
         if($start || $code ||  $addr){
             if($start){
@@ -420,27 +521,49 @@ class Dd extends BaseAdmin
         
             $addr="";
             $code="";
-            $map=[];
+           
         }
         $this->assign("start",$start);
         $this->assign("end",$end);
       
         $this->assign("addr",$addr);
         $this->assign("code",$code);
+
+        $this->assign("shop_id",$shop_id);
         
-        $list=db("car_dd")->alias('a')->where("status=2 and gid=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("did desc")->paginate(20,false,['query'=>request()->param()]);
+        $list=db("car_dd")->alias('a')->where("status=2 and gid=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->join("goods_shop c","a.shop_id=c.sid")->order("did desc")->paginate(20,false,['query'=>request()->param()]);
         $this->assign("list",$list);
         $page=$list->render();
         $this->assign("page",$page);
+
+        $shop=db("goods_shop")->select();
+
+        $this->assign("shop",$shop);
         
         return \view("shou_dd");
     }
     public function outh(){
+        $map=[];
+
         $start=input('start');
         $end=input('end');
         $code=\input('code');
       
         $addr=\input('addr');
+
+        $uid=session("uid");
+
+        $shop_id=input("shop_id");
+       
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }else{
+            if($shop_id){
+                $map['shop_id']=['eq',$shop_id];
+            }
+        }
        
         if($start || $code ||  $addr){
             if($start){
@@ -463,11 +586,16 @@ class Dd extends BaseAdmin
           
             }
         }else{
-          
-            $map=[];
+            
+            $start="";
+            $end="";
+        
+            $addr="";
+            $code="";
+           
         }
     
-        $list=db("car_dd")->alias('a')->where("status=2 and gid=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("did desc")->select();
+        $list=db("car_dd")->alias('a')->where("status=2 and gid=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->join("goods_shop c","a.shop_id=c.sid")->order("did desc")->select();
         // var_dump($data);exit;
         vendor('PHPExcel.PHPExcel');//调用类库,路径是基于vendor文件夹的
         vendor('PHPExcel.PHPExcel.Worksheet.Drawing');
@@ -478,8 +606,8 @@ class Dd extends BaseAdmin
     
         $objActSheet = $objExcel->getActiveSheet();
         $key = ord("A");
-        $letter =explode(',',"A,B,C,D,E,F,G");
-        $arrHeader =  array("订单号","订单总金额","下单时间","收货人姓名","收货人电话","收货人地址","订单备注");
+        $letter =explode(',',"A,B,C,D,E,F,G,H");
+        $arrHeader =  array("订单号","订单总金额","下单时间","收货人姓名","收货人电话","收货人地址","订单备注","商户名称");
         //填充表头信息
         $lenth =  count($arrHeader);
         for($i = 0;$i < $lenth;$i++) {
@@ -496,7 +624,7 @@ class Dd extends BaseAdmin
             $objActSheet->setCellValue('E'.$k, $v['phone']);
             $objActSheet->setCellValue('F'.$k, $v['addr'].$v['addrs']);
             $objActSheet->setCellValue('G'.$k, $v['content']);
-    
+            $objActSheet->setCellValue('H'.$k, $v['sname']);
             // 表格高度
             $objActSheet->getRowDimension($k)->setRowHeight(20);
         }
@@ -510,7 +638,7 @@ class Dd extends BaseAdmin
         $objActSheet->getColumnDimension('E')->setWidth(25);
         $objActSheet->getColumnDimension('F')->setWidth(30);
         $objActSheet->getColumnDimension('G')->setWidth(30);
-    
+        $objActSheet->getColumnDimension('H')->setWidth(30);
         if($start !=0 ){
              
             $times=($start."-".$end);
@@ -540,11 +668,27 @@ class Dd extends BaseAdmin
     }
     public function ping_dd()
     {
+        $map=[];
+
         $start=input('start');
         $end=input('end');
         $code=\input('code');
       
         $addr=\input('addr');
+
+        $uid=session("uid");
+
+        $shop_id=input("shop_id");
+       
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }else{
+            if($shop_id){
+                $map['shop_id']=['eq',$shop_id];
+            }
+        }
        
         if($start || $code ||  $addr){
             if($start){
@@ -573,27 +717,49 @@ class Dd extends BaseAdmin
         
             $addr="";
             $code="";
-            $map=[];
+           
         }
         $this->assign("start",$start);
         $this->assign("end",$end);
       
         $this->assign("addr",$addr);
         $this->assign("code",$code);
+
+        $this->assign("shop_id",$shop_id);
     
-        $list=db("car_dd")->alias('a')->where("status=3 and gid=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("did desc")->paginate(20,false,['query'=>request()->param()]);
+        $list=db("car_dd")->alias('a')->where("status=3 and gid=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->join("goods_shop c","a.shop_id=c.sid")->order("did desc")->paginate(20,false,['query'=>request()->param()]);
         $this->assign("list",$list);
         $page=$list->render();
         $this->assign("page",$page);
+
+        $shop=db("goods_shop")->select();
+
+        $this->assign("shop",$shop);
     
         return $this->fetch();
     }
     public function outp(){
+        $map=[];
+
         $start=input('start');
         $end=input('end');
         $code=\input('code');
       
         $addr=\input('addr');
+
+        $uid=session("uid");
+
+        $shop_id=input("shop_id");
+       
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }else{
+            if($shop_id){
+                $map['shop_id']=['eq',$shop_id];
+            }
+        }
        
         if($start || $code ||  $addr){
             if($start){
@@ -616,11 +782,16 @@ class Dd extends BaseAdmin
           
             }
         }else{
+            
+            $start="";
+            $end="";
+        
+            $addr="";
+            $code="";
            
-            $map=[];
         }
     
-        $list=db("car_dd")->alias('a')->where("status=3 and gid=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("did desc")->select();
+        $list=db("car_dd")->alias('a')->where("status=3 and gid=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->join("goods_shop c","a.shop_id=c.sid")->order("did desc")->select();
         // var_dump($data);exit;
         vendor('PHPExcel.PHPExcel');//调用类库,路径是基于vendor文件夹的
         vendor('PHPExcel.PHPExcel.Worksheet.Drawing');
@@ -631,8 +802,8 @@ class Dd extends BaseAdmin
     
         $objActSheet = $objExcel->getActiveSheet();
         $key = ord("A");
-        $letter =explode(',',"A,B,C,D,E,F,G");
-        $arrHeader =  array("订单号","订单总金额","下单时间","收货人姓名","收货人电话","收货人地址","订单备注");
+        $letter =explode(',',"A,B,C,D,E,F,G,H");
+        $arrHeader =  array("订单号","订单总金额","下单时间","收货人姓名","收货人电话","收货人地址","订单备注","商户名称");
         //填充表头信息
         $lenth =  count($arrHeader);
         for($i = 0;$i < $lenth;$i++) {
@@ -649,7 +820,7 @@ class Dd extends BaseAdmin
             $objActSheet->setCellValue('E'.$k, $v['phone']);
             $objActSheet->setCellValue('F'.$k, $v['addr'].$v['addrs']);
             $objActSheet->setCellValue('G'.$k, $v['content']);
-    
+            $objActSheet->setCellValue('H'.$k, $v['sname']);
             // 表格高度
             $objActSheet->getRowDimension($k)->setRowHeight(20);
         }
@@ -663,7 +834,7 @@ class Dd extends BaseAdmin
         $objActSheet->getColumnDimension('E')->setWidth(25);
         $objActSheet->getColumnDimension('F')->setWidth(30);
         $objActSheet->getColumnDimension('G')->setWidth(30);
-    
+        $objActSheet->getColumnDimension('H')->setWidth(30);
         if($start !=0 ){
              
             $times=($start."-".$end);
@@ -693,11 +864,27 @@ class Dd extends BaseAdmin
     }
     public function wan_dd()
     {
+        $map=[];
+
         $start=input('start');
         $end=input('end');
         $code=\input('code');
       
         $addr=\input('addr');
+
+        $uid=session("uid");
+
+        $shop_id=input("shop_id");
+       
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }else{
+            if($shop_id){
+                $map['shop_id']=['eq',$shop_id];
+            }
+        }
        
         if($start || $code ||  $addr){
             if($start){
@@ -726,27 +913,49 @@ class Dd extends BaseAdmin
         
             $addr="";
             $code="";
-            $map=[];
+           
         }
         $this->assign("start",$start);
         $this->assign("end",$end);
       
         $this->assign("addr",$addr);
         $this->assign("code",$code);
+
+        $this->assign("shop_id",$shop_id);
     
-        $list=db("car_dd")->alias('a')->where("status=4 and gid=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("did desc")->paginate(20,false,['query'=>request()->param()]);
+        $list=db("car_dd")->alias('a')->where("status=4 and gid=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->join("goods_shop c","a.shop_id=c.sid")->order("did desc")->paginate(20,false,['query'=>request()->param()]);
         $this->assign("list",$list);
         $page=$list->render();
         $this->assign("page",$page);
+
+        $shop=db("goods_shop")->select();
+
+        $this->assign("shop",$shop);
     
         return $this->fetch();
     }
     public function outw(){
+        $map=[];
+
         $start=input('start');
         $end=input('end');
         $code=\input('code');
       
         $addr=\input('addr');
+
+        $uid=session("uid");
+
+        $shop_id=input("shop_id");
+       
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }else{
+            if($shop_id){
+                $map['shop_id']=['eq',$shop_id];
+            }
+        }
        
         if($start || $code ||  $addr){
             if($start){
@@ -770,10 +979,15 @@ class Dd extends BaseAdmin
             }
         }else{
             
-            $map=[];
+            $start="";
+            $end="";
+        
+            $addr="";
+            $code="";
+           
         }
     
-        $list=db("car_dd")->alias('a')->where("status=4 and gid=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("did desc")->select();
+        $list=db("car_dd")->alias('a')->where("status=4 and gid=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->join("goods_shop c","a.shop_id=c.sid")->order("did desc")->select();
         // var_dump($data);exit;
         vendor('PHPExcel.PHPExcel');//调用类库,路径是基于vendor文件夹的
         vendor('PHPExcel.PHPExcel.Worksheet.Drawing');
@@ -784,8 +998,8 @@ class Dd extends BaseAdmin
     
         $objActSheet = $objExcel->getActiveSheet();
         $key = ord("A");
-        $letter =explode(',',"A,B,C,D,E,F,G");
-        $arrHeader =  array("订单号","订单总金额","下单时间","收货人姓名","收货人电话","收货人地址","订单备注");
+        $letter =explode(',',"A,B,C,D,E,F,G,H");
+        $arrHeader =  array("订单号","订单总金额","下单时间","收货人姓名","收货人电话","收货人地址","订单备注","商户名称");
         //填充表头信息
         $lenth =  count($arrHeader);
         for($i = 0;$i < $lenth;$i++) {
@@ -802,7 +1016,7 @@ class Dd extends BaseAdmin
             $objActSheet->setCellValue('E'.$k, $v['phone']);
             $objActSheet->setCellValue('F'.$k, $v['addr'].$v['addrs']);
             $objActSheet->setCellValue('G'.$k, $v['content']);
-    
+            $objActSheet->setCellValue('H'.$k, $v['sname']);
             // 表格高度
             $objActSheet->getRowDimension($k)->setRowHeight(20);
         }
@@ -816,7 +1030,7 @@ class Dd extends BaseAdmin
         $objActSheet->getColumnDimension('E')->setWidth(25);
         $objActSheet->getColumnDimension('F')->setWidth(30);
         $objActSheet->getColumnDimension('G')->setWidth(30);
-    
+        $objActSheet->getColumnDimension('H')->setWidth(30);
     
         if($start !=0 ){
              
@@ -847,11 +1061,27 @@ class Dd extends BaseAdmin
     }
     public function tui_dd()
     {
+        $map=[];
+
         $start=input('start');
         $end=input('end');
         $code=\input('code');
       
         $addr=\input('addr');
+
+        $uid=session("uid");
+
+        $shop_id=input("shop_id");
+       
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }else{
+            if($shop_id){
+                $map['shop_id']=['eq',$shop_id];
+            }
+        }
        
         if($start || $code ||  $addr){
             if($start){
@@ -880,28 +1110,51 @@ class Dd extends BaseAdmin
         
             $addr="";
             $code="";
-            $map=[];
+           
         }
         $this->assign("start",$start);
         $this->assign("end",$end);
       
         $this->assign("addr",$addr);
         $this->assign("code",$code);
+
+        $this->assign("shop_id",$shop_id);
     
-        $list=db("car_dd")->alias('a')->where("status=5 and gid=0 and state=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("did desc")->paginate(20,false,['query'=>request()->param()]);
+        // $list=db("car_dd")->alias('a')->where("status=5 and gid=0 and state=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("did desc")->paginate(20,false,['query'=>request()->param()]);
+        $list=db("car_dd")->alias('a')->where("status=5 and gid=0 and state=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->join("goods_shop c","a.shop_id=c.sid")->order("did desc")->paginate(20,false,['query'=>request()->param()]);
         $this->assign("list",$list);
         $page=$list->render();
         $this->assign("page",$page);
+
+        $shop=db("goods_shop")->select();
+
+        $this->assign("shop",$shop);
     
         return \view("tui_dd");
     }
     public function ytui_dd()
     {
+        $map=[];
+
         $start=input('start');
         $end=input('end');
         $code=\input('code');
       
         $addr=\input('addr');
+
+        $uid=session("uid");
+
+        $shop_id=input("shop_id");
+       
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }else{
+            if($shop_id){
+                $map['shop_id']=['eq',$shop_id];
+            }
+        }
        
         if($start || $code ||  $addr){
             if($start){
@@ -930,28 +1183,50 @@ class Dd extends BaseAdmin
         
             $addr="";
             $code="";
-            $map=[];
+           
         }
         $this->assign("start",$start);
         $this->assign("end",$end);
       
         $this->assign("addr",$addr);
         $this->assign("code",$code);
+
+        $this->assign("shop_id",$shop_id);
     
-        $list=db("car_dd")->alias('a')->where("status=5 and gid=0 and state=1")->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("did desc")->paginate(20,false,['query'=>request()->param()]);
+        $list=db("car_dd")->alias('a')->where("status=5 and gid=0 and state=1")->where($map)->join("addr b","a.aid = b.aid","LEFT")->join("goods_shop c","a.shop_id=c.sid")->order("did desc")->paginate(20,false,['query'=>request()->param()]);
         $this->assign("list",$list);
         $page=$list->render();
         $this->assign("page",$page);
+
+        $shop=db("goods_shop")->select();
+
+        $this->assign("shop",$shop);
     
         return \view("ytui_dd");
     }
     public function bo_dd()
     {
+        $map=[];
+
         $start=input('start');
         $end=input('end');
         $code=\input('code');
       
         $addr=\input('addr');
+
+        $uid=session("uid");
+
+        $shop_id=input("shop_id");
+       
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }else{
+            if($shop_id){
+                $map['shop_id']=['eq',$shop_id];
+            }
+        }
        
         if($start || $code ||  $addr){
             if($start){
@@ -980,18 +1255,27 @@ class Dd extends BaseAdmin
         
             $addr="";
             $code="";
-            $map=[];
+           
         }
         $this->assign("start",$start);
         $this->assign("end",$end);
       
         $this->assign("addr",$addr);
         $this->assign("code",$code);
+
+        $this->assign("shop_id",$shop_id);
     
-        $list=db("car_dd")->alias('a')->where("gid=0 and state=2")->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("did desc")->paginate(20,false,['query'=>request()->param()]);
+        // $list=db("car_dd")->alias('a')->where("gid=0 and state=2")->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("did desc")->paginate(20,false,['query'=>request()->param()]);
+
+        $list=db("car_dd")->alias('a')->where("gid=0 and state=2")->where($map)->join("addr b","a.aid = b.aid","LEFT")->join("goods_shop c","a.shop_id=c.sid")->order("did desc")->paginate(20,false,['query'=>request()->param()]);
+
         $this->assign("list",$list);
         $page=$list->render();
         $this->assign("page",$page);
+
+        $shop=db("goods_shop")->select();
+
+        $this->assign("shop",$shop);
     
         return $this->fetch();
     }
@@ -1048,11 +1332,27 @@ class Dd extends BaseAdmin
         }
     }
     public function outs(){
+        $map=[];
+
         $start=input('start');
         $end=input('end');
         $code=\input('code');
       
         $addr=\input('addr');
+
+        $uid=session("uid");
+
+        $shop_id=input("shop_id");
+       
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }else{
+            if($shop_id){
+                $map['shop_id']=['eq',$shop_id];
+            }
+        }
        
         if($start || $code ||  $addr){
             if($start){
@@ -1075,11 +1375,16 @@ class Dd extends BaseAdmin
           
             }
         }else{
-          
-            $map=[];
+            
+            $start="";
+            $end="";
+        
+            $addr="";
+            $code="";
+           
         }
     
-        $list=db("car_dd")->alias('a')->where("status=5 and gid=0 and state=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("did desc")->select();
+        $list=db("car_dd")->alias('a')->where("status=5 and gid=0 and state=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->join("goods_shop c","a.shop_id=c.sid")->order("did desc")->select();
         // var_dump($data);exit;
         vendor('PHPExcel.PHPExcel');//调用类库,路径是基于vendor文件夹的
         vendor('PHPExcel.PHPExcel.Worksheet.Drawing');
@@ -1090,8 +1395,8 @@ class Dd extends BaseAdmin
     
         $objActSheet = $objExcel->getActiveSheet();
         $key = ord("A");
-        $letter =explode(',',"A,B,C,D,E,F,G,H,I,J,K");
-        $arrHeader =  array("订单号","订单总金额","下单时间","收货人姓名","收货人电话","收货人地址","申请退货时间","退货原因","快递公司","快递号码","退货备注");
+        $letter =explode(',',"A,B,C,D,E,F,G,H,I,J,K,L");
+        $arrHeader =  array("订单号","订单总金额","下单时间","收货人姓名","收货人电话","收货人地址","申请退货时间","退货原因","快递公司","快递号码","退货备注","商户名称");
         //填充表头信息
         $lenth =  count($arrHeader);
         for($i = 0;$i < $lenth;$i++) {
@@ -1112,7 +1417,7 @@ class Dd extends BaseAdmin
             $objActSheet->setCellValue('I'.$k, $v['express']);
             $objActSheet->setCellValue('J'.$k, $v['number']);
             $objActSheet->setCellValue('K'.$k, $v['remarks']);
-    
+            $objActSheet->setCellValue('L'.$k, $v['sname']);
     
             // 表格高度
             $objActSheet->getRowDimension($k)->setRowHeight(20);
@@ -1131,6 +1436,7 @@ class Dd extends BaseAdmin
         $objActSheet->getColumnDimension('I')->setWidth(30);
         $objActSheet->getColumnDimension('J')->setWidth(30);
         $objActSheet->getColumnDimension('K')->setWidth(30);
+        $objActSheet->getColumnDimension('L')->setWidth(30);
     
         if($start !=0 ){
              
@@ -1161,11 +1467,27 @@ class Dd extends BaseAdmin
     }
 
     public function outb(){
+        $map=[];
+
         $start=input('start');
         $end=input('end');
         $code=\input('code');
       
         $addr=\input('addr');
+
+        $uid=session("uid");
+
+        $shop_id=input("shop_id");
+       
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }else{
+            if($shop_id){
+                $map['shop_id']=['eq',$shop_id];
+            }
+        }
        
         if($start || $code ||  $addr){
             if($start){
@@ -1188,11 +1510,16 @@ class Dd extends BaseAdmin
           
             }
         }else{
-          
-            $map=[];
+            
+            $start="";
+            $end="";
+        
+            $addr="";
+            $code="";
+           
         }
     
-        $list=db("car_dd")->alias('a')->where("gid=0 and state=2")->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("did desc")->select();
+        $list=db("car_dd")->alias('a')->where("gid=0 and state=2")->where($map)->join("addr b","a.aid = b.aid","LEFT")->join("goods_shop c","a.shop_id=c.sid")->order("did desc")->select();
         // var_dump($data);exit;
         vendor('PHPExcel.PHPExcel');//调用类库,路径是基于vendor文件夹的
         vendor('PHPExcel.PHPExcel.Worksheet.Drawing');
@@ -1203,8 +1530,8 @@ class Dd extends BaseAdmin
     
         $objActSheet = $objExcel->getActiveSheet();
         $key = ord("A");
-        $letter =explode(',',"A,B,C,D,E,F,G,H,I,J,K");
-        $arrHeader =  array("订单号","订单总金额","下单时间","收货人姓名","收货人电话","收货人地址","申请退货时间","退货原因","快递公司","快递号码","退货备注");
+        $letter =explode(',',"A,B,C,D,E,F,G,H,I,J,K,L");
+        $arrHeader =  array("订单号","订单总金额","下单时间","收货人姓名","收货人电话","收货人地址","申请退货时间","退货原因","快递公司","快递号码","退货备注","商户名称");
         //填充表头信息
         $lenth =  count($arrHeader);
         for($i = 0;$i < $lenth;$i++) {
@@ -1225,7 +1552,7 @@ class Dd extends BaseAdmin
             $objActSheet->setCellValue('I'.$k, $v['express']);
             $objActSheet->setCellValue('J'.$k, $v['number']);
             $objActSheet->setCellValue('K'.$k, $v['remarks']);
-    
+            $objActSheet->setCellValue('L'.$k, $v['sname']);
     
             // 表格高度
             $objActSheet->getRowDimension($k)->setRowHeight(20);
@@ -1244,7 +1571,7 @@ class Dd extends BaseAdmin
         $objActSheet->getColumnDimension('I')->setWidth(30);
         $objActSheet->getColumnDimension('J')->setWidth(30);
         $objActSheet->getColumnDimension('K')->setWidth(30);
-    
+        $objActSheet->getColumnDimension('L')->setWidth(30);
         if($start !=0 ){
              
             $times=($start."-".$end);
@@ -1274,11 +1601,27 @@ class Dd extends BaseAdmin
     }
     
     public function outsy(){
+        $map=[];
+
         $start=input('start');
         $end=input('end');
         $code=\input('code');
       
         $addr=\input('addr');
+
+        $uid=session("uid");
+
+        $shop_id=input("shop_id");
+       
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }else{
+            if($shop_id){
+                $map['shop_id']=['eq',$shop_id];
+            }
+        }
        
         if($start || $code ||  $addr){
             if($start){
@@ -1301,11 +1644,23 @@ class Dd extends BaseAdmin
           
             }
         }else{
-          
-            $map=[];
+            
+            $start="";
+            $end="";
+        
+            $addr="";
+            $code="";
+           
         }
+        $this->assign("start",$start);
+        $this->assign("end",$end);
+      
+        $this->assign("addr",$addr);
+        $this->assign("code",$code);
+
+        $this->assign("shop_id",$shop_id);
     
-        $list=db("car_dd")->alias('a')->where("status=5 and gid=0 and state=1")->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("did desc")->select();
+        $list=db("car_dd")->alias('a')->where("status=5 and gid=0 and state=1")->where($map)->join("addr b","a.aid = b.aid","LEFT")->join("goods_shop c","a.shop_id=c.sid")->order("did desc")->select();
         // var_dump($data);exit;
         vendor('PHPExcel.PHPExcel');//调用类库,路径是基于vendor文件夹的
         vendor('PHPExcel.PHPExcel.Worksheet.Drawing');
@@ -1316,8 +1671,8 @@ class Dd extends BaseAdmin
     
         $objActSheet = $objExcel->getActiveSheet();
         $key = ord("A");
-        $letter =explode(',',"A,B,C,D,E,F,G,H,I,J,K");
-        $arrHeader =  array("订单号","订单总金额","下单时间","收货人姓名","收货人电话","收货人地址","申请退货时间","退货原因","快递公司","快递号码","退货备注");
+        $letter =explode(',',"A,B,C,D,E,F,G,H,I,J,K,L");
+        $arrHeader =  array("订单号","订单总金额","下单时间","收货人姓名","收货人电话","收货人地址","申请退货时间","退货原因","快递公司","快递号码","退货备注","商户名称");
         //填充表头信息
         $lenth =  count($arrHeader);
         for($i = 0;$i < $lenth;$i++) {
@@ -1338,7 +1693,7 @@ class Dd extends BaseAdmin
             $objActSheet->setCellValue('I'.$k, $v['express']);
             $objActSheet->setCellValue('J'.$k, $v['number']);
             $objActSheet->setCellValue('K'.$k, $v['remarks']);
-    
+            $objActSheet->setCellValue('L'.$k, $v['sname']);
     
             // 表格高度
             $objActSheet->getRowDimension($k)->setRowHeight(20);
@@ -1357,7 +1712,7 @@ class Dd extends BaseAdmin
         $objActSheet->getColumnDimension('I')->setWidth(30);
         $objActSheet->getColumnDimension('J')->setWidth(30);
         $objActSheet->getColumnDimension('K')->setWidth(30);
-    
+        $objActSheet->getColumnDimension('L')->setWidth(30);
         if($start !=0 ){
              
             $times=($start."-".$end);

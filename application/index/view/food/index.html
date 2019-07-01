@@ -13,7 +13,7 @@
 				 <a href="{:url('Index/index')}">首页</a>&nbsp;&gt;
 				</li>
 				<li>
-				 <a href="javascript:;">美食中心</a>
+				 <a href="javascript:;">美食</a>
 				</li>
 				
 			   </ul>
@@ -21,6 +21,20 @@
 
 	<!-- 公共顶部 -->
 {include file="public:top"}
+
+<div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}' style="position: relative;">
+		<ul class="am-slides">
+		 {volist name="lb" id="vb"}	
+			<li>
+				<a {if condition="$vb.url neq '' "} href="{$vb.url}" {/if} >
+					<div style="height: 150px;background-image: url({$vb.image});background-size: cover;background-repeat: no-repeat;background-position: center;"></div>
+				</a>
+				<!-- <img src="{$vb.image}"> -->
+			</li>
+		{/volist}
+		</ul>
+		
+	</div>
 
 	<!-- 选项 -->
 <div class="choice_box bd_btm ">
@@ -35,56 +49,56 @@
 			<span class="mar_rt_6">{$arr.pname}</span><img src="__HOME__/img/icon_down.png" width="12" height="12" alt="">
 		</li>
 	</ul>
- <form method="POST" id="food" action="{:url('Food/index')}">	
+ <form method="POST" id="city_form" action="{:url('Food/index')}">	
 	<ul class="choice_wrap">
 		<li class="choice_cont">
 			<div class="choice_scroll">
-				<label for="area_1" class="choice_lb p_12 flex_between bd_btm">
+				<label for="area_1" onchange="submitForm();" class="choice_lb p_12 flex_between bd_btm">
 					<h6>不限</h6><input type="radio" id="area_1" name="tid" value="0">
 				</label>
 			  {volist name="city" id="v" key="k"}	 
-				<label for="area_2" class="choice_lb p_12 flex_between bd_btm">
+				<label for="area_2" onchange="submitForm();" class="choice_lb p_12 flex_between bd_btm">
 					<h6>{$v.name}</h6><input type="radio" name="cid" id="area_{$k+1}" {if condition="$arr.cid eq $v.id"} checked {/if}  value="{$v.id}">
 				</label>
 			{/volist}
 			</div>
-			<div class="choice_flex flex_normal">
+			<!-- <div class="choice_flex flex_normal">
 				<a href="javascript:;" class="choice_reset">重置</a>
 				<a href="javascript:;" class="choice_confirm">确定</a>
-			</div>
+			</div> -->
 		</li>
 		<li class="choice_cont">
 			<div class="choice_scroll">
-				<label for="kind_1" class="choice_lb p_12 flex_between bd_btm">
+				<label for="kind_1" onchange="submitForm();" class="choice_lb p_12 flex_between bd_btm">
 					<h6>不限</h6><input type="radio" id="kind_1" name="tid" value="0">
 				</label>
 				{volist name="type" id="vt" key="kt"}	
-				<label for="kind_2" class="choice_lb p_12 flex_between bd_btm">
+				<label for="kind_2" onchange="submitForm();" class="choice_lb p_12 flex_between bd_btm">
 					<h6>{$vt.name}</h6><input type="radio" id="kind_{$kt+1}" name="tid" {if condition="$arr.tid eq $vt.id"} checked {/if} value="{$vt.id}">
 				</label>
 				{/volist}
 			</div>
-			<div class="choice_flex flex_normal">
+			<!-- <div class="choice_flex flex_normal">
 				<a href="javascript:;" class="choice_reset">重置</a>
 				<a href="javascript:;" class="choice_confirm">确定</a>
-			</div>
+			</div> -->
 		</li>
 		<li class="choice_cont">
 			<div class="choice_scroll">
-				<label for="price_1" class="choice_lb p_12 flex_between bd_btm">
+				<label for="price_1" onchange="submitForm();" class="choice_lb p_12 flex_between bd_btm">
 					<h6>不限</h6><input type="radio" id="price_1" name="prices" value="0">
 				</label>
-				<label for="price_2" class="choice_lb p_12 flex_between bd_btm">
+				<label for="price_2" onchange="submitForm();" class="choice_lb p_12 flex_between bd_btm">
 					<h6>由高到低</h6><input type="radio" id="price_2" name="prices" {if condition="$arr.pid eq 1"} checked {/if}  value="1">
 				</label>
-				<label for="price_3" class="choice_lb p_12 flex_between bd_btm">
+				<label for="price_3" onchange="submitForm();" class="choice_lb p_12 flex_between bd_btm">
 					<h6>由低到高</h6><input type="radio" id="price_3" name="prices" {if condition="$arr.pid eq 2"} checked {/if}  value="2">
 				</label>
 			</div>
-			<div class="choice_flex flex_normal">
+			<!-- <div class="choice_flex flex_normal">
 				<a href="javascript:;" class="choice_reset">重置</a>
 				<a href="javascript:;" class="choice_confirm">确定</a>
-			</div>
+			</div> -->
 		</li>
 	</ul>
 </form>
@@ -114,6 +128,11 @@
 	<div class="no_data">没有更多数据~</div>
 
 	<script>
+
+function submitForm(){
+    var form = document.getElementById("city_form");
+    form.submit();
+}
 	// 当radio选中时的高亮
 	function isChecked() {
 		$('input[type=radio]:checked').prev('h6').css('color', '#EB4949')

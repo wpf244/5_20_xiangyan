@@ -6,7 +6,7 @@ class Assess extends BaseAdmin
 {
     public function lister()
     {
-        $list=\db("assess")->alias('a')->field("a.*,b.name")->where("a.status=0")->join("goods b","a.g_id=b.id")->paginate(10);
+        $list=\db("assess")->where("status=0")->order("id desc")->paginate(10);
         $this->assign("list",$list);
         
         $page=$list->render();
@@ -78,7 +78,7 @@ class Assess extends BaseAdmin
         }elseif($start != '' && $end == ''){
             $map['addtime'] = array('egt',strtotime($start));
         }
-        $list=\db("assess")->alias('a')->field("a.*,b.name")->where($map)->where("a.status=1")->join("goods b","a.g_id=b.id")->paginate(10);
+        $list=\db("assess")->where("status=0")->order("id desc")->paginate(10);
         $this->assign("list",$list);
         
         $this->assign("start",$start);

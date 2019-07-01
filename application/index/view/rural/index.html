@@ -21,19 +21,116 @@
 	<!-- 公共顶部 -->
 {include file="public:top"}
 
+<!-- 搜索框 -->
+<!-- <div class="search_box p_12 bg_normal">
+		<form method="get" action="">
+		  <div class="flex_normal">
+			  <div class="search_wrap pad_12 flex_1 bg_white bd_radius  flex_between">
+				  <div class="search_location flex_normal pad_rt_12 mar_rt_12 col_main">
+					  <img class="mar_rt_6" src="__HOME__/img/icon_location.png" width="16" height="16" alt=""><span class="city"></span>
+				  </div>
+				  <input class="flex_1" type="text" name="title"  placeholder="请输入搜索关键词">
+				  <img class="mar_lt_12" src="__HOME__/img/icon_search.png" width="16" height="16" alt="">
+			  </div>
+			  <button class="mar_lt_12">搜索</button>
+		  </div>
+	  </form>	
+	  </div> -->
+	  <div class="choice_box bd_btm">
+		  <ul class="choice_ceng flex_around bg_white p_12">
+			  <li class="choice_item flex_center">
+				  <span class="mar_rt_6">{$arr.cname}</span><img src="__HOME__/img/icon_down.png" width="12" height="12" alt="">
+			  </li>
+			  <li class="choice_item flex_center">
+				  <span class="mar_rt_6">{$arr.xname}</span><img src="__HOME__/img/icon_down.png" width="12" height="12" alt="">
+			  </li>
+			  <li class="choice_item flex_center">
+				  <span class="mar_rt_6">{$arr.zname}</span><img src="__HOME__/img/icon_down.png" width="12" height="12" alt="">
+			  </li>
+		  </ul>
+	  <ul class="choice_wrap" style="top:44px;">
+			  <form id="city_form" action="">
+					  <li class="choice_cont">
+						  <div class="choice_scroll">
+							  <label for="area_1" onchange="submitForm();" class="choice_lb p_12 flex_between bd_btm">
+								  <h6>不限</h6><input type="radio" name="cid" value="0" id="area_1">
+							  </label>
+							  {volist name="city" id="vc" key="kc"}
+							  <label for="area_{$kc+1}" onchange="submitForm();" class="choice_lb p_12 flex_between bd_btm">
+								  <h6>{$vc.c_name}</h6><input type="radio" name="cid" {if condition="$arr.cid eq $vc.cid"} checked {/if} value="{$vc.cid}" id="area_{$kc+1}">
+							  </label>
+							  {/volist}
+							  
+						  </div>
+						  <!-- <div class="choice_flex flex_normal">
+							  <a href="javascript:;" class="choice_reset">重置</a>
+							  <a href="javascript:;" class="choice_confirm">确定</a>
+						  </div> -->
+					  </li>
+					  <li class="choice_cont">
+						  <div class="choice_scroll">
+							  <label for="kind_1" onchange="submitForm();" class="choice_lb p_12 flex_between bd_btm">
+								  <h6>不限</h6><input type="radio" name="xid" value="0" id="kind_1">
+							  </label>
+							  {volist name="area" id="va" key="ka"}
+							  <label for="kind_{$ka+1}" onchange="submitForm();" class="choice_lb p_12 flex_between bd_btm">
+								  <h6>{$va.c_name}</h6><input type="radio" value="{$va.cid}" name="xid" {if condition="$arr.xid eq $va.cid"} checked {/if} id="kind_{$ka+1}">
+							  </label>
+							  {/volist}
+						  </div>
+						  <!-- <div class="choice_flex flex_normal">
+							  <a href="javascript:;" class="choice_reset">重置</a>
+							  <a href="javascript:;" class="choice_confirm">确定</a>
+						  </div> -->
+					  </li>
+					  <li class="choice_cont">
+						  <div class="choice_scroll">
+							  <label for="price_1" onchange="submitForm();" class="choice_lb p_12 flex_between bd_btm">
+								  <h6>不限</h6><input type="radio" name="zid" value="0" id="price_1">
+							  </label>
+							  {volist name="towns" id="vt" key="kt"}
+							  <label for="price_{$kt+1}" onchange="submitForm();" class="choice_lb p_12 flex_between bd_btm">
+								  <h6>{$vt.c_name}</h6><input type="radio" value="{$vt.cid}" name="zid" {if condition="$arr.zid eq $vt.cid"} checked {/if} id="price_{$kt+1}">
+							  </label>
+							  {/volist}
+						  
+						  </div>
+						  <!-- <div class="choice_flex flex_normal">
+							  <a href="javascript:;" class="choice_reset">重置</a>
+							  <a href="javascript:;" class="choice_confirm">确定</a>
+						  </div> -->
+					  </li>
+				  </form>	
+		  </ul>
+		  </div>
+		  <!-- 背景蒙版 -->
+		  <div class="common_bg" id="common_bg"></div>
+
 	<div class="bd_btm_10"></div>
 	<div class="flex_normal flex_wrap">
 			{volist name="res" id="v"}
-			  <a href="{:url('Rural/lister',array('id'=>$v['id']))}" class="travel_tre bg_white am-text-center">
+			  <a href="{:url('Rural/lister',array('id'=>$v['id'],'cid'=>$arr['cid'],'xid'=>$arr['xid'],'zid'=>$arr['zid']))}" class="travel_tre bg_white am-text-center">
 				  <img src="{$v.image}" width="30" height="30" alt="">
 				  <div class="mar_top_6">{$v.name}</div>
 			  </a>
 		   {/volist}
 		  </div>
 
-	<div class="p_12">
-		<div class="travel_banner bd_radius bg_cover" style="background-image: url({$lb.image});"></div>
-	</div>
+	
+
+	<div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}' style="position: relative;">
+			<ul class="am-slides">
+			 {volist name="lb" id="vb"}	
+				<li>
+					<a {if condition="$vb.url neq '' "} href="{$vb.url}" {/if} >
+						<div style="height: 150px;background-image: url({$vb.image});background-size: cover;background-repeat: no-repeat;background-position: center;"></div>
+					</a>
+					<!-- <img src="{$vb.image}"> -->
+				</li>
+			{/volist}
+			</ul>
+			
+		</div>
 
 	<div class="bd_btm_10">
 		<div class="travel_scroll">
@@ -96,7 +193,104 @@
 		</div>
 		{/volist}
 	</div>
+	<script>
 
+function submitForm(){
+    var form = document.getElementById("city_form");
+    form.submit();
+}
+			// 当radio选中时的高亮
+			function isChecked() {
+				$('input[type=radio]:checked').prev('h6').css('color', '#EB4949')
+				$('input[type=radio]:not(:checked)').prev('h6').css('color', '#333')
+			}
+		
+			function isClose() {
+				$('.choice_cont').slideUp()
+				$('#common_bg').fadeOut()
+				$('body').removeClass('no_scroll')
+			}
+		
+			$(function () {
+		
+				// 分类选项js
+				isChecked()
+		
+				let common_bg = $('#common_bg')
+		
+				$('input[type=radio]').change(function () {
+					isChecked()
+				})
+		
+				// 分类弹出层按钮
+				$('.choice_item').click(function () {
+		
+					let index = $(this).index()
+					let isNone = $('.choice_cont').eq(index).css('display')
+					if (isNone === 'block') {
+						isClose()
+						return
+					}
+					$('.choice_cont').eq(index).slideDown().siblings().slideUp()
+					common_bg.fadeIn()
+					$('body').addClass('no_scroll')
+		
+				})
+		
+				// 背景蒙版点击
+				common_bg.click(function () {
+					isClose()
+				})
+		
+		
+				// 确认按钮
+				$('.choice_confirm').click(function () {
+		
+				//	alert(111);
+		
+					$("#city_form").submit();
+		
+					// let indexs = $(this).parents('.choice_cont').index()
+		
+					// let names = $(this).parents('.choice_flex').prev('.choice_scroll').find(
+					// 	'input[type=radio]:checked').prev('h6').text()
+					// if (names === '') {
+					// 	alert('请选择类目')
+					// 	return
+					// } else {
+					// 	console.log('当前选择了分类：' + names)
+					// 	$('.choice_item').eq(indexs).find('span').text(names)
+					// 	$(this).parents('.choice_cont').slideUp()
+					// 	common_bg.fadeOut()
+					// 	$('body').removeClass('no_scroll')
+		
+					// 	// 发送参数到服务器
+					// 	// $.ajax({
+					// 	// 	type: 'POST',
+					// 	// 	url: '后台接口地址',
+					// 	// 	data: {
+					// 	// 		name: names // 发送参数
+					// 	// 	},
+					// 	// 	async: true,
+					// 	// 	success: function(res) {
+					// 	// 		console.log(res) // 接收数组数据				
+					// 	// 	}
+					// 	// })
+		
+					// }
+		
+				})
+		
+				// 重置按钮
+				$('.choice_reset').click(function () {
+					let reset = $(this).parents('.choice_flex').prev('.choice_scroll')
+					reset.find('input[type=radio]').prop('checked', false)
+					reset.find('h6').css('color', '#333')
+				})
+				// 分类选项js
+		
+			})
+		</script>
 </body>
 
 </html>

@@ -105,16 +105,28 @@ class Goods extends BaseAdmin
     public function lister()
     {
         
+        $map=[];
+
         $title=\input("title");
+
+        $uid=session("uid");
+       
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }
+
+        $this->assign("admin",$admin);
 
         if($title){
             $map['name']=["like","%".$title."%"];
         }else{
-            $map=[];
+            
             $title='';
         }
         $this->assign("title",$title);
-        $list=db('goods')->alias('a')->where($map)->join("goods_type b","a.fid = b.type_id")->order(['sort'=> 'asc','id'=>'desc'])->paginate(20,false,['query'=>request()->param()]);
+        $list=db('goods')->alias('a')->where($map)->join("goods_type b","a.fid = b.type_id")->join("goods_shop c","a.shop_id=c.sid","left")->order(['sort'=> 'asc','id'=>'desc'])->paginate(20,false,['query'=>request()->param()]);
         $this->assign("list",$list);
         
         $page=$list->render();
@@ -127,6 +139,10 @@ class Goods extends BaseAdmin
         $res=db('goods_type')->select();
         $this->assign("res",$res);
         
+        $shop=db("goods_shop")->select();
+
+        $this->assign("shop",$shop);
+
         return $this->fetch();
     }
     public function save(){
@@ -196,6 +212,10 @@ class Goods extends BaseAdmin
         
         $res=db('goods_type')->select();
         $this->assign("res",$res);
+
+        $shop=db("goods_shop")->select();
+
+        $this->assign("shop",$shop);
         
         return $this->fetch();
     }
@@ -426,6 +446,49 @@ class Goods extends BaseAdmin
         }else{
             echo '1';
         }
+    }
+    public function shop()
+    {
+        $list=db("goods_shop")->order("id desc")->select();
+
+        $this->assign("list",$list);
+        
+        return $this->fetch();
+    }
+    public function save_t(){
+        $id=input('id');
+        $data=input("post.");
+        if($id){
+           
+            $res=db('goods_shop')->where("id",$id)->update($data);
+            if($res){
+                $this->success("修改成功");
+            }else{
+                $this->error("修改失败");
+            }
+        }else{
+           
+            $re=db('goods_shop')->insert($data);
+            if($re){
+                $this->success("保存成功");
+            }else{
+                $this->error("保存失败");
+            }
+        }
+    }
+    public function modify_t(){
+        $id=input('id');
+        $re=db('goods_shop')->where("id=$id")->find();
+        
+        echo json_encode($re);
+    }
+    public function delete_t(){
+        $id=input('id');
+       
+        $del=db('goods_shop')->where("id",$id)->delete();
+        
+        $this->redirect('shop');
+          
     }
 
     

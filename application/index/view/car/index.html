@@ -22,8 +22,18 @@
 	<!-- 公共顶部 -->
 {include file="public:top"}
 
-	<div class="p_12">
-		<div class="travel_banner bd_radius bg_cover" style="background-image: url({$lb.image});"></div>
+<div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}' style="position: relative;">
+		<ul class="am-slides">
+		 {volist name="lb" id="vb"}	
+			<li>
+				<a {if condition="$vb.url neq '' "} href="{$vb.url}" {/if} >
+					<div style="height: 150px;background-image: url({$vb.image});background-size: cover;background-repeat: no-repeat;background-position: center;"></div>
+				</a>
+				<!-- <img src="{$vb.image}"> -->
+			</li>
+		{/volist}
+		</ul>
+		
 	</div>
 
 	<div class="pad_12">

@@ -581,5 +581,30 @@ class Index extends BaseHome
     }
 
 
+    // 云播
+    public function cloudplay(){
+        //轮播图
+        $lb=db("lb")->where(["fid"=>2,"status"=>1])->order(["sort asc","id desc"])->select();
 
+        $this->assign("lb",$lb);
+
+        $index_city=db("culture_city")->where(["sid"=>0])->select();
+
+        $this->assign("index_city",$index_city);
+
+        return $this->fetch();
+    }
+    // 云播详情
+    public function cloudplay_detail(){
+        //轮播图
+        $lb=db("lb")->where(["fid"=>2,"status"=>1])->order(["sort asc","id desc"])->select();
+
+        $this->assign("lb",$lb);
+
+        $index_city=db("culture_city")->where(["sid"=>0])->select();
+
+        $this->assign("index_city",$index_city);
+
+        return $this->fetch();
+    }
 }

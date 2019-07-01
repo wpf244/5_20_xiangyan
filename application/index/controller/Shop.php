@@ -216,6 +216,7 @@ class Shop extends BaseUser
         $ob_goods=db("goods");
         $gname="";
         $zprice=0;
+        $shop_id=0;
         foreach ($res as $k=>$v){
             $gid=$v['gid'];
             
@@ -248,11 +249,13 @@ class Shop extends BaseUser
             $arr['code']="CK-".uniqid().$k;
             $arr['time']=time();
             $arr['aid']=$aid;
+            $arr['shop_id']=$good['shop_id'];
             $arr['content']=$content;
             $re=$car_dd->insert($arr);
             $str[$k]=$arr['code'];
             $zprice+=$arr['zprice'];
             $gname.=$v['c_name'];
+            $shop_id=$good['shop_id'];
         }
 //         $old_all=db("car_dd")->where("uid=$uid and gid=0 and status=0")->find();
 //         if($old_all){
@@ -268,6 +271,7 @@ class Shop extends BaseUser
         $all['pay']=$str1;
         $all['time']=time();
         $all['aid']=$aid;
+        $all['shop_id']=$shop_id;
         $all['content']=$content;
         $re=$car_dd->insert($all);
         $did = db('car_dd')->getLastInsID();

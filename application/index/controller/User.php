@@ -15,6 +15,12 @@ class User extends BaseUser
         $re=db("user")->where("uid",$uid)->find();
 
         $this->assign("re",$re);
+
+        $city=session("city_index");
+
+        $com=db("culture_city")->where("c_name",$city)->find();
+
+        $this->assign("com",$com);
         
         return $this->fetch();
     }

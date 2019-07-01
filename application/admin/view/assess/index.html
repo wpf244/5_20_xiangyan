@@ -54,12 +54,12 @@
                                   value="{$end}" placeholder="选择结束时间" />
                           </div>
                       </div>
-                      <div class="form-group">
+                      <!-- <div class="form-group">
                         <div class="input-group">
                             <input type="text" name="g_name" class="form-control search-query"
                                 value="{$g_name}" placeholder="请输入商品名称">
                         </div>
-                    </div>
+                    </div> -->
                         <div class="form-group">
                           <div class="input-group">
                             <span class="input-group-btn">
@@ -78,7 +78,8 @@
                     <tr>
 
                       <th>ID</th>
-                      <th>商品名称</th>
+                      <th>评论类型</th>
+                      <th>名称</th>
                      
                       <th>评价内容</th>
                       <th>几星</th>
@@ -92,7 +93,20 @@
                       <tr class="ace-thumbnails">
 
                         <td><span class="badge badge-grey">{$v.id}</span></td>
-                        <td>{$v.name}</td>
+                        <td>
+                            {if condition="$v.type eq 0"}商品评论{/if}
+                            {if condition="$v.type eq 1"}乡村旅游评论{/if}
+                            {if condition="$v.type eq 2"}酒店民宿评论{/if}
+                            {if condition="$v.type eq 3"}景区评论{/if}
+                            {if condition="$v.type eq 4"}美食评论{/if}
+                            </td>
+                            <?php if($v['type'] == 0){ $name=db("goods")->where("id",$v['g_id'])->find(); }
+                            if($v['type'] == 1){ $name=db("rural")->field("title as name")->where("id",$v['g_id'])->find(); }
+                            if($v['type'] == 2){ $name=db("hotel")->field("name")->where("id",$v['g_id'])->find(); }
+                            if($v['type'] == 3){ $name=db("spot")->field("name")->where("id",$v['g_id'])->find(); }
+                            if($v['type'] == 4){ $name=db("food")->field("name")->where("id",$v['g_id'])->find(); }
+                      ?>
+                      <td>{$name.name}</td>
                      
                         <td>{$v.content}</td>
                         <td>{$v.number}</td>

@@ -16,6 +16,22 @@ class Rural extends BaseAdmin
 
         return $this->fetch();
     }
+    public function banner()
+    {
+        $id=input("id");
+        
+        $list=db("rural_type_banner")->where("tid",$id)->order(["id desc"])->paginate(20);
+
+        $this->assign("list",$list);
+
+        $page=$list->render();
+
+        $this->assign("page",$page);
+
+        $this->assign("tid",$id);
+        
+        return $this->fetch();
+    }
     public function save_type(){
         $id=\input('id');
         if($id){
@@ -26,14 +42,10 @@ class Rural extends BaseAdmin
                 deleteImg($re['image']);
                }
                
+           }else{
+               $data['image']=$re['image'];
            }
-           if(request()->file("images")){
-            $data['images']=uploads("images");
-            if($re['images']){
-             deleteImg($re['images']);
-            }
-            
-        }
+         
  
            $data['name']=input('name');
           
@@ -47,12 +59,48 @@ class Rural extends BaseAdmin
             if(request()->file("image")){
                 $data['image']=uploads("image");  
             }
-            if(request()->file("images")){
-                $data['images']=uploads("images");  
-            }
+            
             $data['name']=input('name');
            
             $re=db('rural_type')->insert($data);
+            if($re){
+                $this->success("添加成功！");
+            }else{
+                $this->error("添加失败！");
+            } 
+        }
+         
+    }
+    public function save_banner(){
+        $id=\input('id');
+        $data=input("post.");
+        if($id){
+           $re=db('rural_type_banner')->where("id",$id)->find();
+           if(request()->file("image")){
+               $data['image']=uploads("image");
+               if($re['image']){
+                deleteImg($re['image']);
+               }
+               
+           }else{
+            $data['image']=$re['image'];
+        }
+         
+          
+           $res=db('rural_type_banner')->where("id",$id)->update($data);
+           if($res){
+               $this->success("修改成功！");
+           }else{
+               $this->error("修改失败！");
+           }
+        }else{
+            if(request()->file("image")){
+                $data['image']=uploads("image");  
+            }
+            
+         
+           
+            $re=db('rural_type_banner')->insert($data);
             if($re){
                 $this->success("添加成功！");
             }else{
@@ -87,6 +135,11 @@ class Rural extends BaseAdmin
         $re=db('rural_type')->where("id=$id")->find();
         echo json_encode($re);
     }
+    public function modifys_banner(){
+        $id=input("id");
+        $re=db('rural_type_banner')->where("id=$id")->find();
+        echo json_encode($re);
+    }
     public function delete_type()
     {
         $id=\input('id');
@@ -96,6 +149,17 @@ class Rural extends BaseAdmin
             $this->redirect('type');
         }else{
             $this->redirect('type');
+        }
+    }
+    public function delete_banner()
+    {
+        $id=\input('id');
+        $re=db("rural_type_banner")->where("id=$id")->find();
+        if($re){
+            $res=db("rural_type_banner")->where("id=$id")->delete();
+            echo '0';
+        }else{
+            echo '1';
         }
     }
     public function sort_type(){

@@ -83,7 +83,7 @@ class Goods extends BaseHome
 
         if($uid){
 
-         $rec=db("collect")->where(["gid"=>$id,"uid"=>$uid])->find();
+         $rec=db("collect")->where(["gid"=>$id,"uid"=>$uid,"type"=>0])->find();
 
          if($rec){
              $collect=1;
@@ -105,7 +105,7 @@ class Goods extends BaseHome
 
         $this->assign("spec",$spec);
 
-        $assess=db("assess")->alias("a")->field("a.*,b.nickname,b.image as bimage")->where(["g_id"=>$id,"status"=>1])->join("user b","a.u_id=b.uid","LEFT")->order(["id desc"])->select();
+        $assess=db("assess")->alias("a")->field("a.*,b.nickname,b.image as bimage")->where(["g_id"=>$id,"status"=>1,"type"=>0])->join("user b","a.u_id=b.uid","LEFT")->order(["id desc"])->select();
  
         foreach($assess as $ka => $va){
 
@@ -368,6 +368,7 @@ class Goods extends BaseHome
         $arr['code']="CK-".uniqid();
         $arr['content']=$content;
         $arr['aid']=$aid;
+        $arr['shop_id']=$good['shop_id'];
         $arr['time']=time();
         
         $re=$ob->insert($arr);
@@ -385,6 +386,7 @@ class Goods extends BaseHome
         $all['pay']=$arr['code'];
         $all['content']=$content;
         $all['aid']=$aid;
+        $all['shop_id']=$good['shop_id'];
         $all['time']=time();
 
         db("dd")->where("id",$did)->delete();

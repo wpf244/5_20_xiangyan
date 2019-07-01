@@ -31,20 +31,20 @@
 					<ul class="nav nav-list header-nav" id="header-nav">
 							<li>
 									<a href="{:url('Hotel/dd')}">
-										<o class="font12 {if condition='ACTION_NAME eq "dd" '} rigbg {/if}">待付款列表</o>
+										<o class="font12 {if condition='$status eq 0 '} rigbg {/if}">待付款列表</o>
 									</a>
 								<b class="arrow"></b>
 							</li>
 							<li>
-									<a href="{:url('Hotel/dds')}">
-										<o class="font12 {if condition='ACTION_NAME eq "dds" '} rigbg {/if}">已付款列表</o>
+									<a href="{:url('Hotel/dd',array('status'=>1))}">
+										<o class="font12 {if condition='$status eq 1'}  rigbg {/if}">已付款列表</o>
 									</a>
 								<b class="arrow"></b>
               </li>
               
               <li>
-									<a href="{:url('Hotel/ddh')}">
-										<o class="font12 {if condition='ACTION_NAME eq "ddh" '} rigbg {/if}">已核销列表</o>
+									<a href="{:url('Hotel/dd',array('status'=>2))}">
+										<o class="font12 {if condition='$status eq 2 '}  rigbg {/if}">已核销列表</o>
 									</a>
 								<b class="arrow"></b>
 							</li>
@@ -68,7 +68,24 @@
                 </div> 
 
                  <div class="col-sm-10 clearfix">
-                  <form class="form-inline pull-right" action="__URL__/dd" method="post">
+                  <form class="form-inline pull-right" action="" >
+
+                    {if condition="$admin.level neq 2"}
+                    <div class="form-group">
+                        <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-th-list"></i>
+                      </span>
+                          <select class="form-control" name="shop_id" >
+                              <option  value="0">请选择酒店</option>
+                            {volist name="shop" id="vp"}
+                            <option {if condition="$shop_id eq $vp.id"} selected {/if} value="{$vp.id}">{$vp.name}</option>
+                           {/volist}
+                          </select>
+                        </div>
+                      </div>
+                      {/if}
+
                     <div class="form-group">
                     	<div class="input-daterange input-group">
 						<input type="text" class="form-control search-query" name="start" value="{$start}" placeholder="选择开始时间" />
@@ -127,7 +144,7 @@
                   <td>{$v.code}</td>
                   <td>{$v.price}</td>
                
-                  <td>{$v.hotel_name}</td>
+                  <td>{$v.bname}</td>
                   <td>{$v.name}</td>
                   <td>{$v.start_time}</td>
                   <td>{$v.end_time}</td>
@@ -141,15 +158,35 @@
                   <td>{$v.old_price}</td>
                   <td>
                     
-                  <button class="btn btn-xs btn-success" type="button" onclick="change({$v.id})">
-                      确认付款
-                    </button> 
-                    <button class="btn btn-xs btn-danger" type="button" onclick="dels({$v.id})">
-                     删除订单
-                    </button> 
-                       <!-- <a class="btn btn-xs btn-info" href="{:url('updates',array('id'=>$v['id']))}">
-                     修改订单
-                    </a> -->
+                      {if condition="$status eq 0"}
+                      {if condition="$admin.level neq 2"}
+                      <button class="btn btn-xs btn-success" type="button" onclick="change({$v.id})">
+                        确认付款
+                      </button> 
+                      
+                      <button class="btn btn-xs btn-danger" type="button" onclick="dels({$v.id})">
+                       删除订单
+                      </button> 
+                      {/if}
+                      {/if}
+                      {if condition="$status eq 1"}
+                    
+                      <button class="btn btn-xs btn-success" type="button" onclick="changes({$v.id})">
+                          核销
+                        </button> 
+                        {if condition="$admin.level neq 2"}
+                        <button class="btn btn-xs btn-danger" type="button" onclick="dels({$v.id})">
+                         删除订单
+                        </button> 
+                        {/if}
+                        {/if}
+                        {if condition="$status eq 2"}
+                        {if condition="$admin.level neq 2"}
+                          <button class="btn btn-xs btn-danger" type="button" onclick="dels({$v.id})">
+                           删除订单
+                          </button> 
+                          {/if}
+                          {/if}
                   </td>
                
                 </tr>
@@ -200,6 +237,8 @@
 	 var end = "{$end}";
 	 var code="{$code}"; 
 	 var addr="{$addr}";
+   var status = "{$status}";
+   var shop_id ="{$shop_id}";
 	 if(start == ''){
 		 start=0;
 	 }
@@ -214,7 +253,7 @@
 	 if(addr == ''){
 		 addr = 0;
 	 }
-	 location.href="__URL__/out/start/"+start+"/end/"+end+"/code/"+code+"/addr/"+addr;
+	 location.href="__URL__/out/start/"+start+"/end/"+end+"/code/"+code+"/addr/"+addr+"/status/"+status+"/shop_id/"+shop_id;
  })
 </script>
 <script type="text/javascript">
@@ -262,6 +301,38 @@
         })
 		  });
 	    }
+
+      function changes(id) {
+      layer.prompt({
+        title: '请输入核销码',
+        formType: 3
+      }, function (text, index) {
+        
+          $.ajax({
+            type: "post",
+            url: "__URL__/change_dds",
+            data: {
+              id: id,
+              code: text
+            },
+            datatype: "text",
+            success: function (re) {
+              if (re == 0) {
+                layer.close(index);
+                layer.msg("核销成功");
+                setTimeout("location.reload()",2000)
+              
+              } else {
+                layer.close(index);
+                layer.msg("核销失败");
+                setTimeout("location.reload()",2000)
+              }
+
+            }
+          })
+        
+      })
+    }
 		</script>
 
 

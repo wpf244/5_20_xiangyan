@@ -136,6 +136,27 @@ class User extends BaseAdmin
 
         
     }
+    public function getnexts()
+    {
+        $sid=input("sid");
+        if($sid == 1){
+           $re=db("spot")->field("id,name")->where("status",1)->select();
+        }
+        if($sid == 2){
+           $re=db("travel")->field("id,name")->select();
+        }
+        if($sid == 3){
+            $re=db("hotel")->field("id,name")->where("status",1)->select();
+        }
+        if($sid == 4){
+            $re=db("goods_shop")->field("sid as id,sname as name")->select();
+        }
+        if($re){
+           echo json_encode($re);
+        }else{
+            echo 0;
+        }
+    }
 
 
 

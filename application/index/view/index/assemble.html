@@ -85,6 +85,20 @@
 				<div href="javascript:;" class="confirm_btn" id="wx">邀请好友拼单</div>
 		</div>
 	</div>
+
+	<div class="am-popup" id="my-popup">
+			<div class="am-popup-inner">
+				<div class="am-popup-hd">
+					<h4 class="am-popup-title">关注公众号</h4>
+					<span data-am-modal-close
+								class="am-close">&times;</span>
+				</div>
+				<div class="am-popup-bd">
+					<img class="am-block am-center" src="{$sys.wx}" alt="">
+					<div class="am-text-center">长按识别图中二维码</div>
+				</div>
+			</div>
+		</div>
 	
 	
 	
@@ -92,6 +106,9 @@
 	<script>
 
 		$(function () {
+
+			$('#my-popup').modal('open')
+
              var date="{$date}";
 			//倒计时
 			$(".count_down").countDown({

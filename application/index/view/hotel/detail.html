@@ -7,7 +7,7 @@
 		overflow-x: hidden;
 	}
 </style>
-<body class="">
+<body class="" style="padding-bottom: 50px;">
 
 	<!-- 返回 -->
 	<div class="back_box">
@@ -119,6 +119,97 @@
 		</div>
 		<div class="">{$re.content}</div>
 	</div>
+	<div class="p_12">
+			<div class="title_left flex_normal">
+				<span>评论({$cou})</span>
+			</div>
+			<div class="q_comment">
+				<ul>
+						{volist name="assess" id="va"}
+						<li class="q_comment_wrap">
+							<div class="q_comment_item">
+								<div class="q_comment_avatar" style="background-image: url('{$va.image}');"></div>
+								<div class="q_comment_name">{$va.nickname}</div>
+							</div>
+							<div style="padding-left: 34px;">
+									{$va.content}
+									<div style="margin-top: 10px;"><span style="color: #B3B3B3;margin-right:20px;">{$va.addtime|date="Y/m/d",###}</span></div>
+							</div>
+							</li>
+						{/volist}	
+				</ul>
+		
+			</div>
+		</div>
+		<div class="mess-bar">
+				<div class="mess-bar-text">
+					<input type="text" id="content" placeholder="欢迎发表你的评论">
+				</div>
+				<div class="mess-bar-btn" id="send" >发送</div>
+				<div {if condition="$collect eq 0"} class="mess-bar-collect" {else /} class="mess-bar-collect on" {/if} id="collect"></div>
+				<div {if condition="$assist eq 0"} class="mess-bar-like" {else /} class="mess-bar-like on" {/if} id="assist"></div>
+			</div>
+
+			<script>
+					$("#send").click(function(){
+						 var content = $("#content").val();
+						 var nid = "{$re.id}"; 
+						 $.ajax({
+							 type:"post",
+							 url:"__URL__/save_assess",
+							 data:{content:content,g_id:nid},
+							 dataType:"text",
+							 success:function(re){
+								if(re == 0){
+									layer.msg("发表成功");
+									setTimeout("location.reload()",1000);
+								}
+								if(re == 1){
+									location.href="{:url('Login/login')}";
+								}
+								if(re == 2){
+									layer.msg("发表失败,请稍后再试");
+									setTimeout("location.reload()",1000);
+								}
+							 }
+						 })
+					})
+			 
+					$("#collect").click(function(){
+					  
+						 var nid = "{$re.id}"; 
+						 $.ajax({
+							 type:"post",
+							 url:"__URL__/save_collect",
+							 data:{nid:nid},
+							 dataType:"text",
+							 success:function(re){
+								 if(re == 1){
+									location.href="{:url('Login/login')}";
+								}
+							 }
+						 })
+					})
+			 
+					$("#assist").click(function(){
+					  
+					  var nid = "{$re.id}"; 
+					  $.ajax({
+						  type:"post",
+						  url:"__URL__/save_assist",
+						  data:{nid:nid},
+						  dataType:"text",
+						  success:function(re){
+							  if(re == 1){
+								 location.href="{:url('Login/login')}";
+							 }
+						  }
+					  })
+				 })
+			 
+					
+				 
+				 </script>
 
 	<script>
 		$(function () {

@@ -13,7 +13,7 @@
 				 <a href="{:url('Index/index')}">首页</a>&nbsp;&gt;
 				</li>
 				<li>
-				 <a href="javascript:;">酒店民宿</a>
+				 <a href="javascript:;">民宿/酒店</a>
 				</li>
 				
 			   </ul>
@@ -38,13 +38,72 @@
 </form>	
 </div>
 
+<div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}' style="position: relative;">
+		<ul class="am-slides">
+		 {volist name="lb" id="vb"}	
+			<li>
+				<a {if condition="$vb.url neq '' "} href="{$vb.url}" {/if} >
+					<div style="height: 150px;background-image: url({$vb.image});background-size: cover;background-repeat: no-repeat;background-position: center;"></div>
+				</a>
+				<!-- <img src="{$vb.image}"> -->
+			</li>
+		{/volist}
+		</ul>
+		
+	</div>
+
 	<ul class="order_hd flex_around bd_btm">
-		<li class="order_item active tab_item">酒店</li>
-		<li class="order_item tab_item">民宿</li>
+		<li class="order_item active tab_item">民宿</li>
+		<li class="order_item tab_item">酒店</li>
 	</ul>
 
 	<ul class="tab_wrap">
-		<li class="tab_cont active">
+
+		
+			<li class="tab_cont active">
+					<!-- 民宿 -->
+					<a href="javascript:;" class="am-block p_12 bg_white">
+						<div class="title_left am-text-lg font_bold">{$home_lb.name}</div>
+						<div class="title_desc  col_nine">{$home_lb.desc}</div>
+					</a>
+					<div class="list_box pad_lt_12 pad_btm_12 bd_btm">
+						{volist name="home" id="vh"}
+						<a class="mar_rt_12" href="{:url('Hotel/detail',array('id'=>$vh['id']))}">
+			<img class="bd_radius mar_btm_6" src="{$vh.image}" width="186" height="74" alt="">
+			<h4 class="am-text-truncate">{$vh.name}</h4>
+			<div class="col_main">
+				<span class="am-text-xs">￥</span><span class="am-text-lg mar_lt_6 mar_rt_6">{$vh.money}</span>
+			</div>
+		</a>
+				{/volist}
+					</div>
+		
+					<h5 class="p_12 am-text-lg">热销推荐</h5>
+					<div class="pad_12">
+						{volist name="homes" id="p"}	
+						<a href="{:url('Hotel/detail',array('id'=>$p['id']))}" class="flex_normal pd_12 bd_btm">
+			<img class="bd_radius mar_rt_12" src="{$p.image}" width="130" height="90" alt="">
+			<div class="flex_1">
+				<div class="hotel_wrap">
+					<div class="flex_1">
+						<h3 class="am-text-truncate">{$p.name}</h3>
+						<div class=" col_nine">{$p.addr}</div>
+					</div>			
+					<div class="flex_between">
+						<span class="col_deputy">{$p.score}诚信分</span>
+						<div class="col_nine "><span class="col_main mar_rt_6 am-text-default">￥{$p.money}</span>/人</div>
+					</div>
+				</div>
+			</div>
+		</a>
+				{/volist}	
+					</div>
+		
+					<div class="no_data">暂无更多记录~</div>
+				
+				</li>
+
+		<li class="tab_cont ">
 			<!-- 酒店 -->
 			<a href="javascript:;" class="am-block p_12 bg_white">
 				<div class="title_left am-text-lg font_bold">{$hotel_lb.name}</div>
@@ -87,48 +146,6 @@
 
 		</li>
 
-		<li class="tab_cont">
-			<!-- 民宿 -->
-			<a href="javascript:;" class="am-block p_12 bg_white">
-				<div class="title_left am-text-lg font_bold">{$home_lb.name}</div>
-				<div class="title_desc  col_nine">{$home_lb.desc}</div>
-			</a>
-			<div class="list_box pad_lt_12 pad_btm_12 bd_btm">
-				{volist name="home" id="vh"}
-				<a class="mar_rt_12" href="{:url('Hotel/detail',array('id'=>$vh['id']))}">
-	<img class="bd_radius mar_btm_6" src="{$vh.image}" width="186" height="74" alt="">
-	<h4 class="am-text-truncate">{$vh.name}</h4>
-	<div class="col_main">
-		<span class="am-text-xs">￥</span><span class="am-text-lg mar_lt_6 mar_rt_6">{$vh.money}</span>
-	</div>
-</a>
-		{/volist}
-			</div>
-
-			<h5 class="p_12 am-text-lg">热销推荐</h5>
-			<div class="pad_12">
-				{volist name="homes" id="p"}	
-				<a href="{:url('Hotel/detail',array('id'=>$p['id']))}" class="flex_normal pd_12 bd_btm">
-	<img class="bd_radius mar_rt_12" src="{$p.image}" width="130" height="90" alt="">
-	<div class="flex_1">
-		<div class="hotel_wrap">
-			<div class="flex_1">
-				<h3 class="am-text-truncate">{$p.name}</h3>
-				<div class=" col_nine">{$p.addr}</div>
-			</div>			
-			<div class="flex_between">
-				<span class="col_deputy">{$p.score}诚信分</span>
-				<div class="col_nine "><span class="col_main mar_rt_6 am-text-default">￥{$p.money}</span>/人</div>
-			</div>
-		</div>
-	</div>
-</a>
-		{/volist}	
-			</div>
-
-			<div class="no_data">暂无更多记录~</div>
-		
-		</li>
 	</ul>
 
 	<!-- 优惠券弹窗 -->	

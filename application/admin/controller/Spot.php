@@ -1,23 +1,39 @@
 <?php
 namespace app\admin\controller;
 
+use think\Db;
+
 class Spot extends BaseAdmin
 {
     public function city()
     {
-        $list=db("spot_city")->order(["sort asc","id desc"])->paginate(20);
+        // $list=db("spot_city")->order(["sort asc","id desc"])->paginate(20);
 
+        // $this->assign("list",$list);
+
+        // $page=$list->render();
+
+        // $this->assign("page",$page);
+
+        $list=db('spot_city')->where("pid=0")->order(["sort asc","id asc"])->select();
+        foreach($list as $k => $v){
+
+            $list[$k]['list1']=db("spot_city")->where(["pid"=>$v['id']])->order(["sort asc","id asc"])->select();
+  
+        }
         $this->assign("list",$list);
 
-        $page=$list->render();
+        $res=db("spot_city")->where(["pid"=>0])->select();
 
-        $this->assign("page",$page);
+        $this->assign("res",$res);
 
         return $this->fetch();
     }
     public function save_type(){
         $id=\input('id');
+        $data=input("post.");
         if($id){
+
            $re=db('spot_city')->where("id",$id)->find();
            if(request()->file("image")){
                $data['image']=uploads("image");
@@ -27,8 +43,6 @@ class Spot extends BaseAdmin
                
            }
         
- 
-           $data['name']=input('name');
           
            $res=db('spot_city')->where("id",$id)->update($data);
            if($res){
@@ -41,7 +55,6 @@ class Spot extends BaseAdmin
                 $data['image']=uploads("image");  
             }
         
-            $data['name']=input('name');
            
             $re=db('spot_city')->insert($data);
             if($re){
@@ -168,12 +181,20 @@ class Spot extends BaseAdmin
     {
 
         $title=input("title");
-
+        $map =[];
         if($title){
             $map['a.name']=["like","%".$title."%"];
-        }else{
-            $map =[];
         }
+
+        $uid=session("uid");
+
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['a.id']=['eq',$admin['shop_id']];
+        }
+
+        $this->assign("admin",$admin);
 
         $list=db("spot")->alias("a")->field("a.*,b.name as cname")->where($map)->join("spot_city b","a.cid = b.id")->order(["a.sort asc","a.id desc"])->paginate(20,false,['query'=>request()->param()]);
 
@@ -187,15 +208,29 @@ class Spot extends BaseAdmin
     }
     public function add()
     {
-        $res=db("spot_city")->where("status",1)->select();
+        // $res=db("spot_city")->where("status",1)->select();
 
-        $this->assign("res",$res);
+        // $this->assign("res",$res);
+
+        $city=db("spot_city")->where("pid",0)->order(["sort asc","id desc"])->select();
+        $this->assign("city",$city);
 
         $sever=db("spot_sever")->select();
 
         $this->assign("sever",$sever);
         
         return $this->fetch();
+    }
+    public function getnexts()
+    {
+        $sid=input("sid");
+        $re=db("spot_city")->where(["pid"=>$sid])->order(["sort asc","id desc"])->select();
+     //   var_dump($re);exit;
+        if($re){
+           echo json_encode($re);
+        }else{
+            echo 0;
+        }
     }
     public function save()
     {
@@ -241,9 +276,14 @@ class Spot extends BaseAdmin
 
         $this->assign("severs",$severs);
 
-        $res=db("spot_city")->where("status",1)->select();
+        $res=db("spot_city")->where(["status"=>1,"pid"=>0])->select();
 
         $this->assign("res",$res);
+
+        $sid=$re['cid'];
+        
+        $city=db("spot_city")->where(["pid"=>$sid])->order(["sort asc","id desc"])->select();
+        $this->assign("city",$city);
 
         $sever=db("spot_sever")->select();
 
@@ -553,16 +593,35 @@ class Spot extends BaseAdmin
     public function dd()
     {
     
+        $map=[];
         $start=input('start');
         $end=input('end');
         $code=\input('code');
       
         $addr=\input('addr');
+
+        $status=input("status");
+
+        $shop_id=input("shop_id");
+
+        $uid=session("uid");
        
-        if($start || $code ||  $addr){
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }else{
+            if($shop_id){
+                $map['shop_id']=['eq',$shop_id];
+            }
+        }
+
+        $this->assign("admin",$admin);
+        
+        if($start || $code ||  $addr || $status){
             if($start){
                 
-                $map['time']=['between time',[$start.'00:00:01',$end.'23:59:59']];
+                $map['a.time']=['between time',[$start.'00:00:01',$end.'23:59:59']];
             }
             if($code){
                 $map['code']=array('like','%'.$code.'%');
@@ -571,7 +630,9 @@ class Spot extends BaseAdmin
             if($addr){
                 $map['username|phone']=array('like','%'.$addr.'%');
               
-
+            }
+            if($status){
+                $map['a.status']=['eq',$status];
             }
         }else{
             
@@ -580,36 +641,66 @@ class Spot extends BaseAdmin
         
             $addr="";
             $code="";
-            $map=[];
+
+            $status=0;
+
+            $map['a.status']=['eq',0];
+            
         }
         $this->assign("start",$start);
         $this->assign("end",$end);
       
         $this->assign("addr",$addr);
         $this->assign("code",$code);
+
+        $this->assign("status",$status);
+
+        $this->assign("shop_id",$shop_id);
         
-        $list=db("order")->where("status=0 and type=2")->where($map)->order("id desc")->paginate(20,false,['query'=>request()->param()])->each(function($item, $key){
+        $list=db("order")->alias("a")->field("a.*,b.name as bname")->where("type=2")->where($map)->join("spot b","a.shop_id=b.id")->order("a.id desc")->paginate(20,false,['query'=>request()->param()])->each(function($item, $key){
             $item['coupons'] = $item['coupon']+$item['only_coupon'];
             return $item;
         });
         $this->assign("list",$list);
         $page=$list->render();
         $this->assign("page",$page);
+
+        $shop=db("spot")->where("status",1)->select();
+
+        $this->assign("shop",$shop);
         
         return $this->fetch();
     
     }
     public function out(){
+        $map=[];
         $start=input('start');
         $end=input('end');
         $code=\input('code');
       
         $addr=\input('addr');
+
+        $status=input("status");
+
+        $shop_id=input("shop_id");
+
+        $uid=session("uid");
        
-        if($start || $code ||  $addr){
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }else{
+            if($shop_id){
+                $map['shop_id']=['eq',$shop_id];
+            }
+        }
+
+        
+        if($start || $code ||  $addr || $status){
             if($start){
                 
-                $map['time']=['between time',[$start.'00:00:01',$end.'23:59:59']];
+                $map['a.time']=['between time',[$start.'00:00:01',$end.'23:59:59']];
             }
             if($code){
                 $map['code']=array('like','%'.$code.'%');
@@ -618,14 +709,18 @@ class Spot extends BaseAdmin
             if($addr){
                 $map['username|phone']=array('like','%'.$addr.'%');
               
-
+            }
+            if($status){
+                $map['a.status']=['eq',$status];
             }
         }else{
+           
+
+            $map['a.status']=['eq',0];
             
-            $map=[];
         }
         
-        $list=db("order")->where("status=0 and type=2")->where($map)->order("id desc")->select();
+        $list=db("order")->alias("a")->field("a.*,b.name as bname")->where("type=2")->where($map)->join("spot b","a.shop_id=b.id")->order("a.id desc")->select();
         // var_dump($data);exit;
         vendor('PHPExcel.PHPExcel');//调用类库,路径是基于vendor文件夹的
         vendor('PHPExcel.PHPExcel.Worksheet.Drawing');
@@ -636,8 +731,8 @@ class Spot extends BaseAdmin
     
         $objActSheet = $objExcel->getActiveSheet();
         $key = ord("A");
-        $letter =explode(',',"A,B,C,D,E,F,G,H");
-        $arrHeader =  array("订单号","实付金额","门票名称","游玩日期","归来日期","门票数量","联系人","联系方式");
+        $letter =explode(',',"A,B,C,D,E,F,G,H,I");
+        $arrHeader =  array("订单号","实付金额","门票名称","游玩日期","归来日期","门票数量","联系人","联系方式","景区名称");
         //填充表头信息
         $lenth =  count($arrHeader);
         for($i = 0;$i < $lenth;$i++) {
@@ -658,7 +753,7 @@ class Spot extends BaseAdmin
         
             $objActSheet->setCellValue('G'.$k, $v['username']);
             $objActSheet->setCellValue('H'.$k, $v['phone']);
-          
+            $objActSheet->setCellValue('I'.$k, $v['bname']);
     
             // 表格高度
             $objActSheet->getRowDimension($k)->setRowHeight(20);
@@ -674,7 +769,7 @@ class Spot extends BaseAdmin
         $objActSheet->getColumnDimension('F')->setWidth(30);
         $objActSheet->getColumnDimension('G')->setWidth(30);
         $objActSheet->getColumnDimension('H')->setWidth(25);
-       
+        $objActSheet->getColumnDimension('I')->setWidth(25);
 
         if($start !=0 ){
              
@@ -682,7 +777,7 @@ class Spot extends BaseAdmin
         }else{
             $times="";
         }
-        $outfile = "$times"."待付款门票订单".".xls";
+        $outfile = "$times"."门票订单".".xls";
     
         $userBrowser=$_SERVER['HTTP_USER_AGENT'];
         
@@ -728,10 +823,34 @@ class Spot extends BaseAdmin
     public function change_dds()
     {
         $id=\input('id');
-        $re=db("order")->where("id=$id")->find();
+        $code=input("code");
+        $re=db("order")->where(["id"=>$id,"time"=>$code])->find();
         if($re){
-            db("order")->where("id=$id")->setField("status",2);
-            echo '0';
+            $money=$re['price'];
+            $data['money']=$money;
+            $data['did']=$re['id'];
+            $data['shop_type']=1;
+            $data['shop_id']=$re['shop_id'];
+            $data['time']=time();
+            $admin=db("admin")->where("shop_id",$re['shop_id'])->find();
+            Db::startTrans();
+            try{
+                db("order")->where("id",$re['id'])->setField("status",2);
+                db("admin_money")->insert($data);
+                if($admin){
+                    db("admin")->where(["shop_id"=>$re['shop_id'],"shop_type"=>1])->setInc("money",$money);
+                }
+                
+                 echo '0';
+                // 提交事务
+                Db::commit();    
+            } catch (\Exception $e) {
+                // 回滚事务
+                Db::rollback();
+
+                echo '1';
+            }
+            
         }else{
             echo '1';
         }

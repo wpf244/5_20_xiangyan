@@ -57,6 +57,11 @@ class Hotel extends BaseUser
 
       //  $city=session("city");
 
+      //广告图
+      $lb=db("lb")->where(["fid"=>43,"status"=>1])->order(["sort asc","id desc"])->select();
+
+      $this->assign("lb",$lb);
+
         
         return $this->fetch();
     }
@@ -155,6 +160,48 @@ class Hotel extends BaseUser
         $res=db("hotel_sever")->where(["id"=>["in",$severs]])->select();
 
         $this->assign("res",$res);
+
+        //评论
+        $assess=db("assess")->alias("a")->where(["status"=>1,"type"=>2])->join("user b","a.u_id=b.uid")->order("id desc")->select();
+
+        $this->assign("assess",$assess);
+
+        $cou=count($assess);
+
+        $this->assign("cou",$cou);
+
+        //收藏
+        $uids=session("userid");
+        if($uids){
+            $collect=db("collect")->where(["uid"=>$uids,"gid"=>$id,"type"=>2])->find();
+
+            if($collect){
+                $collect=1;
+            }else{
+                $collect=0;
+            }
+
+        }else{
+            $collect=0;
+        }
+
+        $this->assign("collect",$collect);
+
+        if($uids){
+            $assist=db("assist")->where(["uid"=>$uids,"nid"=>$id,"type"=>2])->find();
+
+            if($assist){
+                $assist=1;
+            }else{
+                $assist=0;
+            }
+
+        }else{
+            $assist=0;
+        }
+
+        $this->assign("assist",$assist);
+
         
         return $this->fetch();
     }
@@ -294,6 +341,8 @@ class Hotel extends BaseUser
 
             $data['days']=$re['days'];
 
+            $data['shop_id']=$hotel['id'];
+
             $coupon=input("coupon");
 
             if($coupon == 1){
@@ -342,6 +391,94 @@ class Hotel extends BaseUser
 
         }else{
             echo '0';
+        }
+    }
+    /**
+    * 保存评价
+    *
+    * @return void
+    */
+    public function save_assess()
+    {
+        $uid=session("userid");
+
+        if($uid){
+
+            $data=input("post.");
+            $data['u_id']=$uid;
+            $data['type']=2;
+            $data['addtime']=time();
+
+            $re=db("assess")->insert($data);
+
+            if($re){
+                echo '0';
+            }else{
+                echo '2';
+            }
+
+        }else{
+            echo '1';
+        }
+    }
+    /**
+    * 收藏
+    *
+    * @return void
+    */
+    public function save_collect()
+    {
+        $uid=session("userid");
+
+        if($uid){
+
+            $nid=input("nid");
+
+            $re=db("collect")->where(["gid"=>$nid,"uid"=>$uid,"type"=>2])->find();
+
+            if($re){
+                db("collect")->where("id",$re['id'])->delete();
+            }else{
+                $data['gid']=$nid;
+                $data['uid']=$uid;
+                $data['type']=2;
+
+                db("collect")->insert($data);
+            }
+            echo '0';
+
+        }else{
+            echo '1';
+        }
+    }
+    /**
+    * 点赞
+    *
+    * @return void
+    */
+    public function save_assist()
+    {
+        $uid=session("userid");
+
+        if($uid){
+
+            $nid=input("nid");
+
+            $re=db("assist")->where(["nid"=>$nid,"uid"=>$uid,"type"=>2])->find();
+
+            if($re){
+                db("assist")->where("id",$re['id'])->delete();
+            }else{
+                $data['nid']=$nid;
+                $data['uid']=$uid;
+                $data['type']=2;
+
+                db("assist")->insert($data);
+            }
+            echo '0';
+
+        }else{
+            echo '1';
         }
     }
 }

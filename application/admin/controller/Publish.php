@@ -259,4 +259,36 @@ class Publish extends BaseAdmin
             echo '1';
         }
     }
+    public function modify()
+    {
+        $id=input("id");
+
+        $re=db("publish")->where("id",$id)->find();
+
+        $this->assign("re",$re);
+        
+        return $this->fetch();
+    }
+    public function usave_s()
+    {
+        $id=input("id");
+
+        $re=db("publish")->where("id",$id)->find();
+
+        if($re){
+
+            $data=input("post.");
+
+            $res=db("publish")->where("id",$id)->update($data);
+
+            if($res){
+                $this->success("修改成功",url('index'));
+            }else{
+                $this->error("修改失败",url('index'));
+            }
+
+        }else{
+            $this->error("参数错误",url('index'));
+        }
+    }
 }

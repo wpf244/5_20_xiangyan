@@ -5,7 +5,7 @@ class Group extends BaseUser
 {
     public function index()
     {
-        $lb=db("lb")->where("fid",11)->find();
+        $lb=db("lb")->where(["fid"=>11,"status"=>1])->order(["sort asc","id desc"])->select();
 
         $this->assign("lb",$lb);
 
@@ -50,8 +50,29 @@ class Group extends BaseUser
         $res=db("lb")->where(["fid"=>16,"status"=>1])->order(["sort asc","id asc"])->select();
 
         $this->assign("res",$res);
+
+        $shop=db("travel")->select();
+
+        $this->assign("shop",$shop);
         
         return $this->fetch();
+    }
+    /**
+    * 获取电话
+    *
+    * @return void
+    */
+    public function getnexts()
+    {
+        $shop_id=input("shop_id");
+
+        $re=db("travel")->where("id",$shop_id)->find();
+
+        if($re){
+            echo json_encode($re);
+        }else{
+            echo '0';
+        }
     }
     /**
     * 保存个人定制
@@ -93,6 +114,8 @@ class Group extends BaseUser
 
         $this->assign("team",$team);
 
+       
+
         
         return $this->fetch();
     }
@@ -114,6 +137,10 @@ class Group extends BaseUser
         $car=db("lb")->where(["fid"=>19,"status"=>1])->order(["sort asc","id asc"])->select();
 
         $this->assign("car",$car);
+
+        $shop=db("travel")->select();
+
+        $this->assign("shop",$shop);
 
         
         return $this->fetch();
@@ -232,6 +259,7 @@ class Group extends BaseUser
             
             $data['uid']=$uid;
             $data['gid']=$id;
+            $data['shop_id']=$re['fid'];
             $data['num']=$num;
             $data['price']=$num*$re['price'];
             $data['name']=$re['ticket'];

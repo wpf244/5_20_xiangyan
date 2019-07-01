@@ -132,8 +132,11 @@
                     <button class="btn btn-xs btn-danger" type="button" onclick="dels({$v.id})">
                       删除
                     </button>
-                    <a class="btn btn-xs btn-info"  href="{:url('Publish/look',array('id'=>$v['id']))}">
+                    <!-- <a class="btn btn-xs btn-info"  href="{:url('Publish/look',array('id'=>$v['id']))}">
                         查看详情
+                      </a> -->
+                      <a class="btn btn-xs btn-info"  href="{:url('Publish/modify',array('id'=>$v['id']))}">
+                        修改
                       </a>
                   </td>
                 </tr>

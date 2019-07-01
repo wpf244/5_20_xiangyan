@@ -7,14 +7,25 @@ class Integ extends BaseAdmin
     {
         $title=\input("title");
 
+        $map=[];
+
+        $title=\input("title");
+
+        $uid=session("uid");
+       
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }
+
+        $this->assign("admin",$admin);
+
         if($title){
             $map['name']=["like","%".$title."%"];
-        }else{
-            $map=[];
-            $title='';
         }
         $this->assign("title",$title);
-        $list=db('integ_goods')->where($map)->order(['sort'=> 'asc','id'=>'desc'])->paginate(20,false,['query'=>request()->param()]);
+        $list=db('integ_goods')->alias("a")->where($map)->join("goods_shop b","a.shop_id=b.sid",'left')->order(['sort'=> 'asc','a.id'=>'desc'])->paginate(20,false,['query'=>request()->param()]);
         $this->assign("list",$list);
         
         $page=$list->render();
@@ -26,6 +37,10 @@ class Integ extends BaseAdmin
     }
     public function add()
     {
+        $shop=db("goods_shop")->select();
+
+        $this->assign("shop",$shop);
+        
         return $this->fetch();
     }
     public function save(){
@@ -71,7 +86,9 @@ class Integ extends BaseAdmin
         $re=db('integ_goods')->where("id",$id)->find();
         $this->assign("re",$re);
       
-        
+        $shop=db("goods_shop")->select();
+
+        $this->assign("shop",$shop);
         return $this->fetch();
     }
     public function usave(){
@@ -148,11 +165,27 @@ class Integ extends BaseAdmin
     }
     public function dd()
     {
+        $map=[];
+
         $start=input('start');
         $end=input('end');
         $code=\input('code');
       
         $addr=\input('addr');
+
+        $uid=session("uid");
+
+        $shop_id=input("shop_id");
+       
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }else{
+            if($shop_id){
+                $map['shop_id']=['eq',$shop_id];
+            }
+        }
        
         if($start || $code ||  $addr){
             if($start){
@@ -181,27 +214,49 @@ class Integ extends BaseAdmin
         
             $addr="";
             $code="";
-            $map=[];
+           
         }
         $this->assign("start",$start);
         $this->assign("end",$end);
       
         $this->assign("addr",$addr);
         $this->assign("code",$code);
+
+        $this->assign("shop_id",$shop_id);
     
-        $list=db("integ_dd")->alias('a')->where("status=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("id desc")->paginate(20,false,['query'=>request()->param()]);
+        $list=db("integ_dd")->alias('a')->where("status=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->join("goods_shop c","a.shop_id=c.sid")->order("id desc")->paginate(20,false,['query'=>request()->param()]);
         $this->assign("list",$list);
         $page=$list->render();
         $this->assign("page",$page);
+
+        $shop=db("goods_shop")->select();
+
+        $this->assign("shop",$shop);
     
         return $this->fetch();
     }
     public function out(){
+        $map=[];
+
         $start=input('start');
         $end=input('end');
         $code=\input('code');
       
         $addr=\input('addr');
+
+        $uid=session("uid");
+
+        $shop_id=input("shop_id");
+       
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }else{
+            if($shop_id){
+                $map['shop_id']=['eq',$shop_id];
+            }
+        }
        
         if($start || $code ||  $addr){
             if($start){
@@ -224,11 +279,16 @@ class Integ extends BaseAdmin
           
             }
         }else{
-          
-            $map=[];
+            
+            $start="";
+            $end="";
+        
+            $addr="";
+            $code="";
+           
         }
     
-        $list=db("integ_dd")->alias('a')->where("status=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("id desc")->select();
+        $list=db("integ_dd")->alias('a')->where("status=0")->where($map)->join("addr b","a.aid = b.aid","LEFT")->join("goods_shop c","a.shop_id=c.sid")->order("id desc")->select();
         // var_dump($data);exit;
         vendor('PHPExcel.PHPExcel');//调用类库,路径是基于vendor文件夹的
         vendor('PHPExcel.PHPExcel.Worksheet.Drawing');
@@ -240,7 +300,7 @@ class Integ extends BaseAdmin
         $objActSheet = $objExcel->getActiveSheet();
         $key = ord("A");
         $letter =explode(',',"A,B,C,D,E,F,G,H,I");
-        $arrHeader =  array("订单号","商品名称","积分","兑换时间","订单备注","收货人姓名","收货人电话","收货人地址");
+        $arrHeader =  array("订单号","商品名称","积分","兑换时间","订单备注","收货人姓名","收货人电话","收货人地址","商户名称");
         //填充表头信息
         $lenth =  count($arrHeader);
         for($i = 0;$i < $lenth;$i++) {
@@ -258,7 +318,7 @@ class Integ extends BaseAdmin
             $objActSheet->setCellValue('F'.$k, $v['username']);
             $objActSheet->setCellValue('G'.$k, $v['phone']);
             $objActSheet->setCellValue('H'.$k, $v['addr'].$v['addrs']);
-           
+            $objActSheet->setCellValue('I'.$k, $v['sname']);
            
             
     
@@ -277,7 +337,7 @@ class Integ extends BaseAdmin
         $objActSheet->getColumnDimension('F')->setWidth(30);
         $objActSheet->getColumnDimension('G')->setWidth(25);
         $objActSheet->getColumnDimension('H')->setWidth(30);
-       
+        $objActSheet->getColumnDimension('I')->setWidth(30);
         if($start !=0 ){
              
             $times=($start."-".$end);
@@ -385,11 +445,27 @@ class Integ extends BaseAdmin
     }
     public function wan()
     {
+        $map=[];
+
         $start=input('start');
         $end=input('end');
         $code=\input('code');
       
         $addr=\input('addr');
+
+        $uid=session("uid");
+
+        $shop_id=input("shop_id");
+       
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }else{
+            if($shop_id){
+                $map['shop_id']=['eq',$shop_id];
+            }
+        }
        
         if($start || $code ||  $addr){
             if($start){
@@ -418,27 +494,49 @@ class Integ extends BaseAdmin
         
             $addr="";
             $code="";
-            $map=[];
+           
         }
         $this->assign("start",$start);
         $this->assign("end",$end);
       
         $this->assign("addr",$addr);
         $this->assign("code",$code);
+
+        $this->assign("shop_id",$shop_id);
     
-        $list=db("integ_dd")->alias('a')->where("status=1")->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("id desc")->paginate(20,false,['query'=>request()->param()]);
+        $list=db("integ_dd")->alias('a')->where("status=1")->where($map)->join("addr b","a.aid = b.aid","LEFT")->join("goods_shop c","a.shop_id=c.sid")->order("id desc")->paginate(20,false,['query'=>request()->param()]);
         $this->assign("list",$list);
         $page=$list->render();
         $this->assign("page",$page);
+
+        $shop=db("goods_shop")->select();
+
+        $this->assign("shop",$shop);
     
         return $this->fetch();
     }
     public function outw(){
+        $map=[];
+
         $start=input('start');
         $end=input('end');
         $code=\input('code');
       
         $addr=\input('addr');
+
+        $uid=session("uid");
+
+        $shop_id=input("shop_id");
+       
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }else{
+            if($shop_id){
+                $map['shop_id']=['eq',$shop_id];
+            }
+        }
        
         if($start || $code ||  $addr){
             if($start){
@@ -461,11 +559,16 @@ class Integ extends BaseAdmin
           
             }
         }else{
-          
-            $map=[];
+            
+            $start="";
+            $end="";
+        
+            $addr="";
+            $code="";
+           
         }
     
-        $list=db("integ_dd")->alias('a')->where("status=1")->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("id desc")->select();
+        $list=db("integ_dd")->alias('a')->where("status=1")->where($map)->join("addr b","a.aid = b.aid","LEFT")->join("goods_shop c","a.shop_id=c.sid")->order("id desc")->select();
         // var_dump($data);exit;
         vendor('PHPExcel.PHPExcel');//调用类库,路径是基于vendor文件夹的
         vendor('PHPExcel.PHPExcel.Worksheet.Drawing');
@@ -477,7 +580,7 @@ class Integ extends BaseAdmin
         $objActSheet = $objExcel->getActiveSheet();
         $key = ord("A");
         $letter =explode(',',"A,B,C,D,E,F,G,H,I");
-        $arrHeader =  array("订单号","商品名称","积分","兑换时间","订单备注","收货人姓名","收货人电话","收货人地址");
+        $arrHeader =  array("订单号","商品名称","积分","兑换时间","订单备注","收货人姓名","收货人电话","收货人地址","商户名称");
         //填充表头信息
         $lenth =  count($arrHeader);
         for($i = 0;$i < $lenth;$i++) {
@@ -495,7 +598,7 @@ class Integ extends BaseAdmin
             $objActSheet->setCellValue('F'.$k, $v['username']);
             $objActSheet->setCellValue('G'.$k, $v['phone']);
             $objActSheet->setCellValue('H'.$k, $v['addr'].$v['addrs']);
-           
+            $objActSheet->setCellValue('I'.$k, $v['sname']);
            
             
     
@@ -514,7 +617,7 @@ class Integ extends BaseAdmin
         $objActSheet->getColumnDimension('F')->setWidth(30);
         $objActSheet->getColumnDimension('G')->setWidth(25);
         $objActSheet->getColumnDimension('H')->setWidth(30);
-       
+        $objActSheet->getColumnDimension('I')->setWidth(30);
         if($start !=0 ){
              
             $times=($start."-".$end);
@@ -544,11 +647,27 @@ class Integ extends BaseAdmin
     }
     public function bo_dd()
     {
+        $map=[];
+
         $start=input('start');
         $end=input('end');
         $code=\input('code');
       
         $addr=\input('addr');
+
+        $uid=session("uid");
+
+        $shop_id=input("shop_id");
+       
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }else{
+            if($shop_id){
+                $map['shop_id']=['eq',$shop_id];
+            }
+        }
        
         if($start || $code ||  $addr){
             if($start){
@@ -577,27 +696,49 @@ class Integ extends BaseAdmin
         
             $addr="";
             $code="";
-            $map=[];
+           
         }
         $this->assign("start",$start);
         $this->assign("end",$end);
       
         $this->assign("addr",$addr);
         $this->assign("code",$code);
+
+        $this->assign("shop_id",$shop_id);
     
-        $list=db("integ_dd")->alias('a')->where("status=2")->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("id desc")->paginate(20,false,['query'=>request()->param()]);
+        $list=db("integ_dd")->alias('a')->where("status=2")->where($map)->join("addr b","a.aid = b.aid","LEFT")->join("goods_shop c","a.shop_id=c.sid")->order("id desc")->paginate(20,false,['query'=>request()->param()]);
         $this->assign("list",$list);
         $page=$list->render();
         $this->assign("page",$page);
+
+        $shop=db("goods_shop")->select();
+
+        $this->assign("shop",$shop);
     
         return $this->fetch();
     }
     public function outb(){
+        $map=[];
+
         $start=input('start');
         $end=input('end');
         $code=\input('code');
       
         $addr=\input('addr');
+
+        $uid=session("uid");
+
+        $shop_id=input("shop_id");
+       
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }else{
+            if($shop_id){
+                $map['shop_id']=['eq',$shop_id];
+            }
+        }
        
         if($start || $code ||  $addr){
             if($start){
@@ -620,11 +761,16 @@ class Integ extends BaseAdmin
           
             }
         }else{
-          
-            $map=[];
+            
+            $start="";
+            $end="";
+        
+            $addr="";
+            $code="";
+           
         }
     
-        $list=db("integ_dd")->alias('a')->where("status=2")->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("id desc")->select();
+        $list=db("integ_dd")->alias('a')->where("status=2")->where($map)->join("addr b","a.aid = b.aid","LEFT")->join("goods_shop c","a.shop_id=c.sid")->order("id desc")->select();
         // var_dump($data);exit;
         vendor('PHPExcel.PHPExcel');//调用类库,路径是基于vendor文件夹的
         vendor('PHPExcel.PHPExcel.Worksheet.Drawing');
@@ -636,7 +782,7 @@ class Integ extends BaseAdmin
         $objActSheet = $objExcel->getActiveSheet();
         $key = ord("A");
         $letter =explode(',',"A,B,C,D,E,F,G,H,I");
-        $arrHeader =  array("订单号","商品名称","积分","兑换时间","订单备注","收货人姓名","收货人电话","收货人地址");
+        $arrHeader =  array("订单号","商品名称","积分","兑换时间","订单备注","收货人姓名","收货人电话","收货人地址","商户名称");
         //填充表头信息
         $lenth =  count($arrHeader);
         for($i = 0;$i < $lenth;$i++) {
@@ -654,7 +800,7 @@ class Integ extends BaseAdmin
             $objActSheet->setCellValue('F'.$k, $v['username']);
             $objActSheet->setCellValue('G'.$k, $v['phone']);
             $objActSheet->setCellValue('H'.$k, $v['addr'].$v['addrs']);
-           
+            $objActSheet->setCellValue('I'.$k, $v['sname']);
            
             
     
@@ -673,7 +819,7 @@ class Integ extends BaseAdmin
         $objActSheet->getColumnDimension('F')->setWidth(30);
         $objActSheet->getColumnDimension('G')->setWidth(25);
         $objActSheet->getColumnDimension('H')->setWidth(30);
-       
+        $objActSheet->getColumnDimension('I')->setWidth(30);
         if($start !=0 ){
              
             $times=($start."-".$end);

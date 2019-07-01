@@ -26,16 +26,23 @@
 				<input type="text" class="flex_1" placeholder="请输入搜索关键词" readonly>
 			</a>
 			<!-- banner -->
-			<div data-am-widget="slider" class="am-slider am-slider-a1 mar_btm_12"
-				data-am-slider='{&quot;directionNav&quot;:false}'>
-				<ul class="am-slides">
-				  {volist name="lb" id="vl" }	
-					<li style="height: 156px;"><img src="{$vl.image}"></li>
-				   {/volist}
-				</ul>
-			</div>
+		
 
-			<div class="am-cf">
+			<div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}' style="position: relative;">
+					<ul class="am-slides">
+					 {volist name="lb" id="vb"}	
+						<li>
+							<a {if condition="$vb.url neq '' "} href="{$vb.url}" {/if} >
+								<div style="height: 150px;background-image: url({$vb.image});background-size: cover;background-repeat: no-repeat;background-position: center;"></div>
+							</a>
+							<!-- <img src="{$vb.image}"> -->
+						</li>
+					{/volist}
+					</ul>
+					
+				</div>
+
+			<div class="am-cf" style="margin-top: 10px;">
 			  {volist name="type" id="vt"}
 				<a href="{:url('Goods/kind',array('id'=>$vt['type_id']))}" style="width: 20%;" class="kind_cell  am-text-center">
 					<img src="{$vt.type_image}" width="32" height="32" alt="">

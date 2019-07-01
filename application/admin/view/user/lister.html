@@ -48,6 +48,7 @@
                   <th>ID</th>
                   <th>账号</th>                  
                   <th class="hidden-480">账号类型</th>
+                  <th class="hidden-480">商家类型</th>
                   <th class="hidden-480">最后登录时间</th>
                   <th class="hidden-480">最后登录IP</th>
                   <th style="border-right:#ddd solid 1px;">操作</th>
@@ -59,7 +60,15 @@
               
                   <td><span class="badge badge-grey">{$v.id}</span></td>
                   <td>{$v.username}</td>
-                  <td>{if condition="$v.level eq 0"}超级管理员{/if}{if condition="$v.level eq 1"}普通管理员{/if}</td>
+                  <td>{if condition="$v.level eq 0"}超级管理员{/if}
+                    {if condition="$v.level eq 1"}普通管理员{/if}
+                    {if condition="$v.level eq 2"}商家管理员{/if}
+                  </td>
+                  <td>{if condition="$v.shop_type eq 1"}热门景区{/if}
+                      {if condition="$v.shop_type eq 2"}旅行社{/if}
+                      {if condition="$v.shop_type eq 3"}民宿酒店{/if}
+                      {if condition="$v.shop_type eq 4"}商城商家{/if}
+                    </td>
                   <td class="hidden-480">{$v.curtime}</td>
                   <td class="hidden-480">{$v.ip}</td>
                   <td>

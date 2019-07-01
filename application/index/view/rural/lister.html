@@ -37,79 +37,22 @@
 	</div>
 </form>	
 </div>
-<div class="choice_box bd_btm">
-	<ul class="choice_ceng flex_around bg_white p_12">
-		<li class="choice_item flex_center">
-			<span class="mar_rt_6">{$arr.cname}</span><img src="__HOME__/img/icon_down.png" width="12" height="12" alt="">
-		</li>
-		<li class="choice_item flex_center">
-			<span class="mar_rt_6">{$arr.xname}</span><img src="__HOME__/img/icon_down.png" width="12" height="12" alt="">
-		</li>
-		<li class="choice_item flex_center">
-			<span class="mar_rt_6">{$arr.zname}</span><img src="__HOME__/img/icon_down.png" width="12" height="12" alt="">
-		</li>
-	</ul>
-<ul class="choice_wrap" style="top:44px;">
-		<form id="city_form" action="">
-				<li class="choice_cont">
-					<div class="choice_scroll">
-						<label for="area_1" class="choice_lb p_12 flex_between bd_btm">
-							<h6>不限</h6><input type="radio" name="cid" value="0" id="area_1">
-						</label>
-						{volist name="city" id="vc" key="kc"}
-						<label for="area_{$kc+1}" class="choice_lb p_12 flex_between bd_btm">
-							<h6>{$vc.c_name}</h6><input type="radio" name="cid" {if condition="$arr.cid eq $vc.cid"} checked {/if} value="{$vc.cid}" id="area_{$kc+1}">
-						</label>
-						{/volist}
-						
-					</div>
-					<div class="choice_flex flex_normal">
-						<a href="javascript:;" class="choice_reset">重置</a>
-						<a href="javascript:;" class="choice_confirm">确定</a>
-					</div>
-				</li>
-				<li class="choice_cont">
-					<div class="choice_scroll">
-						<label for="kind_1" class="choice_lb p_12 flex_between bd_btm">
-							<h6>不限</h6><input type="radio" name="xid" value="0" id="kind_1">
-						</label>
-						{volist name="area" id="va" key="ka"}
-						<label for="kind_{$ka+1}" class="choice_lb p_12 flex_between bd_btm">
-							<h6>{$va.c_name}</h6><input type="radio" value="{$va.cid}" name="xid" {if condition="$arr.xid eq $va.cid"} checked {/if} id="kind_{$ka+1}">
-						</label>
-						{/volist}
-					</div>
-					<div class="choice_flex flex_normal">
-						<a href="javascript:;" class="choice_reset">重置</a>
-						<a href="javascript:;" class="choice_confirm">确定</a>
-					</div>
-				</li>
-				<li class="choice_cont">
-					<div class="choice_scroll">
-						<label for="price_1" class="choice_lb p_12 flex_between bd_btm">
-							<h6>不限</h6><input type="radio" name="zid" value="0" id="price_1">
-						</label>
-						{volist name="towns" id="vt" key="kt"}
-						<label for="price_{$kt+1}" class="choice_lb p_12 flex_between bd_btm">
-							<h6>{$vt.c_name}</h6><input type="radio" value="{$vt.cid}" name="zid" {if condition="$arr.zid eq $vt.cid"} checked {/if} id="price_{$kt+1}">
-						</label>
-						{/volist}
-					
-					</div>
-					<div class="choice_flex flex_normal">
-						<a href="javascript:;" class="choice_reset">重置</a>
-						<a href="javascript:;" class="choice_confirm">确定</a>
-					</div>
-				</li>
-			</form>	
-	</ul>
-	</div>
-	<!-- 背景蒙版 -->
-	<div class="common_bg" id="common_bg"></div>
+
 	
-	<div class="p_12">
-		<div class="travel_banner bd_radius bg_cover" style="background-image: url({$re.images});"></div>
-	</div>
+	
+	<div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}' style="position: relative;">
+			<ul class="am-slides">
+			 {volist name="banner" id="vb"}	
+				<li>
+					<a {if condition="$vb.url neq '' "} href="{$vb.url}" {/if} >
+						<div style="height: 150px;background-image: url({$vb.image});background-size: cover;background-repeat: no-repeat;background-position: center;"></div>
+					</a>
+					<!-- <img src="{$vb.image}"> -->
+				</li>
+			{/volist}
+			</ul>
+			
+		</div>
 
 	<!-- 乡村旅游 -->
 	<a href="javascript:;" class="flex_between p_12 bg_white">

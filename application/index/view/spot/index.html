@@ -49,7 +49,14 @@
 	<div class="kind_box webkit_cont">
 		<ul class="kind_menu ">
 		  {volist name="res" id="v" key="k"}	
-			<li {if condition="$k eq 1"} class="kind_item active" {else /} class="kind_item" {/if} >{$v.name}</li>
+			<li {if condition="$pid eq 0"} {if condition="$k eq 1"} class="kind_item active" {else /} class="kind_item" {/if} {elseif condition="$pid eq $v['id']"} class="kind_item active" {else /} class="kind_item" {/if} >
+				<a href="{:url('Spot/index',array('pid'=>$v['id']))}">{$v.name}</a>
+			</li>
+			<ul class="kind_menu_sub">
+			  {volist name="$v['type']" id="vt"}	
+				<li><a href="{:url('Spot/index',array('id'=>$vt['id']))}">{$vt.name}</a></li>
+			  {/volist}
+			</ul>
 		  {/volist}
 		</ul>
 		<div class="kind_wrap">
@@ -58,6 +65,9 @@
 				<div class="kind_banner bg_cover bd_radius mar_btm_12" style="background-image: url({$v.image});">
 				</div>
 				<div class="am-g">
+
+					
+					
                  {volist name="$v['list']" id="p" key="kp"}
 					<a href="{:url('Spot/detail',array('id'=>$p['id']))}" class="am-u-sm-6 am-block mar_btm_12">
 						<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url({$p.image});"><span class="kind_tag">top{$kp}</span></div>
@@ -73,6 +83,8 @@
 
 					</a>
 					{/volist}
+
+				
 					<!-- <a href="scenic_detail.html" class="am-u-sm-6 am-block mar_btm_12">
 						<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url(__HOME__/img/common_pic.jpg);"><span class="kind_tag">top1</span></div>
 <div class="flex_normal">

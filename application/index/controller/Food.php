@@ -61,6 +61,10 @@ class Food extends BaseHome
         $type=db("food_type")->select();
 
         $this->assign("type",$type);
+
+        $lb=db("lb")->where(["fid"=>45,"status"=>1])->order(["sort asc","id desc"])->select();
+
+        $this->assign("lb",$lb);
         
         return $this->fetch();
     }
@@ -85,8 +89,136 @@ class Food extends BaseHome
        $type=db("food_type")->where("id",$re['tid'])->find();
 
        $this->assign("type",$type);
+
+       $assess=db("assess")->alias("a")->where(["status"=>1,"type"=>4])->join("user b","a.u_id=b.uid")->order("id desc")->select();
+
+        $this->assign("assess",$assess);
+
+        $cou=count($assess);
+
+        $this->assign("cou",$cou);
+
+        //收藏
+        $uids=session("userid");
+        if($uids){
+            $collect=db("collect")->where(["uid"=>$uids,"gid"=>$id,"type"=>4])->find();
+
+            if($collect){
+                $collect=1;
+            }else{
+                $collect=0;
+            }
+
+        }else{
+            $collect=0;
+        }
+
+        $this->assign("collect",$collect);
+
+        if($uids){
+            $assist=db("assist")->where(["uid"=>$uids,"nid"=>$id,"type"=>4])->find();
+
+            if($assist){
+                $assist=1;
+            }else{
+                $assist=0;
+            }
+
+        }else{
+            $assist=0;
+        }
+
+        $this->assign("assist",$assist);
        
         return $this->fetch();
+    }
+     /**
+    * 保存评价
+    *
+    * @return void
+    */
+    public function save_assess()
+    {
+        $uid=session("userid");
+
+        if($uid){
+
+            $data=input("post.");
+            $data['u_id']=$uid;
+            $data['type']=4;
+            $data['addtime']=time();
+
+            $re=db("assess")->insert($data);
+
+            if($re){
+                echo '0';
+            }else{
+                echo '2';
+            }
+
+        }else{
+            echo '1';
+        }
+    }
+    /**
+    * 收藏
+    *
+    * @return void
+    */
+    public function save_collect()
+    {
+        $uid=session("userid");
+
+        if($uid){
+
+            $nid=input("nid");
+
+            $re=db("collect")->where(["gid"=>$nid,"uid"=>$uid,"type"=>4])->find();
+
+            if($re){
+                db("collect")->where("id",$re['id'])->delete();
+            }else{
+                $data['gid']=$nid;
+                $data['uid']=$uid;
+                $data['type']=4;
+
+                db("collect")->insert($data);
+            }
+            echo '0';
+
+        }else{
+            echo '1';
+        }
+    }
+    /**
+    * 点赞
+    *
+    * @return void
+    */
+    public function save_assist()
+    {
+        $uid=session("userid");
+
+        if($uid){
+
+            $nid=input("nid");
+
+            $re=db("assist")->where(["nid"=>$nid,"uid"=>$uid,"type"=>4])->find();
+
+            if($re){
+                db("assist")->where("id",$re['id'])->delete();
+            }else{
+                $data['nid']=$nid;
+                $data['uid']=$uid;
+                $data['type']=4;
+
+                db("assist")->insert($data);
+            }
+            echo '0';
+
+        }else{
+            echo '1';
+        }
     }
     
 }

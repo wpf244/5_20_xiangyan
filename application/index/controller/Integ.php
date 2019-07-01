@@ -105,6 +105,7 @@ class Integ extends BaseUser
                         $data['code']='CK-'.uniqid();
                         $data['time']=time();
                         $data['content']=$content;
+                        $data['shop_id']=$re['shop_id'];
                         $data['aid']=$aid;
 
                         $log['uid']=$uid;

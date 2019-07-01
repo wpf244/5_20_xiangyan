@@ -5,7 +5,7 @@ class Car extends BaseHome
 {
     public function index()
     {
-        $lb=db("lb")->where("id",10)->find();
+        $lb=db("lb")->where(["fid"=>10,"status"=>1])->order(["sort asc","id desc"])->select();
 
         $this->assign("lb",$lb);
 

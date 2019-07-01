@@ -81,6 +81,12 @@
 				</div>
 				<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
 			</a>
+			<!-- <a class="p_12 bd_btm flex_between bg_white" href="">
+				<div class="flex_normal">
+					<img class="mar_rt_12" src="__HOME__/img/icon_collects.png" width="16" height="16" alt=""><span>我的收藏</span>
+				</div>
+				<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+			</a> -->
 		
 		<a class="p_12 bd_btm flex_between bg_white" href="{:url('User/my_coupon')}">
 			<div class="flex_normal">
@@ -103,11 +109,11 @@
 			</div>
 			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
 		</a>
-		<a class="p_12 bd_btm flex_between bg_white" href="tel:{$sys.phone}">
+		<a class="p_12 bd_btm flex_between bg_white" {empty name="$com['phone']"} href="tel:{$sys.phone}" {else /} href="tel:{$com.phone}" {/empty} >
 				<div class="flex_normal">
 					<img class="mar_rt_12" src="__HOME__/img/icon_tousu.png" width="16" height="16" alt=""><span>投诉电话</span>
 				</div>
-				<span class="col_nine ">{$sys.phone}</span>
+				<span class="col_nine ">{empty name="$com['phone']"}{$sys.phone} {else /} {$com.phone} {/empty}</span>
 			</a>
 	</div>
 

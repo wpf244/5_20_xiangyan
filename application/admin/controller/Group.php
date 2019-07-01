@@ -5,8 +5,19 @@ class Group extends BaseAdmin
 {
     public function person()
     {
+        $map=[];
+
+        $uid=session("uid");
         
-        $list=db("made_person")->where(["status"=>0])->order(["id desc"])->paginate(20,false,['query'=>request()->param()]);
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }
+
+        $this->assign("admin",$admin);
+        
+        $list=db("made_person")->alias("a")->field("a.*,b.name")->where(["status"=>0])->where($map)->join("travel b","a.shop_id=b.id")->order(["a.id desc"])->paginate(20,false,['query'=>request()->param()]);
 
         $this->assign("list",$list);
 
@@ -96,7 +107,20 @@ class Group extends BaseAdmin
     public function persons()
     {
         
-        $list=db("made_person")->where(["status"=>1])->order(["id desc"])->paginate(20,false,['query'=>request()->param()]);
+        $map=[];
+
+        $uid=session("uid");
+        
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }
+
+        $this->assign("admin",$admin);
+        
+        $list=db("made_person")->alias("a")->field("a.*,b.name")->where(["status"=>1])->where($map)->join("travel b","a.shop_id=b.id")->order(["a.id desc"])->paginate(20,false,['query'=>request()->param()]);
+
 
         $this->assign("list",$list);
 
@@ -109,7 +133,19 @@ class Group extends BaseAdmin
     public function team()
     {
         
-        $list=db("made_team")->where(["status"=>0])->order(["id desc"])->paginate(20,false,['query'=>request()->param()]);
+        $map=[];
+
+        $uid=session("uid");
+        
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }
+
+        $this->assign("admin",$admin);
+        
+        $list=db("made_team")->alias("a")->field("a.*,b.name")->where(["status"=>0])->where($map)->join("travel b","a.shop_id=b.id")->order(["id desc"])->paginate(20,false,['query'=>request()->param()]);
 
         $this->assign("list",$list);
 
@@ -186,7 +222,19 @@ class Group extends BaseAdmin
     public function teams()
     {
         
-        $list=db("made_team")->where(["status"=>1])->order(["id desc"])->paginate(20,false,['query'=>request()->param()]);
+        $map=[];
+
+        $uid=session("uid");
+        
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['shop_id']=['eq',$admin['shop_id']];
+        }
+
+        $this->assign("admin",$admin);
+        
+        $list=db("made_team")->alias("a")->field("a.*,b.name")->where(["status"=>1])->where($map)->join("travel b","a.shop_id=b.id")->order(["id desc"])->paginate(20,false,['query'=>request()->param()]);
 
         $this->assign("list",$list);
 

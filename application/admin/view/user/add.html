@@ -62,12 +62,37 @@
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label no-padding-right" for="">管理员类型</label>
                                                             <div class="col-sm-6">
-                                                                <select class="form-control" id="fid" name="level" required>
+                                                                <select class="form-control"  name="level" required>
                                                                     <option value="0">超级管理员</option>
                                                                     <option value="1">普通管理员</option>
+                                                                    <option value="2">商家管理员</option>
                                                                 </select>
                                                             </div>
                                                         </div>
+
+                                                        <div class="form-group">
+                                                                <label class="col-sm-4 control-label no-padding-right" for="">商户类型</label>
+                                                                <div class="col-sm-6">
+                                                                    <select class="form-control" id="sid" name="shop_type">
+                                                                        <option value="0">请选择商户类型</option>
+                                                                        <option value="1">热门景区</option>
+                                                                        <option value="2">旅行社</option>
+                                                                        <option value="3">民宿/酒店</option>
+                                                                        <option value="4">商城商家</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                    <label class="col-sm-4 control-label no-padding-right" for="">商户</label>
+                                                                    <div class="col-sm-6">
+                                                                        <select class="form-control" id="cid"  name="shop_id">
+                                                                            <option value="0">请选择商户</option>
+                                                                            
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -116,7 +141,37 @@
 
         })
     </script>
+ <script>
+  $("#sid").change(function(){
+   var sid = $("#sid").val();
+ 
+   
+    $.ajax({
+       type:"post",
+       url:"{:url('User/getnexts')}",
+       data:{sid:sid},
+       datatype:"text",
+       success:function(re)
+       {
+        if(re != 0){
+            var data = JSON.parse(re);
+            $('#cid').html('<option value="0">请选择商户</option>');
+            for(var j=0;j<data.length;j++){
+             
+              $('#cid').append('<option value="'+ data[j].id +'">'+data[j].name+'</option>');
+            }
+        }else{
+          
+          $('#cid').html('<option value="0">请选择商户</option>');
+        } 
+      
+          
+       }
+    })
 
+ })
+ 
+ </script>
 
     <script>
         $(function () {

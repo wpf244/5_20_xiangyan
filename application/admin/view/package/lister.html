@@ -39,6 +39,7 @@
                 <a class="btn btn-success btn-white btn-bold" href="{:url('Package/add')}">
                   <i class="ace-icon fa fa-plus icon-only"></i>
                   添加</a>
+                  {if condition="$admin.level neq 2"}
                 <button id="change" class="btn btn-warning btn-white btn-bold">
                   <i class="fa fa-exchange"></i>
                  排序
@@ -47,6 +48,7 @@
                   <i class="ace-icon fa fa-trash-o icon-only"></i>
                   删除
                 </button>
+                {/if}
                 </div>
 
                <div class="col-sm-8 clearfix">
@@ -81,6 +83,7 @@
                     </label>
                   </th>
                   <th>ID</th>
+                  <th>所属旅行社</th>
                   <th class="hidden-480">排序</th>
                   <th class="hidden-480">标题</th>
                   <th class="hidden-480">起价</th>
@@ -106,6 +109,7 @@
                   </td>
                   <td><span class="badge badge-grey">{$v.id}</span></td>
                   <td class="hidden-480"><input class="input-small" type="number" name="{$v.id}" value="{$v.sort}"></td>
+                  <td class="hidden-480">{$v.name}</td> 
                   <td class="hidden-480">{$v.title}</td> 
                   <td class="hidden-480">{$v.qprice}</td> 
                 

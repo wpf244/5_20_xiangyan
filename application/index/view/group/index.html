@@ -47,8 +47,20 @@
 	<div class="tab_wrap">
 		<div class="tab_cont active">
 			<div class="p_12">
-				<div class="group_banner mar_btm_12 bg_cover bd_radius" style="background-image:url({$lb.image});"></div>
-				<div class="flex_between mar_btm_12">
+					<div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}' style="position: relative;">
+							<ul class="am-slides">
+							 {volist name="lb" id="vb"}	
+								<li>
+									<a {if condition="$vb.url neq '' "} href="{$vb.url}" {/if} >
+										<div style="height: 150px;background-image: url({$vb.image});background-size: cover;background-repeat: no-repeat;background-position: center;"></div>
+									</a>
+									<!-- <img src="{$vb.image}"> -->
+								</li>
+							{/volist}
+							</ul>
+							
+						</div>
+				<div class="flex_between mar_btm_12" style="margin-top: 10px;">
 				   
 					{volist name="flow" key="k" id="v"}
                     {if condition="$k neq 1"}

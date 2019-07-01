@@ -43,7 +43,20 @@
                       </div>
                       <div class="widget-body">
                         <div class="widget-main">
-
+                          {if condition="$admin.level neq 2"}
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="">所属旅行社</label>
+                                    <div class="col-sm-10">
+                                      <select class="form-control" name="fid" required>
+                                       {volist name="res" id="v"}
+                                        <option value="{$v.id}">{$v.name}</option>
+                                       {/volist}
+                                      </select>
+                                    </div> 
+                                </div>
+                                {else /}
+                                 <input name="fid" type="hidden" value="{$admin.shop_id}" />
+                             {/if}
                           <div class="form-group">
                             <label class="col-sm-2 control-label no-padding-right" for="">标题</label>
                             <div class="col-sm-10">
