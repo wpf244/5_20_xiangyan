@@ -51,6 +51,27 @@ class Index extends BaseHome
 
         $this->assign("index_city",$index_city);
 
+
+        $data=db("payment")->where("id",1)->find();
+
+        $appid=$data['appid'];
+
+        $appsecret=$data['appsecret'];
+        
+        vendor("Jssdk.Jssdk");
+        $jssdk = new \JSSDK("$appid", "$appsecret");
+        $signPackage = $jssdk->GetSignPackage();
+       $this->assign("signPackage",$signPackage);   
+       
+       $city_index=session("city_index");
+
+       if($city_index){
+           $aa=1;
+       }else{
+           $aa=0;
+       }
+       $this->assign("aa",$aa);
+
       
       
         return $this->fetch();
@@ -102,7 +123,10 @@ class Index extends BaseHome
         $info = $this->get_contents($url, $params,$test_key);
         $city=$info['result']['addressComponent']['city'];
 
-        session("city",$city);
+       
+        
+        
+        session("city_index",$city);
 
         echo $city;
 

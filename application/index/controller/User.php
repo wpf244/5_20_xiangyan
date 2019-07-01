@@ -502,15 +502,75 @@ class User extends BaseUser
         }
     }
 
+    //我的收藏
+    public function my_collcet(){
 
+        $uid=session("userid");
+        
+        $res1=db("collect")->alias("a")->field("a.*,b.title,b.content")->where(["a.uid"=>$uid,"type"=>1])->join("rural b","a.gid=b.id")->select();
 
+        $this->assign("res1",$res1);
 
+        $res2=db("collect")->alias("a")->field("a.*,b.name as title,b.content")->where(["a.uid"=>$uid,"type"=>3])->join("spot b","a.gid=b.id")->select();
 
+        $this->assign("res2",$res2);
 
+        $res3=db("collect")->alias("a")->field("a.*,b.name as title,b.marray as content")->where(["a.uid"=>$uid,"type"=>4])->join("food b","a.gid=b.id")->select();
 
+        $this->assign("res3",$res3);
 
+        $res4=db("collect")->alias("a")->field("a.*,b.name as title,b.content")->where(["a.uid"=>$uid,"a.type"=>2])->join("hotel b","a.gid=b.id")->select();
 
+        $this->assign("res4",$res4);
 
+        return $this->fetch();
+    }
+    //取消收藏
+    public function delete_collect()
+    {
+        $id=input("id");
 
+        $del=db("collect")->where("id",$id)->delete();
 
+        if($del){
+            echo '0';
+        }else{
+            echo '1';
+        }
+    }
+    //我的评论
+    public function my_comment(){
+        $uid=session("userid");
+        
+        $res1=db("assess")->alias("a")->field("a.*,b.title")->where(["a.u_id"=>$uid,"type"=>1])->join("rural b","a.g_id=b.id")->select();
+
+        $this->assign("res1",$res1);
+
+        $res2=db("assess")->alias("a")->field("a.*,b.name as title")->where(["a.u_id"=>$uid,"type"=>3])->join("spot b","a.g_id=b.id")->select();
+
+        $this->assign("res2",$res2);
+
+        $res3=db("assess")->alias("a")->field("a.*,b.name as title")->where(["a.u_id"=>$uid,"type"=>4])->join("food b","a.g_id=b.id")->select();
+
+        $this->assign("res3",$res3);
+
+        $res4=db("assess")->alias("a")->field("a.*,b.name as title")->where(["a.u_id"=>$uid,"a.type"=>2])->join("hotel b","a.g_id=b.id")->select();
+
+        $this->assign("res4",$res4);
+        
+
+        return $this->fetch();
+    }
+    public function delete_assess()
+    {
+        $id=input("id");
+
+        $del=db("assess")->where("id",$id)->delete();
+
+        if($del){
+            echo '0';
+        }else{
+            echo '1';
+        }
+    }
 }

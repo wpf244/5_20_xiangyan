@@ -19,10 +19,10 @@
 
 <script>
 // 获取当前城市及天气状态
-function showLocation(data) {
-    console.log(data.content.address_detail.city);
-}
-$.getScript("http://api.map.baidu.com/location/ip?ak=Za6Z8GfT2bPsCz7L5mV3jUImVeFDdcdR&callback=showLocation");
+// function showLocation(data) {
+//     console.log(data.content.address_detail.city);
+// }
+// $.getScript("http://api.map.baidu.com/location/ip?ak=Za6Z8GfT2bPsCz7L5mV3jUImVeFDdcdR&callback=showLocation");
 var city = "{$city_index}";
 $.ajax({
     type: 'GET',
@@ -33,22 +33,6 @@ $.ajax({
         // alert('网络错误');
     },
     success: function (res) {
-
-       
-        if(city == ''){
-
-            city = res.city;
-
-            $.ajax({
-           type:"post",
-           url:"{:url('Index/save_citys')}",
-           data:{city:city},
-           dataType:"text",
-           success:function(){
-
-           }
-          })
-        }
       
         uptime = res.update_time.substring(11);
         uptime = uptime.substring(0,uptime.length-3);

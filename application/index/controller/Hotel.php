@@ -198,12 +198,36 @@ class Hotel extends BaseUser
 
         }else{
             $assist=0;
+            $uids=0;
         }
 
         $this->assign("assist",$assist);
 
+        $this->assign("uids",$uids);
+
+        $coua=db("assist")->where(["nid"=>$id,"type"=>2])->count();
+
+        $this->assign("coua",$coua);
+
         
         return $this->fetch();
+    }
+    /**
+    * 删除评论
+    *
+    * @return void
+    */
+    public function delete()
+    {
+        $id=input("id");
+
+        $del=db("assess")->where("id",$id)->delete();
+
+        if($del){
+            echo '0';
+        }else{
+            echo '1';
+        }
     }
     /**
     * 保存订房信息

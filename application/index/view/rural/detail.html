@@ -62,6 +62,10 @@
 		</div>
 		<!-- 新增 -->
 		<div class="q_info">
+
+				<div class="detail_box">
+						{$re.content}
+					</div>
 			
 			<div class="q_info_item">
 				<div class="q_info_title">路线</div>
@@ -69,6 +73,12 @@
 					{$re.route}
 			</div>
 			</div>
+			<div class="q_info_item">
+					<div class="q_info_title">行程</div>
+					<div class="q_info_content">
+						{$re.trip}
+				</div>
+				</div>
 			<div class="q_info_item">
 				<div class="q_info_title">最佳游玩时间</div>
 				<div class="q_info_content">
@@ -78,16 +88,9 @@
 		</div>
 
 
-		<div class="detail_box">
-			{$re.content}
-		</div>
+		
 
-		<div class="q_info_item">
-			<div class="q_info_title">行程</div>
-			<div class="q_info_content">
-				{$re.trip}
-		</div>
-		</div>
+		
 
 		<div class="title_left flex_normal">
 			<span>评论({$cou})</span>
@@ -97,10 +100,16 @@
 			<ul>
 				{volist name="assess" id="va"}
 					<li class="q_comment_wrap">
-						<div class="q_comment_item">
-							<div class="q_comment_avatar" style="background-image: url('{$va.image}');"></div>
-							<div class="q_comment_name">{$va.nickname}</div>
+						<div style="display: flex;justify-content: space-between;">
+								<div class="q_comment_item">
+										<div class="q_comment_avatar" style="background-image: url('{$va.image}');"></div>
+										<div class="q_comment_name">{$va.nickname}</div>
+									</div>
+								{if condition="$uids eq $va.uid"}	
+									<div style="width:15px;height:15px;float:right;background-image: url('__HOME__/img/ico-del.png');background-size: 15px;" class="delete" data-id="{$va.id}"></div>
+									{/if}
 						</div>
+						
 						<div style="padding-left: 34px;">
 								{$va.content}
 								<div style="margin-top: 10px;"><span style="color: #B3B3B3;margin-right:20px;">{$va.addtime|date="Y/m/d",###}</span></div>
@@ -120,9 +129,32 @@
 		<div class="mess-bar-btn" id="send" >发送</div>
 		<div {if condition="$collect eq 0"} class="mess-bar-collect" {else /} class="mess-bar-collect on" {/if} id="collect"></div>
 		<div {if condition="$assist eq 0"} class="mess-bar-like" {else /} class="mess-bar-like on" {/if} id="assist"></div>
+		<div style="line-height: 29px;" id="num">{$coua}</div>
 	</div>
 
 	<script>
+
+       $(".delete").click(function(){
+		   var id = $(this).data("id");
+
+		   $.ajax({
+				type:"post",
+				url:"__URL__/delete",
+				data:{id:id},
+				dataType:"text",
+				success:function(re){
+                   if(re == 0){
+					   layer.msg("删除成功");
+					   setTimeout("location.reload()",1000);
+				   }else{
+					   layer.msg("删除失败");
+					   setTimeout("location.reload()",1000);
+				   }
+				}
+			})
+		   
+	   })
+
 	   $("#send").click(function(){
 		    var content = $("#content").val();
             var nid = "{$re.id}"; 

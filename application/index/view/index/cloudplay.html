@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+<style>
+	.myq {
+		width: 20%;
+	}
+</style>
+<body class="pad_btm">
+		<div class="back_box">
+				<ul class="bread">
+						<li>
+								<a href="{:url('Index/index')}">首页</a>&nbsp;&gt;
+								 </li>
+								 <li>
+								<a href="javascript:;">云播</a>
+								 </li>
+								</ul>	
+		</div>
+		<!-- <div class="back_box">
+			首页			
+		</div> -->
+			<!-- <a class="back_icon" href="javascript:history.back(-1)">
+				<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+			</a>		 -->
+
+	<!-- 公共顶部 -->
+{include file="public:top"}
+
+	<!-- banner -->
+	<div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}' style="position: relative;">
+		<ul class="am-slides">
+		 {volist name="lb" id="vb"}	
+			<li>
+				<a {if condition="$vb.url neq '' "} href="{$vb.url}" {/if} >
+					<div style="height: 150px;background-image: url({$vb.image});background-size: cover;background-repeat: no-repeat;background-position: center;"></div>
+				</a>
+				<!-- <img src="{$vb.image}"> -->
+			</li>
+		{/volist}
+		</ul>
+		<div class=" col_main" id="weather"></div>
+	</div>
+
+	<!-- 搜索框 -->
+	<div class="search_box p_12 bg_normal">
+		<form action="{:url('Rural/lister')}" method="GET">
+		<div class="flex_normal" >
+			<div class="search_wrap pad_12 flex_1 bg_white bd_radius  flex_between">
+				<div class="search_location flex_normal pad_rt_12 mar_rt_12 col_main">
+					<img class="mar_rt_6" src="__HOME__/img/icon_location.png" width="12" height="12" alt=""><span class="city jsmodal"></span>
+				</div>
+				<input class="flex_1" type="text" name="title" placeholder="请输入搜索关键词">
+				<img class="mar_lt_12" src="__HOME__/img/icon_search.png" width="16" height="16" alt="">
+			</div>
+			<button class="mar_lt_12" type="submit">搜索</button>
+		</div>
+	</form>
+	</div>
+
+	<div class="am-popup" id="my-popup">
+		<div class="am-popup-inner">
+			<div class="am-popup-hd">
+				<h4 class="am-popup-title">切换城市</h4>
+				<span data-am-modal-close
+							class="am-close">&times;</span>
+			</div>
+			<div class="am-popup-bd">
+				<ul class="am-list am-list-border">
+				  {volist name="index_city" id="vo"}	
+					<li><a href="{:url('Index/save_city',array('id'=>$vo['cid']))}">{$vo.c_name}</a></li>
+				{/volist}
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="p_12">
+		<div style="margin-bottom:15px;font-weight:bold;color: #000000;font-size:17px;">多彩郑州</div>
+
+		<div style="margin-bottom:15px;">
+			<a href="" class="q_c_label active">世界遗产</a>
+			<a href="" class="q_c_label">湖泊</a>
+			<a href="" class="q_c_label">高山流水</a>
+			<a href="" class="q_c_label">日出</a>
+			<a href="" class="q_c_label">青山翠林</a>
+		</div>
+
+		<div style="margin-bottom:15px;padding:15px 12px;border-radius:10px;background-color:#F2F2F2;">
+			<div style="font-size: 13px;margin-bottom:10px;">作为全国世界遗传大省，来郑州这些必看。</div>
+			<div style="color: #999999;">推荐观看时间：8:00-18:00</div>
+		</div>
+
+		<div class="q_cloud_item">
+			<a href="{:url('Index/cloudplay_detail')}">
+				<div class="q_cloud_thumb" style="background-image: url(http://xiangyan.dd371.com/uploads/20190627/fdc5493a564d689f757b0b819c32bbe9.jpg)">
+					<div class="now_play">正在直播</div>
+				</div>
+				<div class="q_cloud_info">
+					<div>2.3万</div>
+					<div>2499</div>
+				</div>
+			</a>
+		</div>
+	</div>
+
+
+</body>
+
+</html>

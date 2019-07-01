@@ -168,12 +168,25 @@
                 
                  
 
+                    <div class="col-sm-12">
+                        <div class="widget-header widget-header-flat">
+                            <h4 class="widget-title"><i class="ace-icon fa fa-leaf green"></i>详情</h4>
+                          </div>
+                          <script src="__ADMIN__/assets/js/ueditor.config.js" type="text/javascript"></script>
+                          <script src="__ADMIN__/assets/js/ueditor.all.js" type="text/javascript"></script>
+                      <textarea id="myEditor3" name="content" style="width:100%;"></textarea>
+                      <script type="text/javascript">
+                        var editor = new UE.ui.Editor({
+                          initialFrameHeight: 300
+                        });
+                        editor.render("myEditor3");
+                      </script>
+                    </div>
                   <div class="col-sm-12">
                       <div class="widget-header widget-header-flat">
                           <h4 class="widget-title"><i class="ace-icon fa fa-leaf green"></i>路线</h4>
                         </div>
-                        <script src="__ADMIN__/assets/js/ueditor.config.js" type="text/javascript"></script>
-                        <script src="__ADMIN__/assets/js/ueditor.all.js" type="text/javascript"></script>
+                      
              
                     <textarea id="myEditor1" name="route" style="width:100%;"></textarea>
                     <script type="text/javascript">
@@ -181,6 +194,20 @@
                         initialFrameHeight: 300
                       });
                       editor.render("myEditor1");
+                    </script>
+                  </div>
+
+                  <div class="col-sm-12">
+                      <div class="widget-header widget-header-flat">
+                          <h4 class="widget-title"><i class="ace-icon fa fa-leaf green"></i>行程</h4>
+                        </div>
+               
+                    <textarea id="myEditor" name="trip" style="width:100%;"></textarea>
+                    <script type="text/javascript">
+                      var editor = new UE.ui.Editor({
+                        initialFrameHeight: 300
+                      });
+                      editor.render("myEditor");
                     </script>
                   </div>
 
@@ -198,33 +225,8 @@
                     </script>
                   </div>
 
-                  <div class="col-sm-12">
-                      <div class="widget-header widget-header-flat">
-                          <h4 class="widget-title"><i class="ace-icon fa fa-leaf green"></i>详情</h4>
-                        </div>
-              
-                    <textarea id="myEditor3" name="content" style="width:100%;"></textarea>
-                    <script type="text/javascript">
-                      var editor = new UE.ui.Editor({
-                        initialFrameHeight: 300
-                      });
-                      editor.render("myEditor3");
-                    </script>
-                  </div>
 
-                  <div class="col-sm-12">
-                    <div class="widget-header widget-header-flat">
-                        <h4 class="widget-title"><i class="ace-icon fa fa-leaf green"></i>行程</h4>
-                      </div>
-             
-                  <textarea id="myEditor" name="trip" style="width:100%;"></textarea>
-                  <script type="text/javascript">
-                    var editor = new UE.ui.Editor({
-                      initialFrameHeight: 300
-                    });
-                    editor.render("myEditor");
-                  </script>
-                </div>
+                 
 
                 </div>
                 <div class="clearfix form-actions">
