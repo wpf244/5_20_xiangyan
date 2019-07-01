@@ -162,7 +162,7 @@ class Hotel extends BaseUser
         $this->assign("res",$res);
 
         //评论
-        $assess=db("assess")->alias("a")->where(["status"=>1,"type"=>2])->join("user b","a.u_id=b.uid")->order("id desc")->select();
+        $assess=db("assess")->alias("a")->where(["status"=>1,"type"=>2,"g_id"=>$id])->join("user b","a.u_id=b.uid")->order("id desc")->select();
 
         $this->assign("assess",$assess);
 

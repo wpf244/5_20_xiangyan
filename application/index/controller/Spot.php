@@ -139,7 +139,7 @@ class Spot extends BaseHome
         $this->assign("ticket",$ticket);
 
 
-        $assess=db("assess")->alias("a")->where(["status"=>1,"type"=>3])->join("user b","a.u_id=b.uid")->order("id desc")->select();
+        $assess=db("assess")->alias("a")->where(["status"=>1,"type"=>3,"g_id"=>$id])->join("user b","a.u_id=b.uid")->order("id desc")->select();
 
         $this->assign("assess",$assess);
 

@@ -90,7 +90,7 @@ class Food extends BaseHome
 
        $this->assign("type",$type);
 
-       $assess=db("assess")->alias("a")->where(["status"=>1,"type"=>4])->join("user b","a.u_id=b.uid")->order("id desc")->select();
+       $assess=db("assess")->alias("a")->where(["status"=>1,"type"=>4,"g_id"=>$id])->join("user b","a.u_id=b.uid")->order("id desc")->select();
 
         $this->assign("assess",$assess);
 
