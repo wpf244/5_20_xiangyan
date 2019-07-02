@@ -1,6 +1,8 @@
 <?php
 namespace app\index\controller;
 
+use think\Request;
+
 class Group extends BaseUser
 {
     public function index()
@@ -220,6 +222,20 @@ class Group extends BaseUser
         $re=db("package")->where("id",$id)->find();
 
         $this->assign("re",$re);
+
+        $share_title=db("lb")->where("fid",46)->find();
+
+        $share_title['name']=$re['title'];
+
+        $share_title['desc']=\strip_tags($re['marray']);
+
+        $share_title['image']=$re['image'];
+
+        $share_title['url']=Request::instance()->url(true);
+
+        $share_title['urls']=Request::instance()->domain();
+        
+        $this->assign("share_title",$share_title);
         
         return $this->fetch();
     }

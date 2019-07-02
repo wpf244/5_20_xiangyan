@@ -1,6 +1,8 @@
 <?php
 namespace app\index\controller;
 
+use think\Request;
+
 class Car extends BaseHome
 {
     public function index()
@@ -28,6 +30,20 @@ class Car extends BaseHome
         $res=db("car_type")->where(["cid"=>$id])->select();
 
         $this->assign("res",$res);
+
+        $share_title=db("lb")->where("fid",46)->find();
+
+        $share_title['name']=$re['name'];
+
+        $share_title['desc']=\strip_tags($re['addr']);
+
+        $share_title['image']=$re['image'];
+
+        $share_title['url']=Request::instance()->url(true);
+
+        $share_title['urls']=Request::instance()->domain();
+        
+        $this->assign("share_title",$share_title);
         
         return $this->fetch();
     }

@@ -34,7 +34,7 @@
 				 
 					<div class="box_shadow bg_white bd_radius mar_btm_12">
 						<a href="{:url('Culture/detail_publish',array('id'=>$v['id']))}" class="am-block pic_big bg_cover" style="background-image: url({$v.image});"></a>
-						<div class="p_12">
+						<div class="p_12" style="padding-bottom: 4px;">
 							<h3 class="pic_title  mar_btm_6"><a href="{:url('Culture/detail_publish',array('id'=>$v['id']))}">{$v.title}</a></h3>
 							<div class="flex_between">
 								<div class="flex_normal">
@@ -43,6 +43,10 @@
 								</div>
 								<div class="pic_scan am-text-xs">{$v.looks}</div>
 							</div>
+						</div>
+						<div style="display: flex;justify-content: space-around;padding: 4px;">
+							<a style="display: inline-block;background-color: #fff;color:#505050;border-radius: 5px;text-align: center;padding: 4px 10px;border: 1px solid #E2E2E2;" href="{:url('User/update_publish',array('id'=>$v['id']))}">编辑</a>
+							<a style="display: inline-block;background-color: #EB4949;color:#fff;border-radius: 5px;text-align: center;padding: 4px 10px;" onclick="dels({$v.id})">删除</a>
 						</div>
 					</div>
 				
@@ -55,7 +59,28 @@
 	</div>
 
 	<div class="no_data">没有发布更多内容~</div>
-
+	<script type="text/javascript">
+		function dels(id){
+			layer.confirm('你确定删除吗？', {icon: 3}, function(index){
+		    layer.close(index);
+		    $.ajax({
+				type:"post",
+				url:"__URL__/delete_publish",
+				data:{id:id},
+				datatype:"text",
+				success:function(re){
+					if(re == 0){
+					layer.msg("操作成功");
+					setTimeout('location.reload()',2000)
+					}else{
+					layer.msg("操作失败");
+					setTimeout('location.reload()',2000)
+					}
+				}
+			})
+		  });
+	    }
+		</script>
 </body>
 
 </html>

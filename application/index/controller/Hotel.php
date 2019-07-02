@@ -1,6 +1,8 @@
 <?php
 namespace app\index\controller;
 
+use think\Request;
+
 class Hotel extends BaseUser
 {
     public function index()
@@ -208,6 +210,20 @@ class Hotel extends BaseUser
         $coua=db("assist")->where(["nid"=>$id,"type"=>2])->count();
 
         $this->assign("coua",$coua);
+
+        $share_title=db("lb")->where("fid",46)->find();
+
+        $share_title['name']=$re['name'];
+
+        $share_title['desc']=$re['addr'];
+
+        $share_title['image']=$re['image'];
+
+        $share_title['url']=Request::instance()->url(true);
+
+        $share_title['urls']=Request::instance()->domain();
+        
+        $this->assign("share_title",$share_title);
 
         
         return $this->fetch();

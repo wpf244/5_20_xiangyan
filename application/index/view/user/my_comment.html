@@ -36,14 +36,18 @@
 									<ul>
 									
 										{volist name="res1" id="v1"}
-											<li>
+											<li style="margin-bottom: 15px;">
+												<div style="display: flex;justify-content: space-between;">
+													<div>内容: </div>
+													<div style="width:15px;height:15px;float:right;background-image: url('/static/home/img/ico-del.png');background-size: 15px;" onclick="dels({$v1.id})"></div>
+												</div>
 													<a href="{:url('Rural/detail',array('id'=>$v1['g_id']))}">
-														<h3 style="font-size: 14px;color:#4F4F4F;">{$v1.title}</h3>
-														<p style="color: #8C8C8C;">{:strip_tags(mb_substr($v1['content'],0,80,'utf8'))}</p>
+														<h3 style="font-size: 14px;color:#4F4F4F;">{:strip_tags(mb_substr($v1['content'],0,80,'utf8'))}</h3>
+														<p style="font-size: 12px;color: #8C8C8C;">发至: {$v1.title}</p>
 																
 													</a>
 
-													<div style="width:15px;height:15px;float:right;background-image: url('/static/home/img/ico-del.png');background-size: 15px;" onclick="dels({$v1.id})"></div>
+													
 												</li>
                                          {/volist}
 									</ul>
@@ -55,14 +59,18 @@
 						<li class="tab_cont">
 								<ul>
 										{volist name="res2" id="v2"}
-											<li>
+											<li style="margin-bottom: 15px;">
+												<div style="display: flex;justify-content: space-between;">
+													<div>内容: </div>
+													<div style="width:15px;height:15px;float:right;background-image: url('/static/home/img/ico-del.png');background-size: 15px;" onclick="dels({$v2.id})"></div>
+												</div>
 													<a href="{:url('Spot/detail',array('id'=>$v2['g_id']))}">
-														<h3 style="font-size: 14px;color:#4F4F4F;">{$v2.title}</h3>
-														<p style="color: #8C8C8C;">{:strip_tags(mb_substr($v2['content'],0,80,'utf8'))}</p>
+														<h3 style="font-size: 14px;color:#4F4F4F;">{:strip_tags(mb_substr($v2['content'],0,80,'utf8'))}</h3>
+														<p style="font-size: 12px;color: #8C8C8C;">发至: {$v2.title}</p>
 																
 													</a>
 
-														<div style="width:15px;height:15px;float:right;background-image: url('/static/home/img/ico-del.png');background-size: 15px;" onclick="dels({$v2.id})"></div>
+														
 												</li>
                                          {/volist}
 												
@@ -74,14 +82,18 @@
 						<li class="tab_cont">
 								<ul>
 										{volist name="res3" id="v3"}
-											<li>
+											<li style="margin-bottom: 15px;">
+												<div style="display: flex;justify-content: space-between;">
+													<div>内容: </div>
+													<div style="width:15px;height:15px;float:right;background-image: url('/static/home/img/ico-del.png');background-size: 15px;" onclick="dels({$v3.id})"></div>
+												</div>
 													<a href="{:url('Food/detail',array('id'=>$v3['g_id']))}">
-														<h3 style="font-size: 14px;color:#4F4F4F;">{$v3.title}</h3>
-														<p style="color: #8C8C8C;">{:strip_tags(mb_substr($v3['content'],0,80,'utf8'))}</p>
+														<h3 style="font-size: 14px;color:#4F4F4F;">{:strip_tags(mb_substr($v3['content'],0,80,'utf8'))}</h3>
+														<p style="font-size: 12px;color: #8C8C8C;">发至: {$v3.title}</p>
 																
 													</a>
 
-													<div style="width:15px;height:15px;float:right;background-image: url('/static/home/img/ico-del.png');background-size: 15px;" onclick="dels({$v3.id})"></div>
+													
 												</li>
                                          {/volist}
 												
@@ -93,13 +105,17 @@
 						<li class="tab_cont">
 								<ul>
 										{volist name="res4" id="v4"}
-											<li>
+											<li style="margin-bottom: 15px;">
+												<div style="display: flex;justify-content: space-between;">
+													<div>内容: </div>
+													<div style="width:15px;height:15px;float:right;background-image: url('/static/home/img/ico-del.png');background-size: 15px;" onclick="dels({$v4.id})"></div>
+												</div>
 													<a href="{:url('Hotel/detail',array('id'=>$v4['g_id']))}">
-														<h3 style="font-size: 14px;color:#4F4F4F;">{$v4.title}</h3>
-														<p style="color: #8C8C8C;">{:strip_tags(mb_substr($v4['content'],0,80,'utf8'))}</p>
+														<h3 style="font-size: 14px;color:#4F4F4F;">{:strip_tags(mb_substr($v4['content'],0,80,'utf8'))}</h3>
+														<p style="font-size: 12px;color: #8C8C8C;">发至: {$v4.title}</p>
 																
 													</a>
-													<div style="width:15px;height:15px;float:right;background-image: url('/static/home/img/ico-del.png');background-size: 15px;" onclick="dels({$v4.id})"></div>
+													
 
 													<!-- <div style="text-align: right" onclick="dels({$v4.id})">删除</div> -->
 												</li>

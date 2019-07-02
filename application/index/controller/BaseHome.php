@@ -77,6 +77,30 @@ class BaseHome extends Controller
 
             }
         }
+
+        vendor("Jssdk.Jssdk");
+        $payment=db("payment")->where("id",1)->find();
+
+        $appid=$payment['appid'];
+
+        $appserect=$payment['appsecret'];
+        
+         $jssdk = new \JSSDK("$appid", "$appserect");
+
+         $share = $jssdk->GetSignPackage();
+       //  var_dump($signPackage);
+        $this->assign("share",json_encode($share));  
+
+        $share_title=db("lb")->where("fid",46)->find();
+
+        $share_title['desc']=strip_tags($share_title['desc']);
+
+        $share_title['urls']=Request::instance()->domain();
+        
+        $this->assign("share_title",$share_title);
+
+
+        
     
     }
 }

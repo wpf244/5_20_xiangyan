@@ -1,6 +1,8 @@
 <?php
 namespace app\index\controller;
 
+use think\Request;
+
 class Culture extends BaseHome
 {
     public function index()
@@ -104,6 +106,18 @@ class Culture extends BaseHome
         $res=db("culture_banner")->where("cid",$id)->select();
 
         $this->assign("res",$res);
+
+        $share_title=db("lb")->where("fid",46)->find();
+
+        $share_title['name']=$re['title'];
+
+        $share_title['desc']=$re['title'];
+
+        $share_title['url']=Request::instance()->url(true);
+
+        $share_title['urls']=Request::instance()->domain();
+        
+        $this->assign("share_title",$share_title);
         
         return $this->fetch();
     }
@@ -192,6 +206,19 @@ class Culture extends BaseHome
 
         db("publish")->where("id",$id)->setInc("looks",1);
 
+
+        $share_title=db("lb")->where("fid",46)->find();
+
+        $share_title['name']=$re['title'];
+
+        $share_title['desc']=$re['addr'];
+
+        $share_title['url']=Request::instance()->url(true);
+
+        $share_title['urls']=Request::instance()->domain();
+        
+        $this->assign("share_title",$share_title);
+
         return $this->fetch();
     }
     /**
@@ -210,6 +237,18 @@ class Culture extends BaseHome
 
         db("strat")->where("id",$id)->setInc("looks",1);
         
+
+        $share_title=db("lb")->where("fid",46)->find();
+
+        $share_title['name']=$re['title'];
+
+        $share_title['desc']=$re['tag'];
+
+        $share_title['url']=Request::instance()->url(true);
+
+        $share_title['urls']=Request::instance()->domain();
+        
+        $this->assign("share_title",$share_title);
 
         return $this->fetch();
     }

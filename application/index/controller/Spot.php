@@ -1,6 +1,8 @@
 <?php
 namespace app\index\controller;
 
+use think\Request;
+
 class Spot extends BaseHome
 {
     public function index()
@@ -186,6 +188,20 @@ class Spot extends BaseHome
         $coua=db("assist")->where(["nid"=>$id,"type"=>3])->count();
 
         $this->assign("coua",$coua);
+
+        $share_title=db("lb")->where("fid",46)->find();
+
+        $share_title['name']=$re['name'];
+
+        $share_title['desc']=$re['name'];
+
+        $share_title['image']=$re['image'];
+
+        $share_title['url']=Request::instance()->url(true);
+
+        $share_title['urls']=Request::instance()->domain();
+        
+        $this->assign("share_title",$share_title);
 
 
         

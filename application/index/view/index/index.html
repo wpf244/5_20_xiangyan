@@ -130,13 +130,18 @@
 				<div class="am-tabs-bd">
 					<div data-tab-panel-0 class="am-tab-panel am-active">
 						<div class="flex_normal flex_wrap">
+
+								<a href="{:url('Culture/index')}" class="myq am-text-center mar_btm_12">
+									<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_2.png" width="40" height="40" alt="">
+									<h6 class="am-text-truncate">区域文化</h6>
+								</a>
 							<a href="{:url('Rural/index')}" class="myq am-text-center mar_btm_12">
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_1.png" width="40" height="40" alt="">
 								<h6 class="am-text-truncate">乡村旅游</h6>
 							</a>
-							<a href="{:url('Culture/index')}" class="myq am-text-center mar_btm_12">
-								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_2.png" width="40" height="40" alt="">
-								<h6 class="am-text-truncate">区域文化</h6>
+							<a href="{:url('Spot/index')}" class="myq am-text-center mar_btm_12">
+								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_4.png" width="40" height="40" alt="">
+								<h6 class="am-text-truncate">门票抢购</h6>
 							</a>
 							<a href="{:url('Hotel/index')}" class="myq am-text-center mar_btm_12">
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_5.png" width="40" height="40" alt="">
@@ -146,25 +151,21 @@
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_90.png" width="40" height="40" alt="">
 								<h6 class="am-text-truncate">游记/攻略</h6>
 							</a>
-							<a href="{:url('Spot/index')}" class="myq am-text-center mar_btm_12">
-								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_4.png" width="40" height="40" alt="">
-								<h6 class="am-text-truncate">热门景区</h6>
+							<a href="{:url('Group/index')}" class="myq am-text-center mar_btm_12">
+								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_7.png" width="40" height="40" alt="">
+								<h6 class="am-text-truncate">跟团/定制</h6>
 							</a>
-
+							<a href="{:url('Car/index')}" class="myq am-text-center mar_btm_12">
+								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_91.png" width="40" height="40" alt="">
+								<h6 class="am-text-truncate">汽车租赁</h6>
+							</a>
 							<a href="{:url('Question/index')}" class="myq am-text-center mar_btm_12">
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_6.png" width="40" height="40" alt="">
 								<h6 class="am-text-truncate">问答</h6>
 							</a>
 							
 							
-							<a href="{:url('Group/index')}" class="myq am-text-center mar_btm_12">
-								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_7.png" width="40" height="40" alt="">
-								<h6 class="am-text-truncate">跟团/定制</h6>
-							</a>
-							<a href="{$url.url}" class="myq am-text-center mar_btm_12">
-								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_8.png" width="40" height="40" alt="">
-								<h6 class="am-text-truncate">车票机票</h6>
-							</a>
+						
 							<a href="{:url('Food/index')}" class="myq am-text-center mar_btm_12">
 								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_3.png" width="40" height="40" alt="">
 								<h6 class="am-text-truncate">美食</h6>
@@ -191,10 +192,11 @@
 					</div>
 					<div data-tab-panel-1 class="am-tab-panel ">
 						<div class="flex_normal flex_wrap">
-							<a href="{:url('Car/index')}" class="myq am-text-center mar_btm_12">
-								<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_91.png" width="40" height="40" alt="">
-								<h6 class="am-text-truncate">汽车租赁</h6>
-							</a>
+								
+								<a href="{$url.url}" class="myq am-text-center mar_btm_12">
+										<img class="am-center mar_btm_6" src="__HOME__/img/icon_kind_8.png" width="40" height="40" alt="">
+										<h6 class="am-text-truncate">车票机票</h6>
+									</a>
 						</div>
 					</div>
 				</div>
@@ -321,7 +323,7 @@
 
 	<!-- 底部导航 -->
 {include file="public:footer"}
-<script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+<!-- <script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script> -->
 <script type="text/javascript">
 	wx.config({
 		debug: false,
@@ -329,12 +331,15 @@
 		timestamp:"{$signPackage["timestamp"]}",
 		nonceStr: "{$signPackage["nonceStr"]}",
 		signature:"{$signPackage["signature"]}",
-		jsApiList: [
-			// 所有要调用的 API 都要加到这个列表中
-			'checkJsApi',
-			'openLocation',
-			'getLocation'
-		  ]
+		jsApiList:['checkJsApi','onMenuShareTimeline','onMenuShareAppMessage','startRecord',
+                  'stopRecord',
+                  'onVoiceRecordEnd',
+                  'playVoice',
+                  'onVoicePlayEnd',
+                  'pauseVoice',
+                  'stopVoice',
+                  'uploadVoice',
+                  'downloadVoice']
 	});
 	wx.ready(function () {
 		wx.checkJsApi({
