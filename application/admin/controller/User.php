@@ -51,11 +51,28 @@ class User extends BaseAdmin
         $id=input('id');
         $re=db("admin")->where("id=$id")->find();
         $this->assign("re",$re);
+        $sid=$re['shop_type'];
+        if($sid == 1){
+            $res=db("spot")->field("id,name")->where("status",1)->select();
+         }
+         if($sid == 2){
+            $res=db("travel")->field("id,name")->select();
+         }
+         if($sid == 3){
+             $res=db("hotel")->field("id,name")->where("status",1)->select();
+         }
+         if($sid == 4){
+             $res=db("goods_shop")->field("sid as id,sname as name")->select();
+         }
+
+         $this->assign("res",$res);
+
         return $this->fetch();
     }
     public function usave()
     {
         $id=input('id');
+        $data=input("post.");
         $re=\db("admin")->where("id=$id")->find();
         if($re){
              $pwd=input('pwd');

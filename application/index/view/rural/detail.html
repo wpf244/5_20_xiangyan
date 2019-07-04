@@ -3,7 +3,7 @@
 
 {include file="public:header"}
 
-<body class="" style="padding-bottom: 50px;">
+<body class="" style="padding-bottom: 190px;">
 
 		<div class="back_box">
 			
@@ -32,24 +32,7 @@
 		</ul>
 	</div>
 
-	<div class="am-g am-text-center pad_top_12 dmenu">
-		<a href="{:url('Rural/play',array('id'=>$re['id']))}" class="am-u-sm-3">
-			<img src="__HOME__/img/pic_travel_1.png" class="am-center mar_btm_6" width="80" height="50" alt="">
-			<div class="am-text-truncate">周边游</div>
-		</a>
-		<a href="{:url('Rural/goods',array('id'=>$re['id']))}" class="am-u-sm-3">
-			<img src="__HOME__/img/pic_travel_2.png" class="am-center mar_btm_6" width="80" height="50" alt="">
-			<div class="am-text-truncate">当地特产</div>
-		</a>
-		<a href="{:url('Rural/hotel',array('id'=>$re['id']))}" class="am-u-sm-3">
-			<img src="__HOME__/img/pic_travel_3.png" class="am-center mar_btm_6" width="80" height="50" alt="">
-			<div class="am-text-truncate">当地民宿</div>
-		</a>
-		<a href="http://apis.map.qq.com/uri/v1/routeplan?type=drive&to={$re.addr}&tocoord={$re.lats},{$re.longs}&policy=1&referer=myapp" class="am-u-sm-3">
-			<img src="__HOME__/img/pic_travel_4.png" class="am-center mar_btm_6" width="80" height="50" alt="">
-			<div class="am-text-truncate">一键导航</div>
-		</a>
-	</div>
+	
 
 	<div class="p_12">
 		<h3 class="am-text-lg mar_btm_12 font_bold">{$re.title}</h3>
@@ -123,14 +106,35 @@
 
 	</div>
 
-	<div class="mess-bar">
-		<div class="mess-bar-text">
-			<input type="text" id="content" placeholder="欢迎发表你的评论">
+	<div style="position: fixed;left: 0;bottom: 0;width:100%;background-color: #fff;">
+		<div class="mess-bar" style="position: static;border-bottom: 1px solid #E6E6E6;">
+			<div class="mess-bar-text">
+				<input type="text" id="content" placeholder="欢迎发表你的评论">
+			</div>
+			<div class="mess-bar-btn" id="send" >发送</div>
+			<div {if condition="$collect eq 0"} class="mess-bar-collect" {else /} class="mess-bar-collect on" {/if} id="collect"></div>
+			<div {if condition="$assist eq 0"} class="mess-bar-like" {else /} class="mess-bar-like on" {/if} id="assist"></div>
+			<div style="line-height: 29px;" id="num">{$coua}</div>
 		</div>
-		<div class="mess-bar-btn" id="send" >发送</div>
-		<div {if condition="$collect eq 0"} class="mess-bar-collect" {else /} class="mess-bar-collect on" {/if} id="collect"></div>
-		<div {if condition="$assist eq 0"} class="mess-bar-like" {else /} class="mess-bar-like on" {/if} id="assist"></div>
-		<div style="line-height: 29px;" id="num">{$coua}</div>
+		
+		<div class="am-g am-text-center pad_top_12 dmenu">
+			<a href="{:url('Rural/play',array('id'=>$re['id']))}" class="am-u-sm-3">
+				<img src="__HOME__/img/nd01.png" class="am-center mar_btm_6" width="30" height="30" alt="">
+				<div class="am-text-truncate">周边游</div>
+			</a>
+			<a href="{:url('Rural/goods',array('id'=>$re['id']))}" class="am-u-sm-3">
+				<img src="__HOME__/img/nd02.png" class="am-center mar_btm_6" width="30" height="30" alt="">
+				<div class="am-text-truncate">当地特产</div>
+			</a>
+			<a href="{:url('Rural/hotel',array('id'=>$re['id']))}" class="am-u-sm-3">
+				<img src="__HOME__/img/nd03.png" class="am-center mar_btm_6" width="30" height="30" alt="">
+				<div class="am-text-truncate">当地民宿</div>
+			</a>
+			<a href="http://apis.map.qq.com/uri/v1/routeplan?type=drive&to={$re.addr}&tocoord={$re.lats},{$re.longs}&policy=1&referer=myapp" class="am-u-sm-3">
+				<img src="__HOME__/img/nd04.png" class="am-center mar_btm_6" width="30" height="30" alt="">
+				<div class="am-text-truncate">一键导航</div>
+			</a>
+		</div>
 	</div>
 
 	<script>
