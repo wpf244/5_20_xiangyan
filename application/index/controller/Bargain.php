@@ -120,6 +120,7 @@ class Bargain extends BaseUser
                 $data['times']=$re['time'];
                 $data['surplus_price']=$re['price'];
                 $data['can_price']=$re['price']-$re['floor_price'];
+                $data['shop_id']=$re['shop_id'];
 
                 $rea=db("bargain")->insert($data);
 
@@ -421,6 +422,7 @@ class Bargain extends BaseUser
         $arr['content']=$content;
         $arr['aid']=$aid;
         $arr['time']=time();
+        $arr['shop_id']=$good['shop_id'];
         
         $re=$ob->insert($arr);
         

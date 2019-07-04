@@ -74,6 +74,7 @@ class Assemble extends BaseUser
             $data['date']=$goods['group_time'];
             $data['buy_num']=$num;
             $data['time']=time();
+            $data['shop_id']=$goods['shop_id'];
 
             db("assemble")->insert($data);
 
@@ -161,6 +162,7 @@ class Assemble extends BaseUser
         $arr['content']=$content;
         $arr['aid']=$aid;
         $arr['time']=time();
+        $arr['shop_id']=$good['shop_id'];
         
         $re=$ob->insert($arr);
         
@@ -243,6 +245,7 @@ class Assemble extends BaseUser
         $arr['content']=$content;
         $arr['aid']=$aid;
         $arr['time']=time();
+        $arr['shop_id']=$good['shop_id'];
         
         $re=$ob->insert($arr);
         

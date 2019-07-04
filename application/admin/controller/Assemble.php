@@ -6,15 +6,24 @@ class Assemble extends BaseAdmin
     public function goods()
     {
         $title=\input("title");
-
+        $map=[];
         if($title){
             $map['name']=["like","%".$title."%"];
         }else{
-            $map=[];
+            
             $title='';
         }
+        $uid=session("uid");
+
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['a.shop_id']=['eq',$admin['id']];
+        }
+
+        $this->assign("admin",$admin);
         $this->assign("title",$title);
-        $list=db('assemble_goods')->where($map)->order(['sort'=> 'asc','id'=>'desc'])->paginate(20,false,['query'=>request()->param()]);
+        $list=db('assemble_goods')->alias("a")->field("a.*,b.username")->where($map)->join("admin b","a.shop_id=b.id",'left')->order(['sort'=> 'asc','id'=>'desc'])->paginate(20,false,['query'=>request()->param()]);
         $this->assign("list",$list);
         
         $page=$list->render();
@@ -24,6 +33,16 @@ class Assemble extends BaseAdmin
     }
     public function add()
     {
+        $uid=session("uid");
+        
+        $admin=db("admin")->where("id",$uid)->find();
+
+        $this->assign("admin",$admin);
+
+        $user=db("admin")->where("level",2)->select();
+
+        $this->assign("user",$user);
+        
         return $this->fetch();
     }
     public function save()
@@ -89,6 +108,16 @@ class Assemble extends BaseAdmin
         $id=input('id');
         $re=db('assemble_goods')->where("id",$id)->find();
         $this->assign("re",$re);
+
+        $uid=session("uid");
+        
+        $admin=db("admin")->where("id",$uid)->find();
+
+        $this->assign("admin",$admin);
+
+        $user=db("admin")->where("level",2)->select();
+
+        $this->assign("user",$user);
         
         return $this->fetch();
     }
@@ -136,6 +165,7 @@ class Assemble extends BaseAdmin
         $title=\input("title");
 
         $status=input("status");
+        $map=[];
      //   var_dump($status);
         if($title || $status ){
             if($title){
@@ -150,15 +180,23 @@ class Assemble extends BaseAdmin
             }
             
         }else{
-            $map=[];
+            
             $title='';
             $status=0;
             
         }
-       
+        $uid=session("uid");
+
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['a.shop_id']=['eq',$admin['id']];
+        }
+
+        $this->assign("admin",$admin);
         $this->assign("title",$title);
         $this->assign("status",$status);
-        $list=db('assemble')->alias("a")->field("a.*,b.phone")->where($map)->join("user b","a.uid=b.uid",'left')->order(['id'=>'desc'])->paginate(20,false,['query'=>request()->param()]);
+        $list=db('assemble')->alias("a")->field("a.*,b.phone,c.username")->where($map)->join("user b","a.uid=b.uid",'left')->join("admin c","a.shop_id=c.id",'left')->order(['a.id'=>'desc'])->paginate(20,false,['query'=>request()->param()]);
         $this->assign("list",$list);
         
         $page=$list->render();
@@ -176,7 +214,7 @@ class Assemble extends BaseAdmin
         $addr=\input('addr');
 
         $status=input("status");
-       
+        $map=[];
         if($start || $code ||  $addr || $status || $status === '0'){
             if($start){
                 
@@ -210,7 +248,14 @@ class Assemble extends BaseAdmin
             $addr="";
             $code="";
             $status=10;
-            $map=[];
+         
+        }
+        $uid=session("uid");
+
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['a.shop_id']=['eq',$admin['id']];
         }
         $this->assign("start",$start);
         $this->assign("end",$end);
@@ -219,7 +264,7 @@ class Assemble extends BaseAdmin
         $this->assign("code",$code);
         $this->assign("status",$status);
         
-        $list=db("assemble_dd")->alias('a')->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("id desc")->paginate(20,false,['query'=>request()->param()]);
+        $list=db("assemble_dd")->alias('a')->field("a.*,b.*,c.username")->where($map)->join("addr b","a.aid = b.aid","LEFT")->join("admin c","a.shop_id=c.id")->order("a.id desc")->paginate(20,false,['query'=>request()->param()]);
         $this->assign("list",$list);
         $page=$list->render();
         $this->assign("page",$page);
@@ -234,7 +279,7 @@ class Assemble extends BaseAdmin
         $addr=\input('addr');
 
         $status=input("status");
-       
+        $map=[];
         if($start || $code ||  $addr || $status || $status === '0'){
             if($start){
                 
@@ -265,11 +310,14 @@ class Assemble extends BaseAdmin
             }else{
                 $status=10;
             }
-        }else{
-          
-            $map=[];
         }
-        
+        $uid=session("uid");
+
+        $admin=db("admin")->where("id",$uid)->find();
+
+        if($admin['level'] == 2){
+             $map['a.shop_id']=['eq',$admin['id']];
+        }
         $list=db("assemble_dd")->alias('a')->where($map)->join("addr b","a.aid = b.aid","LEFT")->order("id desc")->select();
         // var_dump($data);exit;
         vendor('PHPExcel.PHPExcel');//调用类库,路径是基于vendor文件夹的

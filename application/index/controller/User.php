@@ -1,6 +1,8 @@
 <?php
 namespace app\index\controller;
 
+use think\Db;
+
 class User extends BaseUser
 {
     /**
@@ -540,8 +542,28 @@ class User extends BaseUser
         $re=db("bargain_dd")->where("id",$id)->find();
         if($re){
            if($re['status'] == 2){
-            db("bargain_dd")->where("id",$id)->setField("status",3);
-            echo '0';
+            $admin=db("admin")->where("id",$re['shop_id'])->find();
+
+            $money=$re['price'];
+
+            Db::startTrans();
+            try{
+              
+               if($admin){
+                   db("admin")->where(["id"=>$re['shop_id']])->setInc("money",$money);
+               }
+               db("bargain_dd")->where("id",$id)->setField("status",3);
+          
+               echo '0';
+                // 提交事务
+                Db::commit();    
+            } catch (\Exception $e) {
+                // 回滚事务
+                Db::rollback();
+
+                echo '3';
+            }
+            
            } else{
                echo '2';
            }
@@ -603,8 +625,29 @@ class User extends BaseUser
         $re=db("assemble_dd")->where("id",$id)->find();
         if($re){
            if($re['status'] == 3){
-            db("assemble_dd")->where("id",$id)->setField("status",4);
-            echo '0';
+            $admin=db("admin")->where("id",$re['shop_id'])->find();
+
+            $money=$re['price'];
+
+            Db::startTrans();
+            try{
+              
+               if($admin){
+                   db("admin")->where(["id"=>$re['shop_id']])->setInc("money",$money);
+               }
+               db("assemble_dd")->where("id",$id)->setField("status",4);
+          
+               echo '0';
+                // 提交事务
+                Db::commit();    
+            } catch (\Exception $e) {
+                // 回滚事务
+                Db::rollback();
+
+                echo '3';
+            }
+           
+          
            } else{
                echo '2';
            }
