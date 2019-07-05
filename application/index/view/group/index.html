@@ -40,12 +40,26 @@
 </div> -->
 
 	<ul class="order_hd flex_around bd_btm">
-		<li class="order_item active tab_item">定制游</li>
-		<li class="order_item tab_item">跟团游</li>
+		<li class="order_item active tab_item">跟团游</li>
+		<li class="order_item tab_item">定制游</li>
 	</ul>
 
 	<div class="tab_wrap">
-		<div class="tab_cont active">
+			<div class="tab_cont active">
+					<ul class="p_12">
+					 {volist name="res" id="v"}
+						<li class="group_item">
+			<a href="{:url('Group/detail',array('id'=>$v['id']))}">
+				<div class="group_pic bd_radius bg_cover mar_btm_6" style="background-image:url({$v.image});"></div>
+				<h4 class="am-text-truncate mar_btm_6">{$v.title}</h4>
+				<!-- <div class=" am-text-truncate col_nine">{$v.marray}</div> -->
+			</a>
+		</li>
+				{/volist}	
+					</ul>
+					<div class="no_data">没有更多消息~</div>
+				</div>
+		<div class="tab_cont">
 			<div class="p_12">
 					<div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}' style="position: relative;">
 							<ul class="am-slides">
@@ -74,7 +88,7 @@
 				   {/volist}
 				</div>
 				<a href="{:url('Group/my_made')}" class="flex_between">
-					<h6>我的定制</h6><img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+					<h6>我的定制</h6><img src="__HOME__/img/icon_right2.png" width="14" height="14" alt="">
 				</a>
 			</div>
 
@@ -120,20 +134,7 @@
 
 
 		</div>
-		<div class="tab_cont">
-			<ul class="p_12">
-			 {volist name="res" id="v"}
-				<li class="group_item">
-	<a href="{:url('Group/detail',array('id'=>$v['id']))}">
-		<div class="group_pic bd_radius bg_cover mar_btm_6" style="background-image:url({$v.image});"></div>
-		<h4 class="am-text-truncate mar_btm_6">{$v.title}</h4>
-		<div class=" am-text-truncate col_nine">{$v.marray}</div>
-	</a>
-</li>
-		{/volist}	
-			</ul>
-			<div class="no_data">没有更多消息~</div>
-		</div>
+		
 	</div>	
 
 </body>
