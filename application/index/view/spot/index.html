@@ -23,7 +23,7 @@
 
 	<!-- 搜索框 -->
 <div class="search_box p_12 bg_normal">
-		<form action="{:url('Spot/search')}" method="post">
+		<form action="{:url('Spot/index')}" method="">
 	<div class="flex_normal">
 		<div class="search_wrap pad_12 flex_1 bg_white bd_radius  flex_between">
 			<div class="search_location flex_normal pad_rt_12 mar_rt_12 col_main">
@@ -48,127 +48,70 @@
 	</a>
 </div>
 
-	<div class="kind_box webkit_cont">
-		<ul class="kind_menu ">
-		  {volist name="res" id="v" key="k"}	
-			<li {if condition="$pid eq 0"} {if condition="$k eq 1"} class="kind_item active" {else /} class="kind_item" {/if} {elseif condition="$pid eq $v['id']"} class="kind_item active" {else /} class="kind_item" {/if} >
-				<a href="{:url('Spot/index',array('pid'=>$v['id']))}">{$v.name}</a>
+<!-- 选项 -->
+<div class="choice_box bd_btm">
+		<ul class="choice_ceng flex_around bg_white p_12">
+			<li class="choice_item flex_center">
+				<span class="mar_rt_6">{$arr.cname}</span><img src="__HOME__/img/icon_down.png" width="12" height="12" alt="">
 			</li>
-			<ul class="kind_menu_sub">
-			  {volist name="$v['type']" id="vt"}	
-				<li><a href="{:url('Spot/index',array('id'=>$vt['id']))}">{$vt.name}</a></li>
-			  {/volist}
-			</ul>
-		  {/volist}
+			<li class="choice_item flex_center">
+				<span class="mar_rt_6">{$arr.xname}</span><img src="__HOME__/img/icon_down.png" width="12" height="12" alt="">
+			</li>
+			
 		</ul>
-		<div class="kind_wrap">
-				{volist name="res" id="v" key="k"}
-			<div {if condition="$k eq 1"} class="kind_cont active p_12" {else /} class="kind_cont p_12" {/if} >
-				<div class="kind_banner bg_cover bd_radius mar_btm_12" style="background-image: url({$v.image});">
-				</div>
-				<div class="am-g">
-
-					
-					
-                 {volist name="$v['list']" id="p" key="kp"}
-					<a href="{:url('Spot/detail',array('id'=>$p['id']))}" class="am-u-sm-6 am-block mar_btm_12">
-						<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url({$p.image});"><span class="kind_tag">top{$kp}</span></div>
-<div class="flex_normal">
-	<h5 class="flex_1 am-text-truncate ">{$p.name}</h5>
-	<span class="mar_lt_6 am-text-xs col_deputy">{$p.comfort}</span>
-</div>
-<ul class="am-text-xs col_nine">
-	<li>实时人数：{$p.number}</li>
-	<li>最佳容量：{$p.opti}</li>
-	<li>最大容量：{$p.max}</li>
-</ul>
-
-					</a>
+		<ul class="choice_wrap" style="top: 44px;">
+			<form id="city_form" action="{:url('Spot/index')}">
+			<li class="choice_cont">
+				<div class="choice_scroll">
+					<label for="area_1" onchange="submitForm();" class="choice_lb p_12 flex_between bd_btm">
+						<h6>不限</h6><input type="radio"  name="cid" value="0" id="area_1">
+					</label>
+					{volist name="city" id="vc" key="kc"}
+					<label for="area_{$kc+1}" onchange="submitForm();" class="choice_lb p_12 flex_between bd_btm">
+						<h6>{$vc.name}</h6><input type="radio" name="cid" {if condition="$arr.cid eq $vc.id"} checked {/if} value="{$vc.id}" id="area_{$kc+1}">
+					</label>
 					{/volist}
-
-				
-					<!-- <a href="scenic_detail.html" class="am-u-sm-6 am-block mar_btm_12">
-						<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url(__HOME__/img/common_pic.jpg);"><span class="kind_tag">top1</span></div>
-<div class="flex_normal">
-	<h5 class="flex_1 am-text-truncate ">滇西密境大理丽...</h5>
-	<span class="mar_lt_6 am-text-xs col_deputy">舒适</span>
-</div>
-<ul class="am-text-xs col_nine">
-	<li>实时人数：3999</li>
-	<li>最佳容量：1.5万</li>
-	<li>最大容量：2.5万</li>
-</ul>
-
-					</a>
-					<a href="scenic_detail.html" class="am-u-sm-6 am-block mar_btm_12">
-						<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url(__HOME__/img/common_pic.jpg);"><span class="kind_tag">top1</span></div>
-<div class="flex_normal">
-	<h5 class="flex_1 am-text-truncate ">滇西密境大理丽...</h5>
-	<span class="mar_lt_6 am-text-xs col_deputy">舒适</span>
-</div>
-<ul class="am-text-xs col_nine">
-	<li>实时人数：3999</li>
-	<li>最佳容量：1.5万</li>
-	<li>最大容量：2.5万</li>
-</ul>
-
-					</a> -->
+					
 				</div>
-			</div>
-			{/volist}
-			<!-- <div class="kind_cont p_12">
-				<div class="kind_banner bg_cover bd_radius mar_btm_12" style="background-image: url(__HOME__/img/banner.png);">
+		
+			</li>
+			<li class="choice_cont">
+				<div class="choice_scroll">
+					<label for="kind_1" onchange="submitForm();" class="choice_lb p_12 flex_between bd_btm">
+						<h6>不限</h6><input type="radio" name="xid" value="0" id="kind_1">
+					</label>
+					{volist name="area" id="va" key="ka"}
+					<label for="kind_{$ka+1}" onchange="submitForm();" class="choice_lb p_12 flex_between bd_btm">
+						<h6>{$va.name}</h6><input type="radio" value="{$va.id}" name="xid" {if condition="$arr.xid eq $va.id"} checked {/if} id="kind_{$ka+1}">
+					</label>
+					{/volist}
 				</div>
-				<div class="am-g">
-					<a href="scenic_detail.html" class="am-u-sm-6 am-block mar_btm_12">
-						<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url(__HOME__/img/common_pic.jpg);"><span class="kind_tag">top1</span></div>
-<div class="flex_normal">
-	<h5 class="flex_1 am-text-truncate ">滇西密境大理丽...</h5>
-	<span class="mar_lt_6 am-text-xs col_deputy">舒适</span>
-</div>
-<ul class="am-text-xs col_nine">
-	<li>实时人数：3999</li>
-	<li>最佳容量：1.5万</li>
-	<li>最大容量：2.5万</li>
-</ul>
-
-					</a>
-					<a href="scenic_detail.html" class="am-u-sm-6 am-block mar_btm_12">
-						<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url(__HOME__/img/common_pic.jpg);"><span class="kind_tag">top1</span></div>
-<div class="flex_normal">
-	<h5 class="flex_1 am-text-truncate ">滇西密境大理丽...</h5>
-	<span class="mar_lt_6 am-text-xs col_deputy">舒适</span>
-</div>
-<ul class="am-text-xs col_nine">
-	<li>实时人数：3999</li>
-	<li>最佳容量：1.5万</li>
-	<li>最大容量：2.5万</li>
-</ul>
-
-					</a>
-				</div>
-			</div>
-			<div class="kind_cont p_12">
-				<div class="kind_banner bg_cover bd_radius mar_btm_12" style="background-image: url(__HOME__/img/banner.png);">
-				</div>
-				<div class="am-g">
-					<a href="scenic_detail.html" class="am-u-sm-6 am-block mar_btm_12">
-						<div class="kind_thumb bg_cover mar_btm_6" style="background-image: url(__HOME__/img/common_pic.jpg);"><span class="kind_tag">top1</span></div>
-<div class="flex_normal">
-	<h5 class="flex_1 am-text-truncate ">滇西密境大理丽...</h5>
-	<span class="mar_lt_6 am-text-xs col_deputy">舒适</span>
-</div>
-<ul class="am-text-xs col_nine">
-	<li>实时人数：3999</li>
-	<li>最佳容量：1.5万</li>
-	<li>最大容量：2.5万</li>
-</ul>
-
-					</a>
-				</div>
-			</div> -->
-		</div>
+		
+			</li>
+		
+		</form>	
+		</ul>
 	</div>
+	<div class="common_bg" id="common_bg"></div>
+	<div class="p_12">
+{volist name="res" id="v"}	
+	<a href="{:url('Spot/detail',array('id'=>$v['id']))}" class="flex_normal mar_btm_12">
+		<div class="kind_thumb bg_cover mar_btm_6" style="margin-right:12px;background-image: url('{$v.image}');">
+			
+		</div>
+		<div>
+			<h5 class="flex_1 am-text-truncate ">{$v.name}</h5>
+			<!-- <span class="mar_lt_6 am-text-xs col_deputy">12312</span> -->
+			<ul class="am-text-xs col_nine">
+				<li>实时人数：{$v.number}</li>
+				<li>最佳容量：{$v.opti}</li>
+				<li>最大容量：{$v.max}</li>
+			</ul>
+		</div>
+	</a>
+{/volist}
+</div>
+	
 
 	<script>
 		$(function () {
@@ -177,7 +120,102 @@
 			})
 		})
 	</script>
+<script>
 
+		function submitForm(){
+			var form = document.getElementById("city_form");
+			form.submit();
+		}
+			// 当radio选中时的高亮
+			function isChecked() {
+				$('input[type=radio]:checked').prev('h6').css('color', '#EB4949')
+				$('input[type=radio]:not(:checked)').prev('h6').css('color', '#333')
+			}
+		
+			function isClose() {
+				$('.choice_cont').slideUp()
+				$('#common_bg').fadeOut()
+				$('body').removeClass('no_scroll')
+			}
+		
+			$(function () {
+		
+				// 分类选项js
+				isChecked()
+		
+				let common_bg = $('#common_bg')
+		
+				$('input[type=radio]').change(function () {
+					isChecked()
+				})
+		
+				// 分类弹出层按钮
+				$('.choice_item').click(function () {
+		
+					let index = $(this).index()
+					let isNone = $('.choice_cont').eq(index).css('display')
+					if (isNone === 'block') {
+						isClose()
+						return
+					}
+					$('.choice_cont').eq(index).slideDown().siblings().slideUp()
+					common_bg.fadeIn()
+					$('body').addClass('no_scroll')
+		
+				})
+		
+				// 背景蒙版点击
+				common_bg.click(function () {
+					isClose()
+				})
+		
+		
+				// 确认按钮
+				$('.choice_confirm').click(function () {
+		
+					let indexs = $(this).parents('.choice_cont').index()
+		
+					let names = $(this).parents('.choice_flex').prev('.choice_scroll').find(
+						'input[type=radio]:checked').prev('h6').text()
+					if (names === '') {
+						alert('请选择类目')
+						return
+					} else {
+						
+							$("#food").submit();
+					
+						$('.choice_item').eq(indexs).find('span').text(names)
+						$(this).parents('.choice_cont').slideUp()
+						common_bg.fadeOut()
+						$('body').removeClass('no_scroll')
+		
+						// 发送参数到服务器
+						// $.ajax({
+						// 	type: 'POST',
+						// 	url: '后台接口地址',
+						// 	data: {
+						// 		name: names // 发送参数
+						// 	},
+						// 	async: true,
+						// 	success: function(res) {
+						// 		console.log(res) // 接收数组数据				
+						// 	}
+						// })
+		
+					}
+		
+				})
+		
+				// 重置按钮
+				$('.choice_reset').click(function () {
+					let reset = $(this).parents('.choice_flex').prev('.choice_scroll')
+					reset.find('input[type=radio]').prop('checked', false)
+					reset.find('h6').css('color', '#333')
+				})
+				// 分类选项js
+		
+			})
+		</script>
 </body>
 
 </html>

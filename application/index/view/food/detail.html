@@ -121,6 +121,11 @@
 					<input type="text" id="content" placeholder="欢迎发表你的评论">
 				</div>
 				<div class="mess-bar-btn" id="send" >发送</div>
+				<div class="mess-bar-count" id="count">
+						{if condition="$cou neq 0"}
+							<span class="info">{$cou}</span>
+						{/if}
+					</div>
 				<div {if condition="$collect eq 0"} class="mess-bar-collect" {else /} class="mess-bar-collect on" {/if} id="collect"></div>
 				<div {if condition="$assist eq 0"} class="mess-bar-like" {else /} class="mess-bar-like on" {/if} id="assist"></div>
 				<div style="line-height: 29px;" id="num">{$coua}</div>

@@ -28,14 +28,28 @@
 			<h2 class="mar_btm_6"><span class="mar_rt_12 am-text-lg font_bold">{$re.name}</span>{$re.comfort}</h2>
 			<div class="mar_btm_6"><span class="mar_rt_12">{$re.level}</span><span>开放时间：{$re.open_time}</span></div>
 			<div class="mar_btm_12"><span class="mar_rt_12">实时人数：{$re.number}</span><span class="mar_rt_12">最佳容量：{$re.opti}</span><span>最大容量：{$re.max}</span></div>
-			<div class="scenic_banner bg_cover bd_radius box_shadow" style="background-image:url({$re.image});">
+			<!-- <div class="scenic_banner bg_cover bd_radius box_shadow" style="background-image:url({$re.image});"> -->
+					<div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}' style="position: relative;">
+							<ul class="am-slides">
+									<!-- <div style="height: 150px;background-image: url({$re.image});background-size: cover;background-repeat: no-repeat;background-position: center;"></div> -->
+							 {volist name="banner" id="vb"}	
+								<li>
+							
+										<div style="height: 150px;background-image: url({$vb.image});background-size: cover;background-repeat: no-repeat;background-position: center;"></div>
+								
+									<!-- <img src="{$vb.image}"> -->
+								</li>
+							{/volist}
+							</ul>
+							
+						</div>
 			</div>
 		</div>
 
 		<div class="bd_btm_10">
 			<div class="p_12">
 				<div class="scenic_intro flex_between mar_btm_6">
-					<h4>简介</h4>
+					<h4 style="color: #111111;font-weight:bold;font-size:14px;">简介</h4>
 					<div class="flex_normal">
 						<span class="mar_rt_12 col_nine ">展开</span><img class="icon" src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
 					</div>
@@ -53,7 +67,7 @@
 		{notempty name="$gl"}
 		<div class="pad_12">
 			<a href="javascript:;" class="flex_between mar_btm_12">
-				<h4>景区游玩攻略</h4>
+				<h4 style="color: #111111;font-weight:bold;font-size:14px;">景区游玩攻略</h4>
 				<!-- <img src="__HOME__/img/icon_right.png" width="6" height="11" alt=""> -->
 			</a>
 			
@@ -74,7 +88,7 @@
 		{notempty name="$rural"}
 		<div class="pad_12">
 			<a href="javascript:;" class="flex_between mar_btm_12">
-				<h4>游记推荐</h4>
+				<h4 style="color: #111111;font-weight:bold;font-size:14px;">乡村旅游</h4>
 				<!-- <img src="__HOME__/img/icon_right.png" width="6" height="11" alt=""> -->
 			</a>
 			<div class="am-g">
@@ -102,7 +116,7 @@
         {notempty name="$play"}
 		<div class="pad_12">
 			<a href="javascript:;" class="flex_between mar_btm_12">
-				<h4>玩转景区</h4>
+				<h4 style="color: #111111;font-weight:bold;font-size:14px;">玩转景区</h4>
 				<!-- <img src="__HOME__/img/icon_right.png" width="6" height="11" alt=""> -->
 			</a>
 			<div class="am-g">
@@ -121,7 +135,7 @@
 
 		<div class="p_12">
 			<div class="play_intro flex_between mar_btm_6">
-				<h4>景点我知道</h4>
+				<h4 style="color: #111111;font-weight:bold;font-size:14px;">景点我知道</h4>
 				<div class="flex_normal">
 					<span class="mar_rt_12 col_nine ">展开</span><img class="icon" src="__HOME__/img/icon_right.png"
 						width="6" height="11" alt="">
@@ -152,7 +166,7 @@
       {notempty name="$ticket"}
 		<div class="ticket_fixed p_12 bg_white">
 			<a href="javascript:;" class="flex_between mar_btm_12">
-				<h4>景区门票</h4>
+				<h4 style="color: #111111;font-weight:bold;font-size:14px;">景区门票</h4>
 				<!-- <img src="__HOME__/img/icon_right.png" width="6" height="11" alt=""> -->
 			</a>
 			<ul class="ticket_list">
@@ -207,6 +221,11 @@
 				<input type="text" id="content" placeholder="欢迎发表你的评论">
 			</div>
 			<div class="mess-bar-btn" id="send" >发送</div>
+			<div class="mess-bar-count" id="count">
+					{if condition="$cou neq 0"}
+						<span class="info">{$cou}</span>
+					{/if}
+				</div>
 			<div {if condition="$collect eq 0"} class="mess-bar-collect" {else /} class="mess-bar-collect on" {/if} id="collect"></div>
 			<div {if condition="$assist eq 0"} class="mess-bar-like" {else /} class="mess-bar-like on" {/if} id="assist"></div>
 			<div style="line-height: 29px;" id="num">{$coua}</div>

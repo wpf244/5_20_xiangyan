@@ -7,64 +7,73 @@ class Spot extends BaseHome
 {
     public function index()
     {
-        $id=input("id");
+        $cid=input("cid");
+
+        $xid=input("xid");
+
+        $title=input("title");
+
+       
+
+        $arr['cname']="城市选择";
+        $arr['xname']="县区选择";
         
-        $res=db("spot_city")->where(["status"=>1,"pid"=>0])->order(["sort asc","id desc"])->select();
 
+        $arr['cid']=0;
+        $arr['xid']=0;
        
-        $pid=input("pid");
 
-        if($id){
-            $re=db("spot_city")->where("id",$id)->find();
+        $map=[]; 
+        
+        //城市列表
+        $city=db("spot_city")->where("pid",0)->select();
 
-                $pid=$re['pid'];
-            foreach($res as $k => $v){
-            $res[$k]['list']=db("spot")->where(["xid"=>$id,"status"=>1])->order(["sort asc","id desc"])->select();
-            $res[$k]['type']=db("spot_city")->where(["status"=>1,"pid"=>$v['id']])->select();
-            }
-        }elseif($pid){
-            foreach($res as $k => $v){
-                $res[$k]['list']=db("spot")->where(["cid"=>$pid,"status"=>1])->order(["sort asc","id desc"])->select();
-                $res[$k]['type']=db("spot_city")->where(["status"=>1,"pid"=>$v['id']])->select();
-                }
-        }else{
-            $pid=0;
-            foreach($res as $k => $v){
-            $res[$k]['list']=db("spot")->where(["cid"=>$v['id'],"status"=>1])->order(["sort asc","id desc"])->select();
-            $res[$k]['type']=db("spot_city")->where(["status"=>1,"pid"=>$v['id']])->select();
-            }
-        }
-       
-        // foreach($res as $k => $v){
-        //    if($id){
+        //县区列表
+        $area=db("spot_city")->where(["pid"=>['neq',0]])->select();
 
-        //     $re=db("spot_city")->where("id",$id)->find();
+        
 
-        //     $pid=$re['pid'];
+        if($cid || $xid || $title){
 
-            
-        //     // if($pid == $v['id']){
-        //       //  var_dump($id);
-             
-        //     // }else{
-        //     //   //  var_dump(22);
-        //     //     $res[$k]['list']=db("spot")->where(["cid"=>$v['id'],"status"=>1])->order(["sort asc","id desc"])->select();
-        //     // }
-
-        //    } else {
-        //    // var_dump(33);
-            
-        //    }
            
 
-        //     $res[$k]['type']=db("spot_city")->where(["status"=>1,"pid"=>$v['id']])->select();
-        // }
+            if($cid){
+                $map['cid']=["eq",$cid];
+
+                $area=db("spot_city")->where(["pid"=>$cid])->select();
+
+
+                $arr['cid']=$cid;
+
+                $arr['cname']=db("spot_city")->where("id",$cid)->find()['name'];
+            }
+
+            if($xid){
+                $map['xid']=$xid;
+
+                $arr['xid']=$xid;
+
+                $arr['xname']=db("spot_city")->where("id",$xid)->find()['name'];
+            }
+
+            if($title){
+                $map['name']=['like',"%".$title."%"];
+            }
+
+
+
+        }
+
+
+        $this->assign("arr",$arr);
+
+        $this->assign("city",$city);
+
+        $this->assign("area",$area); 
+
+        $res=db("spot")->where(["status"=>1])->where($map)->order(["sort asc","id desc"])->select();
 
         $this->assign("res",$res);
-
-  
-
-        $this->assign("pid",$pid);
 
         //热门抢购banner
         $assmeble=db("lb")->where("fid",39)->find();
@@ -134,6 +143,9 @@ class Spot extends BaseHome
         }
 
         $this->assign("rural",$rural);
+
+        $banner=db("spot_img")->where("sid",$id)->select();
+        $this->assign("banner",$banner);
 
         //景区门票
         $ticket=db("spot_ticket")->where("sid",$id)->find();

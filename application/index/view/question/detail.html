@@ -38,8 +38,11 @@
 	<div class="bd_btm_10">
 		<div class="p_12">
 			<h3 class="am-text-truncate mar_btm_6 am-text-lg">{$re.title}</h3>
-			<div class="ques_txt">
+			<div class="ques_txt fold_content">
 					{$re.content}
+				</div>
+				<div class="more-wrap">
+					<div class="more-inner">【详情】</div>
 				</div>
 			<div class="flex_between">
                {empty name="$user"}
@@ -66,9 +69,12 @@
 	<div class="p_12 bd_btm">
 			<div class="flex_normal mar_btm_12"><img class="bd_radius_50 mar_rt_6" src="__HOME__/img/common_pic.jpg" width="30" height="30" alt=""><span>匿名</span></div>
 	{/notempty}
-	<div class="ques_txt">
+	<div class="ques_txt fold_content">
 		{$v.content}
 	</div>
+	<div class="more-wrap">
+			<div class="more-inner">【详情】</div>
+		</div>
 </div>
 			{/volist}
 		</div>

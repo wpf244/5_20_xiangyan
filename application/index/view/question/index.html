@@ -44,11 +44,14 @@
 		<ul class="ques_list">
 			{volist name="res" id="v"}
 			
-			<li class="ques_item">
-				<a class="am-block p_12 bd_btm" href="{:url('Question/detail',array('id'=>$v['id']))}">
+			<li class="ques_item bd_btm p_12">
+				<a class="am-block" href="{:url('Question/detail',array('id'=>$v['id']))}">
 	<h3 class="am-text-truncate mar_btm_6">{$v.title}</h3>
-	<div class="ques_cont mar_btm_6">
-		<span>详情</span>{$v.content}</div>
+	<div class="ques_cont mar_btm_6  fold_content">
+		<span>问题</span>{$v.content}</div>
+		<div class="more-wrap">
+				<div class="more-inner">【详情】</div>
+			</div>
 	<div class="flex_between">
 		<div class="flex_normal">
           {empty name="$v.nickname"}
@@ -60,6 +63,9 @@
 		<div class="flex_normal"><span class="mar_rt_6 col_main">（{$v.cou}个回答）</span><span class=" col_nine">{$v.time|date="Y-m-d",###}</span></div>
 	</div>
 </a>
+			<div style="display: flex;flex-direction: row-reverse;">
+				<a href="{:url('Question/detail',array('id'=>$v['id']))}" class="ques-btn"></a>
+			</div>
 			</li>
 			
 			{/volist}

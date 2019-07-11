@@ -539,6 +539,81 @@ class Spot extends BaseAdmin
             echo'1';
         }
     }
+    /**
+    * 景区banner
+    *
+    * @return void
+    */
+    public function img()
+    {
+        $id=input("id");
+
+        $list=db("spot_img")->where(["sid"=>$id])->paginate(20);
+
+        $this->assign("list",$list);
+
+        $page=$list->render();
+
+        $this->assign("page",$page);
+
+        $this->assign("id",$id);
+        
+        return $this->fetch();
+    }
+    public function save_img(){
+        $id=\input('id');
+        if($id){
+            $data=input("post.");
+           $re=db('spot_img')->where("id",$id)->find();
+           if(request()->file("image")){
+               $data['image']=uploads("image");
+               deleteImg($re['image']);
+           }else{
+               $data['image']=$re['image'];
+           }
+           
+           $res=db('spot_img')->where("id",$id)->update($data);
+           if($res){
+               $this->success("修改成功！");
+           }else{
+               $this->error("修改失败！");
+           }
+        }else{
+            $data=input("post.");
+            if(request()->file("image")){
+                $data['image']=uploads("image");
+               
+            }
+           
+            $re=db('spot_img')->insert($data);
+            if($re){
+                $this->success("添加成功！");
+            }else{
+                $this->error("添加失败！");
+            } 
+        }
+         
+    }
+    public function modifys_img(){
+        $id=input('id');
+        $re=db('spot_img')->where("id",$id)->find();
+        echo json_encode($re);
+    }
+    public function delete_img()
+    {
+        $id=\input('id');
+        $re=db("spot_img")->where("id=$id")->find();
+        if($re){
+            $res=db("spot_img")->where("id=$id")->delete();
+            if($res){
+                echo '0';
+            }else{
+                echo '2';
+            }
+        }else{
+            echo'1';
+        }
+    }
     public function ticket()
     {
         

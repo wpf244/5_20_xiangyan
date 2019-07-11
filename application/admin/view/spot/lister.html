@@ -90,6 +90,7 @@
                   <th class="hidden-480">游玩攻略</th>
                   <th class="hidden-480">玩转景区</th>
                   <th class="hidden-480">景区门票</th>
+                  <th class="hidden-480">banner图</th>
                   <th class="hidden-480">缩略图</th>
                   <th class="hidden-480">发布时间</th>
                   <th>状态</th>
@@ -130,6 +131,12 @@
                         </a>
                         
                       </td>
+                      <td>
+                          <a class="btn btn-xs btn-info" href="{:url('img',array('id'=>$v['id']))}">
+                            查看
+                          </a>
+                          
+                        </td>
                   <td class="ace-thumbnails hidden-480">
                     <li><a href="{$v.image}" data-rel="colorbox">
                       <img width="80" height="80" alt="150x150" src="{$v.image}"/>

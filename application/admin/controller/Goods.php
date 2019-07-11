@@ -449,18 +449,18 @@ class Goods extends BaseAdmin
     }
     public function shop()
     {
-        $list=db("goods_shop")->order("id desc")->select();
+        $list=db("goods_shop")->order("sid desc")->select();
 
         $this->assign("list",$list);
         
         return $this->fetch();
     }
     public function save_t(){
-        $id=input('id');
+        $id=input('sid');
         $data=input("post.");
         if($id){
            
-            $res=db('goods_shop')->where("id",$id)->update($data);
+            $res=db('goods_shop')->where("sid",$id)->update($data);
             if($res){
                 $this->success("修改成功");
             }else{
@@ -478,14 +478,14 @@ class Goods extends BaseAdmin
     }
     public function modify_t(){
         $id=input('id');
-        $re=db('goods_shop')->where("id=$id")->find();
+        $re=db('goods_shop')->where("sid=$id")->find();
         
         echo json_encode($re);
     }
     public function delete_t(){
         $id=input('id');
        
-        $del=db('goods_shop')->where("id",$id)->delete();
+        $del=db('goods_shop')->where("sid",$id)->delete();
         
         $this->redirect('shop');
           
