@@ -120,12 +120,12 @@
 			<ul class="">
 			 {volist name="res" id="v"}	
 				<li class="mar_rt_12 mar_btm_6"><a href="{:url('Culture/detail',array('id'=>$v['id']))}" class="flex_normal">
-					<div style="width:130px;height:90px;background-image: url('http://xiangyan.dd371.com/uploads/20190529/4bf974d138b765847314f20b565bb5c9.png');background-position: center;background-repeat: no-repeat;background-size: cover;"></div>
+					<div style="width:130px;height:90px;background-image: url('{$v.image}');background-position: center;background-repeat: no-repeat;background-size: cover;"></div>
 					<div style="margin-left: 12px;">
 							<h2 style="color:#111111;font-size:13px;margin-bottom:8px;">{$v.title}</h2>
-							<div style="color: #999999;font-size: 11px;margin-bottom:12px;">金水区花园路国基路</div>
+							<div style="color: #999999;font-size: 11px;margin-bottom:12px;"></div>
 							<div>
-								<span style="color: #1BB785">有山有水</span>
+								<span style="color: #1BB785">{$v.writer}</span>
 							</div>
 					</div>
 				</a></li>

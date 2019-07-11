@@ -62,9 +62,10 @@
 		</div>
 		<div class="list_box pad_lt_12 pad_btm_12">
 		 {volist name="res" id="v"}
-			<a href="javascript:;" class="mar_rt_12">
-	<img class="bd_radius mar_btm_6" src="{$v.image}" width="186" height="84" alt="">
+			<a href="{:url('Food/details',array('id'=>$v['id']))}" class="mar_rt_12">
+	<img class="bd_radius mar_btm_6" src="{$v.image}" width="186" height="96" alt="">
 	<h4 class="am-text-truncate">{$v.title}</h4>
+	<p><span style="color:#808080;font-size:12px;margin-right: 5px;">{$v.ad}</span></p>
 </a>
 		{/volist}
 		</div>

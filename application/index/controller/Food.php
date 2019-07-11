@@ -261,5 +261,15 @@ class Food extends BaseHome
             echo '1';
         }
     }
+    public function details()
+    {
+        $id=input("id");
+
+        $re=db("food_hot")->where("id",$id)->find();
+
+        $this->assign("re",$re);
+
+        return $this->fetch();
+    }
     
 }

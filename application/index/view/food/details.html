@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="" style="padding-bottom: 50px;">
+
+	<!-- 返回 -->
+	<div class="back_box">
+		
+		<ul class="bread">
+			<li>
+				<a href="{:url('Index/index')}">首页</a>&nbsp;&gt;
+			</li>
+			<li>
+				<a href="{:url('Food/index')}">美食</a>&nbsp;&gt;
+			</li>
+			<li>
+			<a href="javascript:;">推荐菜详情</a>
+			</li>
+		</ul>
+	</div>
+
+	<!-- banner -->
+	<div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}'>
+		<ul class="am-slides">
+			<li class="hotel_item travel_item hotel_banner" style="background-image: url({$re.image})"></li>
+		</ul>
+	</div>
+
+	<div class="pad_12 bd_btm_10">
+		<div class="pd_12 bd_btm">
+			<div class="flex_normal">
+				<h4 class="am-text-lg mar_rt_12">{$re.title}</h4>
+			
+			</div>
+			<div class="flex_between">
+				<div class=" col_nine">
+					<span style="color:#808080;font-size: 12px;margin-right: 5px;">{$re.ad}</span>
+					
+				</div>
+				<div class="col_nine "><span class="col_main mar_rt_6 am-text-default">￥{$re.price}</span>/份</div>
+			</div>
+		</div>
+		
+	</div>
+
+	<div class="pd_12">
+		{$re.content}
+	</div>
+
+	
+
+			<script>
+				$(".delete").click(function(){
+		   var id = $(this).data("id");
+
+		   $.ajax({
+				type:"post",
+				url:"__URL__/delete",
+				data:{id:id},
+				dataType:"text",
+				success:function(re){
+                   if(re == 0){
+					   layer.msg("删除成功");
+					   setTimeout("location.reload()",1000);
+				   }else{
+					   layer.msg("删除失败");
+					   setTimeout("location.reload()",1000);
+				   }
+				}
+			})
+		   
+	   })
+					$("#send").click(function(){
+						 var content = $("#content").val();
+						 var nid = "{$re.id}"; 
+						 $.ajax({
+							 type:"post",
+							 url:"__URL__/save_assess",
+							 data:{content:content,g_id:nid},
+							 dataType:"text",
+							 success:function(re){
+								if(re == 0){
+									layer.msg("发表成功");
+									setTimeout("location.reload()",1000);
+								}
+								if(re == 1){
+									location.href="{:url('Login/login')}";
+								}
+								if(re == 2){
+									layer.msg("发表失败,请稍后再试");
+									setTimeout("location.reload()",1000);
+								}
+							 }
+						 })
+					})
+			 
+					$("#collect").click(function(){
+					  
+						 var nid = "{$re.id}"; 
+						 $.ajax({
+							 type:"post",
+							 url:"__URL__/save_collect",
+							 data:{nid:nid},
+							 dataType:"text",
+							 success:function(re){
+								 if(re == 1){
+									location.href="{:url('Login/login')}";
+								}
+							 }
+						 })
+					})
+			 
+					$("#assist").click(function(){
+					  
+					  var nid = "{$re.id}"; 
+					  $.ajax({
+						  type:"post",
+						  url:"__URL__/save_assist",
+						  data:{nid:nid},
+						  dataType:"text",
+						  success:function(re){
+							  if(re == 1){
+								 location.href="{:url('Login/login')}";
+							 }
+						  }
+					  })
+				 })
+			 
+					
+				 
+				 </script>
+</body>
+
+</html>
