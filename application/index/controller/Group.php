@@ -7,6 +7,19 @@ class Group extends BaseUser
 {
     public function index()
     {
+        
+        $tid=input("tid");
+
+        if($tid){
+            session("tid",$tid);
+        }else{
+            $tid=\session("tid");
+
+            if(empty($tid)){
+                $this->redirect("list");
+            }
+        }
+        
         $lb=db("lb")->where(["fid"=>11,"status"=>1])->order(["sort asc","id desc"])->select();
 
         $this->assign("lb",$lb);
@@ -31,6 +44,14 @@ class Group extends BaseUser
         //跟团游
 
         $res=db("package")->where(["status"=>1])->order(["sort asc","id desc"])->select();
+
+        $this->assign("res",$res);
+
+        return $this->fetch();
+    }
+    public function list()
+    {
+        $res=db("travel")->select();
 
         $this->assign("res",$res);
 

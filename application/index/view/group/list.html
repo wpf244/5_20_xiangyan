@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+<style>
+	.mar_lt_6 {
+		font-size: 10px;
+	}
+</style>
+<body class="">
+	<!-- 返回 -->
+	<div class="back_box">
+		<ul class="bread">
+			<li>
+				<a href="{:url('Index/index')}">首页</a>&nbsp;&gt;
+			</li>
+		
+			<li>
+				<a href="javascript:;">选择旅行社</a>
+			</li>		
+		</ul>
+	</div>
+
+{include file="public:top"}
+
+	<!-- 搜索框 -->
+<!-- <div class="search_box p_12 bg_normal">
+	<div class="flex_normal">
+		<div class="search_wrap pad_12 flex_1 bg_white bd_radius  flex_between">
+			<div class="search_location flex_normal pad_rt_12 mar_rt_12 col_main">
+				<img class="mar_rt_6" src="__HOME__/img/icon_location.png" width="16" height="16" alt=""><span>郑州</span>
+			</div>
+			<input class="flex_1" type="text" placeholder="请输入搜索关键词">
+			<img class="mar_lt_12" src="__HOME__/img/icon_search.png" width="16" height="16" alt="">
+		</div>
+		<button class="mar_lt_12">搜索</button>
+	</div>
+</div> -->
+<div class="p_12">
+	<div style="font-size: 14px;color:#333333;">请选择旅行社</div>
+		<ul>
+		   {volist name="res" id="v"}		
+			<li>
+					<a href="{:url('Group/index',array('tid'=>$v['id']))}" style="display: block;padding:5px;border:1px solid #EEEEEE;font-size: 13px;color:#505050;">{$v.name}</a>
+				</li>
+			{/volist}
+		</ul>
+</div>
+
+</body>
+
+</html>

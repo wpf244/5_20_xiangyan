@@ -41,7 +41,9 @@ class Spot extends BaseAdmin
                 deleteImg($re['image']);
                }
                
-           }
+           }else{
+            $data['image']=$re['image'];
+        }
         
           
            $res=db('spot_city')->where("id",$id)->update($data);
