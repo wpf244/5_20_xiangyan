@@ -3,7 +3,7 @@
 
 {include file="public:header"}
 
-<body class="" style="padding-bottom:180px;">
+<body class="" style="padding-bottom:270px;">
 
 		<div class="back_box">
 				
@@ -12,7 +12,7 @@
 						 <a href="{:url('Index/index')}">首页</a>&nbsp;&gt;
 						</li>
 						<li>
-						 <a href="{:url('Spot/index')}">热门景区</a>&nbsp;&gt;
+						 <a href="{:url('Spot/index')}">门票抢购</a>&nbsp;&gt;
 						</li>
 						<li>
 						<a href="javascript:;">景区详情</a>
@@ -163,28 +163,7 @@
 		</div>
 
 		{/notempty}
-      {notempty name="$ticket"}
-		<div class="ticket_fixed p_12 bg_white">
-			<a href="javascript:;" class="flex_between mar_btm_12">
-				<h4 style="color: #111111;font-weight:bold;font-size:14px;">景区门票</h4>
-				<!-- <img src="__HOME__/img/icon_right.png" width="6" height="11" alt=""> -->
-			</a>
-			<ul class="ticket_list">
-				<li class="ticket_item flex_normal mar_btm_12 col_white bd_radius">
-	<div class="ticket_lt p_12 flex_1">
-		<h4 class="am-text-truncate">{$ticket.title}</h4>
-		<div class="">{$ticket.type}</div>
-		<div class="ticket_btn transparent">{$ticket.marray}</div>
-	</div>
-	<div class="ticket_buy am-text-center">
-		<div class="ticket_price">￥<span class="am-text-xl font_bold">{$ticket.price}</span></div>
-		<a class="ticket_btn" href="{:url('Spot/go_buy',array('id'=>$ticket['id']))}" >购买</a>
-	</div>
-</li>
-			</ul>
-		</div>
-
-		{/notempty}
+      
 		
 		
 		<div class="p_12">
@@ -215,21 +194,64 @@
 			</div>
 		</div>
 	</div>
-
-	<div class="mess-bar">
-			<div class="mess-bar-text">
-				<input type="text" id="content" placeholder="欢迎发表你的评论">
-			</div>
-			<div class="mess-bar-btn" id="send" >发送</div>
-			<div class="mess-bar-count" id="count">
-					{if condition="$cou neq 0"}
-						<span class="info">{$cou}</span>
-					{/if}
+	
+		<div style="position: fixed;left: 0;bottom: 0;width:100%;background-color: #fff;">
+			{notempty name="$ticket"}
+					<div class="p_12 bg_white">
+						<a href="javascript:;" class="flex_between mar_btm_12">
+							<h4 style="color: #111111;font-weight:bold;font-size:14px;">景区门票</h4>
+							<!-- <img src="__HOME__/img/icon_right.png" width="6" height="11" alt=""> -->
+						</a>
+						<ul class="ticket_list">
+							<li class="ticket_item flex_normal mar_btm_12 col_white bd_radius">
+				<div class="ticket_lt p_12 flex_1">
+					<h4 class="am-text-truncate">{$ticket.title}</h4>
+					<div class="">{$ticket.type}</div>
+					<div class="ticket_btn transparent">{$ticket.marray}</div>
 				</div>
-			<div {if condition="$collect eq 0"} class="mess-bar-collect" {else /} class="mess-bar-collect on" {/if} id="collect"></div>
-			<div {if condition="$assist eq 0"} class="mess-bar-like" {else /} class="mess-bar-like on" {/if} id="assist"></div>
-			<div style="line-height: 29px;" id="num">{$coua}</div>
-		</div>
+				<div class="ticket_buy am-text-center">
+					<div class="ticket_price">￥<span class="am-text-xl font_bold">{$ticket.price}</span></div>
+					<a class="ticket_btn" href="{:url('Spot/go_buy',array('id'=>$ticket['id']))}" >购买</a>
+				</div>
+			</li>
+						</ul>
+					</div>
+			
+					{/notempty}
+			<div class="mess-bar" style="position: static;border-bottom: 1px solid #E6E6E6;">
+					<div class="mess-bar-text">
+						<input type="text" id="content" placeholder="欢迎发表你的评论">
+					</div>
+					<div class="mess-bar-btn" id="send" >发送</div>
+					<div class="mess-bar-count" id="count">
+							{if condition="$cou neq 0"}
+								<span class="info">{$cou}</span>
+							{/if}
+						</div>
+					<div {if condition="$collect eq 0"} class="mess-bar-collect" {else /} class="mess-bar-collect on" {/if} id="collect"></div>
+					<div {if condition="$assist eq 0"} class="mess-bar-like" {else /} class="mess-bar-like on" {/if} id="assist"></div>
+					<div style="line-height: 29px;" id="num">{$coua}</div>
+				</div>
+				
+				<div class="am-g am-text-center pad_top_12 dmenu" style="padding-top: 4px;">
+					<a href="{:url('Rural/play',array('id'=>$re['id']))}" class="am-u-sm-3">
+						<img src="__HOME__/img/nd01.png" class="am-center" width="30" height="30" alt="">
+						<div class="am-text-truncate">周边游</div>
+					</a>
+					<a href="{:url('Rural/goods',array('id'=>$re['id']))}" class="am-u-sm-3">
+						<img src="__HOME__/img/nd02.png" class="am-center" width="30" height="30" alt="">
+						<div class="am-text-truncate">当地特产</div>
+					</a>
+					<a href="{:url('Rural/hotel',array('id'=>$re['id']))}" class="am-u-sm-3">
+						<img src="__HOME__/img/nd03.png" class="am-center" width="30" height="30" alt="">
+						<div class="am-text-truncate">当地民宿</div>
+					</a>
+					<a href="http://apis.map.qq.com/uri/v1/routeplan?type=drive&to={$re.addr}&tocoord={$re.lats},{$re.longs}&policy=1&referer=myapp" class="am-u-sm-3">
+						<img src="__HOME__/img/nd04.png" class="am-center" width="30" height="30" alt="">
+						<div class="am-text-truncate">一键导航</div>
+					</a>
+				</div>
+			</div>
 		<script>
 
 $(".delete").click(function(){
@@ -254,6 +276,9 @@ $(".delete").click(function(){
 	   })
 				$("#send").click(function(){
 					 var content = $("#content").val();
+                     if($.trim(content) == ''){
+						 layer.msg("请输入评论内容");return false;
+					 }
 					 var nid = "{$re.id}"; 
 					 $.ajax({
 						 type:"post",

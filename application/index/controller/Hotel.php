@@ -39,21 +39,91 @@ class Hotel extends BaseUser
 
         
         $city_index=session("city_index");
+
+        $cid=input("cid");
+
+        $xid=input("xid");
+
+        $title=input("title");
+
+       
+
+        $arr['cname']="城市选择";
+        $arr['xname']="县区选择";
+        
+
+        $arr['cid']=0;
+        $arr['xid']=0;
+       
+
+        $map=[]; 
+        
+        //城市列表
+        $city=db("spot_city")->where("pid",0)->select();
+
+        //县区列表
+        $area=db("spot_city")->where(["pid"=>['neq',0]])->select();
+
+        
+
+        if($cid || $xid || $title){
+
+           
+
+            if($cid){
+
+                $arr['cname']=db("spot_city")->where("id",$cid)->find()['name'];
+
+                $map['addr']=["like","%".$arr['cname']."%"];
+
+                $area=db("spot_city")->where(["pid"=>$cid])->select();
+
+
+                $arr['cid']=$cid;
+
+               
+            }
+
+            if($xid){
+                $arr['xname']=db("spot_city")->where("id",$xid)->find()['name'];
+
+                $map['addr']=["like","%".$arr['xname']."%"];
+
+                $arr['xid']=$xid;
+
+               
+            }
+
+            if($title){
+                $map['name']=['like',"%".$title."%"];
+            }
+
+
+
+        }
+
+
+        $this->assign("arr",$arr);
+
+        $this->assign("city",$city);
+
+        $this->assign("area",$area); 
+
         //酒店推荐
-        $hotel=db("hotel")->where(["status"=>1,"recome"=>1,"type"=>1])->where("addr","like","%".$city_index."%")->order(["sort asc","id desc"])->select();
+        $hotel=db("hotel")->where(["status"=>1,"recome"=>1,"type"=>1])->where("addr","like","%".$city_index."%")->where($map)->order(["sort asc","id desc"])->select();
 
         $this->assign("hotel",$hotel);
 
-        $hotels=db("hotel")->where(["status"=>1,"recome"=>0,"type"=>1])->where("addr","like","%".$city_index."%")->order(["sort asc","id desc"])->select();
+        $hotels=db("hotel")->where(["status"=>1,"recome"=>0,"type"=>1])->where("addr","like","%".$city_index."%")->where($map)->order(["sort asc","id desc"])->select();
 
         $this->assign("hotels",$hotels);
 
         //民宿
-        $home=db("hotel")->where(["status"=>1,"recome"=>1,"type"=>2])->where("addr","like","%".$city_index."%")->order(["sort asc","id desc"])->select();
+        $home=db("hotel")->where(["status"=>1,"recome"=>1,"type"=>2])->where("addr","like","%".$city_index."%")->where($map)->order(["sort asc","id desc"])->select();
 
         $this->assign("home",$home);
 
-        $homes=db("hotel")->where(["status"=>1,"recome"=>0,"type"=>2])->where("addr","like","%".$city_index."%")->order(["sort asc","id desc"])->select();
+        $homes=db("hotel")->where(["status"=>1,"recome"=>0,"type"=>2])->where("addr","like","%".$city_index."%")->where($map)->order(["sort asc","id desc"])->select();
 
         $this->assign("homes",$homes);
 

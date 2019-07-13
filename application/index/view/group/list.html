@@ -37,11 +37,27 @@
 	</div>
 </div> -->
 <div class="p_12">
-	<div style="font-size: 14px;color:#333333;">请选择旅行社</div>
+	<!-- <div style="font-size: 14px;color:#333333;">请选择旅行社</div> -->
 		<ul>
 		   {volist name="res" id="v"}		
 			<li>
-					<a href="{:url('Group/index',array('tid'=>$v['id']))}" style="display: block;padding:5px;border:1px solid #EEEEEE;font-size: 13px;color:#505050;">{$v.name}</a>
+					<a href="{:url('Group/index',array('tid'=>$v['id']))}" style="display: flex;padding:5px;border-bottom:1px solid #EEEEEE;font-size: 13px;color:#505050;">
+						<div style="flex: 1;display: flex;">
+							<img width="40px" height="40px" src="http://xiangyan.dd371.com/static/home/img/icon_kind_2.png" alt="">
+							<div style="margin-left: 12px;">
+								<div style="color: #4F4F4F;">{$v.name}</div>
+								<div style="color: #999999;">
+									<img width="15" src="http://oa.toopen.cn/ueditor/php/upload/image/20190713/1563002945137865.png" alt="">
+									{$v.phone}</div>
+								<div style="color: #999999;">
+									<img width="15" src="http://oa.toopen.cn/ueditor/php/upload/image/20190713/1563002951925624.png" alt="">
+									{$v.code}</div>
+							</div>
+						</div>
+						<div style="flex: 0 0 30px;background-image: url(http://oa.toopen.cn/ueditor/php/upload/image/20190713/1563002821247560.png);background-repeat: no-repeat;background-position: center;background-size: 13px;">
+								
+						</div>
+					</a>
 				</li>
 			{/volist}
 		</ul>

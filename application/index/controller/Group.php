@@ -43,7 +43,7 @@ class Group extends BaseUser
 
         //跟团游
 
-        $res=db("package")->where(["status"=>1])->order(["sort asc","id desc"])->select();
+        $res=db("package")->where(["status"=>1,"fid"=>$tid])->order(["sort asc","id desc"])->select();
 
         $this->assign("res",$res);
 

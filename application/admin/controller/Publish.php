@@ -9,7 +9,7 @@ class Publish extends BaseAdmin
         $status=input("status");
 
         if(empty($status)){
-             $status=0;
+             $status=1;
         }
         $map['status']=["eq",$status];
 

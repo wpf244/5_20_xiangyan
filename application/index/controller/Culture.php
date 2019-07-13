@@ -145,11 +145,80 @@ class Culture extends BaseHome
 
         $title=input("title");
 
-        if($title){
-            $map['title']=["like","%".$title."%"];
-        }else{
-            $map=[];
+        // if($title){
+        //     $map['title']=["like","%".$title."%"];
+        // }else{
+        //     $map=[];
+        // }
+
+        $cid=input("cid");
+
+        $xid=input("xid");
+
+        $title=input("title");
+
+       
+
+        $arr['cname']="城市选择";
+        $arr['xname']="县区选择";
+        
+
+        $arr['cid']=0;
+        $arr['xid']=0;
+       
+
+        $map=[]; 
+        
+        //城市列表
+        $city=db("spot_city")->where("pid",0)->select();
+
+        //县区列表
+        $area=db("spot_city")->where(["pid"=>['neq',0]])->select();
+
+        
+
+        if($cid || $xid || $title){
+
+           
+
+            if($cid){
+
+                $arr['cname']=db("spot_city")->where("id",$cid)->find()['name'];
+
+                $map['addr']=["like","%".$arr['cname']."%"];
+
+                $area=db("spot_city")->where(["pid"=>$cid])->select();
+
+
+                $arr['cid']=$cid;
+
+               
+            }
+
+            if($xid){
+                $arr['xname']=db("spot_city")->where("id",$xid)->find()['name'];
+
+                $map['addr']=["like","%".$arr['xname']."%"];
+
+                $arr['xid']=$xid;
+
+               
+            }
+
+            if($title){
+                $map['name']=['like',"%".$title."%"];
+            }
+
+
+
         }
+
+
+        $this->assign("arr",$arr);
+
+        $this->assign("city",$city);
+
+        $this->assign("area",$area); 
 
         $city_index=session("city_index");
         

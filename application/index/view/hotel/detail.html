@@ -184,6 +184,9 @@
 	   })
 					$("#send").click(function(){
 						 var content = $("#content").val();
+						 if($.trim(content) == ''){
+						 layer.msg("请输入评论内容");return false;
+					 }
 						 var nid = "{$re.id}"; 
 						 $.ajax({
 							 type:"post",

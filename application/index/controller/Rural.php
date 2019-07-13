@@ -54,6 +54,8 @@ class Rural extends BaseHome
                 $arr['cid']=$cid;
 
                 $arr['cname']=db("culture_city")->where("cid",$cid)->find()['c_name'];
+
+                session("citys",$arr['cname']);
             }
 
             if($xid){
@@ -206,6 +208,12 @@ class Rural extends BaseHome
         $banner=db("rural_type_banner")->where("tid",$id)->select();
 
         $this->assign("banner",$banner);
+
+        $citys=session("citys");
+
+        $this->assign("citys",$citys);
+
+
 
 
         return $this->fetch();

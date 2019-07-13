@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public:header"}
+
+<body class="" style="padding-bottom: 50px;">
+
+	<!-- 返回 -->
+	<div class="back_box">
+		
+		<ul class="bread">
+			<li>
+				<a href="{:url('Index/index')}">首页</a>&nbsp;&gt;
+			</li>
+			<li>
+				<a href="{:url('Food/index')}">美食</a>&nbsp;&gt;
+			</li>
+			<li>
+			<a href="javascript:;">推荐菜详情</a>
+			</li>
+		</ul>
+	</div>
+
+	<!-- banner -->
+	<div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}'>
+		<ul class="am-slides">
+			<li class="hotel_item travel_item hotel_banner" style="background-image: url({$re.image})"></li>
+		</ul>
+	</div>
+
+	<div class="pad_12 bd_btm_10">
+		<div class="pd_12 bd_btm">
+			<div class="flex_normal">
+				<h4 class="am-text-lg mar_rt_12">{$re.name}</h4>
+				<!-- <div class="flex_1 am-text-right col_deputy ">{$type.name} {$re.marray}</div> -->
+			</div>
+			<div class="flex_between">
+				<div class=" col_nine">
+					<span style="color:#808080;font-size: 12px;margin-right: 5px;">偏辣</span>
+					<span style="color:#808080;font-size: 12px;margin-right: 5px;">姜</span>
+				</div>
+				<div class="col_nine "><span class="col_main mar_rt_6 am-text-default">￥{$re.price}</span>/份</div>
+			</div>
+		</div>
+		<!-- <a class="pd_12 bd_btm flex_between bg_white" href="javascript:;">
+			<div class="flex_normal">
+				<img class="mar_rt_12" src="__HOME__/img/icon_mall_position.png" width="16" height="16" alt=""><span class="am-block am-text-truncate">{$re.addr}</span>
+			</div>
+			
+		</a>
+		<a class="pd_12 bd_btm flex_between bg_white" href="tel:{$re.phone}">
+			<div class="flex_normal">
+				<img class="mar_rt_12" src="__HOME__/img/icon_tousu.png" width="16" height="16" alt=""><span class="am-block am-text-truncate">{$re.phone}</span>
+			</div>
+			<img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
+		</a> -->
+	</div>
+
+	<div class="pd_12">
+		<div class="q_info_title">菜品介绍</div>
+		<div>青椒炒鸡蛋是一款家常菜品，主要食材是鸡蛋和青椒，主要烹饪工艺是炒，黄绿搭配，色彩美观，口味鲜香，营养丰富。</div>
+		<div class="q_info_title">详情介绍</div>
+		<div>
+				<p>简介 食物相克:鸡蛋:与鹅肉同食损伤脾胃;与兔肉、柿子同食导致腹泻;同时不宜与甲鱼、鲤鱼、豆浆、茶同食。</p>
+
+				材料
+				主料:鸡蛋200克
+				辅料:辣椒(青，尖)50克
+				调料:植物油60克，料酒25克，盐3克
+
+				做法
+				1、将鸡蛋打入碗中，加盐及料酒调匀。
+				2、把青椒切成丁。
+				3、炒锅上火，放油，倒入蛋液，炒熟后盛出。
+				4、原炒锅再把青椒炒熟，把鸡蛋倒入炒锅中炒散即成。							
+		</div>
+		<div class="q_info_title">图片展示</div>
+		<div class="detail_box">
+				<p>简介 食物相克:鸡蛋:与鹅肉同食损伤脾胃;与兔肉、柿子同食导致腹泻;同时不宜与甲鱼、鲤鱼、豆浆、茶同食。</p>
+		</div>
+	</div>
+
+	
+
+			<script>
+				$(".delete").click(function(){
+		   var id = $(this).data("id");
+
+		   $.ajax({
+				type:"post",
+				url:"__URL__/delete",
+				data:{id:id},
+				dataType:"text",
+				success:function(re){
+                   if(re == 0){
+					   layer.msg("删除成功");
+					   setTimeout("location.reload()",1000);
+				   }else{
+					   layer.msg("删除失败");
+					   setTimeout("location.reload()",1000);
+				   }
+				}
+			})
+		   
+	   })
+					$("#send").click(function(){
+						 var content = $("#content").val();
+						 var nid = "{$re.id}"; 
+						 $.ajax({
+							 type:"post",
+							 url:"__URL__/save_assess",
+							 data:{content:content,g_id:nid},
+							 dataType:"text",
+							 success:function(re){
+								if(re == 0){
+									layer.msg("发表成功");
+									setTimeout("location.reload()",1000);
+								}
+								if(re == 1){
+									location.href="{:url('Login/login')}";
+								}
+								if(re == 2){
+									layer.msg("发表失败,请稍后再试");
+									setTimeout("location.reload()",1000);
+								}
+							 }
+						 })
+					})
+			 
+					$("#collect").click(function(){
+					  
+						 var nid = "{$re.id}"; 
+						 $.ajax({
+							 type:"post",
+							 url:"__URL__/save_collect",
+							 data:{nid:nid},
+							 dataType:"text",
+							 success:function(re){
+								 if(re == 1){
+									location.href="{:url('Login/login')}";
+								}
+							 }
+						 })
+					})
+			 
+					$("#assist").click(function(){
+					  
+					  var nid = "{$re.id}"; 
+					  $.ajax({
+						  type:"post",
+						  url:"__URL__/save_assist",
+						  data:{nid:nid},
+						  dataType:"text",
+						  success:function(re){
+							  if(re == 1){
+								 location.href="{:url('Login/login')}";
+							 }
+						  }
+					  })
+				 })
+			 
+					
+				 
+				 </script>
+</body>
+
+</html>

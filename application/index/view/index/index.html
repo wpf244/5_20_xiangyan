@@ -222,7 +222,7 @@
 		<!-- 热门抢购 -->
 		<a href="{:url('Assemble/index')}" class="flex_between p_12 bg_white">
 			<div class="title_left flex_normal">
-				<!--<img class="mar_rt_6" src="__HOME__/img/video.png" width="18" height="18" alt="">--><span>{$assemble.name}</span><span class="title_left_sub">&nbsp;/&nbsp;热门抢购门票了</span>
+				<!--<img class="mar_rt_6" src="__HOME__/img/video.png" width="18" height="18" alt="">--><span>{$assemble.name}</span><span class="title_left_sub">&nbsp;/&nbsp;{:strip_tags($assemble.desc)}</span>
 			</div>
 			<div class="flex_normal">
 				<span class="col_nine  mar_rt_6">更多</span><img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
@@ -236,7 +236,7 @@
 		<!-- 热门砍价 -->
 		<a href="{:url('Bargain/index')}" class="flex_between p_12 bg_white">
 			<div class="title_left flex_normal">
-				<!--<img class="mar_rt_6" src="__HOME__/img/video.png" width="18" height="18" alt="">--><span>{$bargain.name}</span><span class="title_left_sub">&nbsp;/&nbsp;邀请好友砍价免费拿门票喽</span>
+				<!--<img class="mar_rt_6" src="__HOME__/img/video.png" width="18" height="18" alt="">--><span>{$bargain.name}</span><span class="title_left_sub">&nbsp;/&nbsp;{:strip_tags($bargain.desc)}</span>
 			</div>
 			<div class="flex_normal">
 				<span class="col_nine  mar_rt_6">更多</span><img src="__HOME__/img/icon_right.png" width="6" height="11" alt="">
