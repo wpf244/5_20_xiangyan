@@ -10,15 +10,10 @@ class Group extends BaseUser
         
         $tid=input("tid");
 
-        if($tid){
-            session("tid",$tid);
-        }else{
-            $tid=\session("tid");
-
-            if(empty($tid)){
-                $this->redirect("list");
-            }
+        if(empty($tid)){
+            $this->redirect("list");
         }
+        
         
         $lb=db("lb")->where(["fid"=>11,"status"=>1])->order(["sort asc","id desc"])->select();
 
