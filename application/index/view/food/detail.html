@@ -66,7 +66,9 @@
 	<img class="bd_radius mar_btm_6" src="{$v.image}" width="186" height="96" alt="">
 	<h4 class="am-text-truncate">{$v.title}</h4>
 	<p><span style="color:#808080;font-size:12px;margin-right: 5px;">{$v.ad}</span></p>
+	<p style="color:#808080;">查看详情 <img src="__HOME__/img/icon_right.png" width="6" height="11" alt=""></p>
 </a>
+
 		{/volist}
 		</div>
 	</div>
@@ -117,7 +119,8 @@
 		
 			</div>
 		</div>
-		<div class="mess-bar">
+	<div style="position: fixed;left: 0;bottom: 0;width:100%;background-color: #fff;">
+		<div class="mess-bar" style="position: static;border-bottom: 1px solid #E6E6E6;">
 				<div class="mess-bar-text">
 					<input type="text" id="content" placeholder="欢迎发表你的评论">
 				</div>
@@ -131,7 +134,25 @@
 				<div {if condition="$assist eq 0"} class="mess-bar-like" {else /} class="mess-bar-like on" {/if} id="assist"></div>
 				<div style="line-height: 29px;" id="num">{$coua}</div>
 			</div>
-
+			<div class="am-g am-text-center pad_top_12 dmenu" style="padding-top: 4px;">
+				<a href="{:url('Rural/play',array('id'=>$re['id']))}" class="am-u-sm-3">
+					<img src="__HOME__/img/nd01.png" class="am-center" width="30" height="30" alt="">
+					<div class="am-text-truncate">周边游</div>
+				</a>
+				<a href="{:url('Rural/goods',array('id'=>$re['id']))}" class="am-u-sm-3">
+					<img src="__HOME__/img/nd02.png" class="am-center" width="30" height="30" alt="">
+					<div class="am-text-truncate">当地特产</div>
+				</a>
+				<a href="{:url('Rural/hotel',array('id'=>$re['id']))}" class="am-u-sm-3">
+					<img src="__HOME__/img/nd03.png" class="am-center" width="30" height="30" alt="">
+					<div class="am-text-truncate">当地民宿</div>
+				</a>
+				<a href="http://apis.map.qq.com/uri/v1/routeplan?type=drive&to={$re.addr}&tocoord=&policy=1&referer=myapp" class="am-u-sm-3">
+					<img src="__HOME__/img/nd04.png" class="am-center" width="30" height="30" alt="">
+					<div class="am-text-truncate">一键导航</div>
+				</a>
+			</div>
+		</div>
 			<script>
 				$(".delete").click(function(){
 		   var id = $(this).data("id");
