@@ -98,7 +98,7 @@
 		<ul>
 {volist name="res" id="v"}
 		<li>
-	<a href="{:url('Spot/detail',array('id'=>$v['id']))}" class="flex_normal mar_btm_12">
+	<a href="{:url('Spot/detail',array('id'=>$v['id']))}" class="flex_normal mar_btm_12" style="justify-content: space-between;">
 		<div class="kind_thumb bg_cover mar_btm_6" style="margin-right:12px;background-image: url('{$v.image}');">
 			
 		</div>
@@ -110,6 +110,10 @@
 				<li>最佳容量：{$v.opti}</li>
 				<li>最大容量：{$v.max}</li>
 			</ul>
+		</div>
+		<div style="text-align: right;">
+			<div>参考价格<span class="col_main">￥{$v.price}</span>起</div>
+			<div style="color: #CCCCCC;text-decoration: line-through;font-size: 12px;">￥{$v.yprice}</div>
 		</div>
 	</a>
 </li>

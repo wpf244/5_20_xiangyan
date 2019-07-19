@@ -271,5 +271,76 @@ class Food extends BaseHome
 
         return $this->fetch();
     }
+    /**
+    * 提交订单
+    *
+    * @return void
+    */
+    public function go_buy()
+    {
+        $uid=session("userid");
+
+        if($uid){
+            $id=input("id");
+
+            $re=db("food_hot")->where("id",$id)->find();
     
+            $this->assign("re",$re);
+            
+            return $this->fetch();
+        }else{
+            $this->redirect("Login/login");
+        }
+        
+        
+    }
+    /**
+    * 保存订单
+    *
+    * @return void
+    */
+    public function save_order()
+    {
+      
+
+        $id=input("id");
+
+        $uid=session("userid");
+
+      
+        $re=db("food_hot")->where("id",$id)->find();
+
+        if($re){
+            
+            $data['uid']=$uid;
+            $data['gid']=$id;
+            $data['shop_id']=$re['fid'];
+            $data['price']=$re['price'];
+            $data['name']=$re['title'];
+            $data['username']=input("username");
+            $data['phone']=input("phone");
+            $data['code']='ck-'.\uniqid();
+            $data['time']=time();
+            $data['type']=4;
+
+            $order=db("order")->where(["uid"=>$uid,"gid"=>$id,"type"=>4,"status"=>0])->find();
+
+            if($order){
+                db("order")->where("id",$order['id'])->delete();
+            }
+
+            $rea=db("order")->insert($data);
+
+            $did=db("order")->getLastInsID();
+
+            if($rea){
+                echo $did;
+            }else{
+                echo '0';
+            }
+
+        }else{
+            echo '0';
+        }
+    }
 }

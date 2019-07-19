@@ -64,6 +64,9 @@ class User extends BaseAdmin
          if($sid == 4){
              $res=db("goods_shop")->field("sid as id,sname as name")->select();
          }
+         if($sid == 5){
+            $res=db("food")->field("id,name")->select();
+        }
 
          $this->assign("res",$res);
 
@@ -167,6 +170,9 @@ class User extends BaseAdmin
         }
         if($sid == 4){
             $re=db("goods_shop")->field("sid as id,sname as name")->select();
+        }
+        if($sid == 5){
+            $re=db("food")->field("id,name")->select();
         }
         if($re){
            echo json_encode($re);

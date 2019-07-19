@@ -35,10 +35,11 @@
 		<h5 class="flex_1 am-text-truncate mar_btm_6">
 			{$re.name}
 		</h5>
-		<div class="flex_between mar_btm_6">
+		<div class="flex_between">
 			<div class="col_main">￥{$re.xprice}</div>
 			<span {if condition="$collect eq 0"} class="goods_collect mar_lt_12" {else /} class="goods_collect mar_lt_12 active" {/if} ></span>
 		</div>
+			<div style="color: #CCCCCC;text-decoration: line-through;font-size: 12px;">￥{$re.yprice}</div>
 		<div class="flex_between col_nine  mar_btm_6">
 			<span>剩余:{$re.kc}</span><span>销量:{$re.sales}</span>
 		</div>

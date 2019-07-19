@@ -486,6 +486,30 @@ class User extends BaseUser
         return $this->fetch();
     }
     /**
+    * 美食订单
+    *
+    * @return void
+    */
+    public function food_dd()
+    {
+        $uid=session("userid");
+
+        $re=db("order")->where(["uid"=>$uid,"type"=>4,"status"=>0])->order(["id desc"])->select();
+
+        $this->assign("re",$re);
+
+        $res=db("order")->where(["uid"=>$uid,"type"=>4,"status"=>1])->order(["id desc"])->select();
+
+        $this->assign("res",$res);
+
+        $reh=db("order")->where(["uid"=>$uid,"type"=>4,"status"=>2])->order(["id desc"])->select();
+
+        $this->assign("reh",$reh);
+
+        
+        return $this->fetch();
+    }
+    /**
     * 砍价订单
     *
     * @return void

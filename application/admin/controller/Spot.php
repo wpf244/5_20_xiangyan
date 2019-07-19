@@ -662,6 +662,17 @@ class Spot extends BaseAdmin
         $re=db('spot_ticket')->where("id",$id)->find();
         echo json_encode($re);
     }
+    public function delete_ticket()
+    {
+        $id=\input('id');
+        $re=db("spot_ticket")->where("id=$id")->find();
+        if($re){
+            $res=db("spot_ticket")->where("id=$id")->delete();
+            echo '0';
+        }else{
+            echo '1';
+        }
+    }
     /**
     * 订单
     *

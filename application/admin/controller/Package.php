@@ -173,40 +173,7 @@ class Package extends BaseAdmin
     public function dd()
     {
     
-        // $start=input('start');
-        // $end=input('end');
-        // $code=\input('code');
-      
-        // $addr=\input('addr');
-       
-        // if($start || $code ||  $addr){
-        //     if($start){
-                
-        //         $map['time']=['between time',[$start.'00:00:01',$end.'23:59:59']];
-        //     }
-        //     if($code){
-        //         $map['code']=array('like','%'.$code.'%');
-        //     }
-         
-        //     if($addr){
-        //         $map['username|phone']=array('like','%'.$addr.'%');
-              
-
-        //     }
-        // }else{
-            
-        //     $start="";
-        //     $end="";
         
-        //     $addr="";
-        //     $code="";
-        //     $map=[];
-        // }
-        // $this->assign("start",$start);
-        // $this->assign("end",$end);
-      
-        // $this->assign("addr",$addr);
-        // $this->assign("code",$code);
 
         $map=[];
         $start=input('start');
@@ -292,30 +259,7 @@ class Package extends BaseAdmin
     
     }
     public function out(){
-        // $start=input('start');
-        // $end=input('end');
-        // $code=\input('code');
-      
-        // $addr=\input('addr');
        
-        // if($start || $code ||  $addr){
-        //     if($start){
-                
-        //         $map['time']=['between time',[$start.'00:00:01',$end.'23:59:59']];
-        //     }
-        //     if($code){
-        //         $map['code']=array('like','%'.$code.'%');
-        //     }
-         
-        //     if($addr){
-        //         $map['username|phone']=array('like','%'.$addr.'%');
-              
-
-        //     }
-        // }else{
-            
-        //     $map=[];
-        // }
         $map=[];
         $start=input('start');
         $end=input('end');

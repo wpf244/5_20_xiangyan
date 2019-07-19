@@ -121,6 +121,7 @@
 			<h4 class="am-text-truncate">{$vh.name}</h4>
 			<div class="col_main">
 				<span class="am-text-xs">￥</span><span class="am-text-lg mar_lt_6 mar_rt_6">{$vh.money}</span>
+				<div style="color: #CCCCCC;text-decoration: line-through;font-size: 12px;">￥{$vh.yprice}</div>
 			</div>
 		</a>
 				{/volist}
@@ -140,6 +141,7 @@
 					<div class="flex_between">
 						<span class="col_deputy">{$p.score}诚信分</span>
 						<div class="col_nine "><span class="col_main mar_rt_6 am-text-default">￥{$p.money}</span>/人</div>
+						<div style="color: #CCCCCC;text-decoration: line-through;font-size: 12px;">￥{$p.yprice}</div>
 					</div>
 				</div>
 			</div>
@@ -164,6 +166,7 @@
 	<h4 class="am-text-truncate">{$v.name}</h4>
 	<div class="col_main">
 		<span class="am-text-xs">￥</span><span class="am-text-lg mar_lt_6 mar_rt_6">{$v.money}</span>
+		<div style="color: #CCCCCC;text-decoration: line-through;font-size: 12px;">￥{$v.yprice}</div>
 	</div>
 </a>
 		{/volist}		
@@ -183,6 +186,7 @@
 			<div class="flex_between">
 				<span class="col_deputy">{$vs.score}诚信分</span>
 				<div class="col_nine "><span class="col_main mar_rt_6 am-text-default">￥{$vs.money}</span>/人</div>
+				<div style="color: #CCCCCC;text-decoration: line-through;font-size: 12px;">￥{$vs.yprice}</div>
 			</div>
 		</div>
 	</div>

@@ -148,7 +148,8 @@ class Spot extends BaseHome
         $this->assign("banner",$banner);
 
         //景区门票
-        $ticket=db("spot_ticket")->where("sid",$id)->find();
+        $ticket=db("spot_ticket")->where("sid",$id)->select();
+
 
         $this->assign("ticket",$ticket);
 
