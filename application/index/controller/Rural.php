@@ -218,6 +218,29 @@ class Rural extends BaseHome
 
         return $this->fetch();
     }
+    public function search()
+    {
+        $title=input("title");
+
+        $map=[];
+
+        if($title){
+           
+            $map['title|addr']=array("like","%".$title."%");
+         
+        }
+        
+        $res=db("rural")->where($map)->where(["status"=>1])->order(["sort asc","id desc"])->select();
+
+
+        $this->assign("res",$res);
+
+        $citys=session("citys");
+
+        $this->assign("citys",$citys);
+
+        return $this->fetch();
+    }
     public function detail()
     {
         
