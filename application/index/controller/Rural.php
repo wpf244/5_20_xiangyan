@@ -79,6 +79,16 @@ class Rural extends BaseHome
             }
 
 
+        }else{
+            $city_index=session('city_index');
+
+            $res=db("culture_city")->where("c_name","like","%".$city_index."%")->find();
+
+            if($res){
+                $map['cid']=['eq',$res['cid']];
+            }
+
+
         }
 
 
@@ -176,6 +186,16 @@ class Rural extends BaseHome
 
                 // $arr['zname']=db("culture_city")->where("cid",$zid)->find()['c_name'];
 
+            }
+
+
+        }else{
+            $city_index=session('city_index');
+
+            $res=db("culture_city")->where("c_name","like","%".$city_index."%")->find();
+
+            if($res){
+                $map['cid']=['eq',$res['cid']];
             }
 
 

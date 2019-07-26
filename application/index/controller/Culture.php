@@ -72,9 +72,19 @@ class Culture extends BaseHome
             }
 
 
+        }else{
+            $city_index=session('city_index');
+
+            $res=db("culture_city")->where("c_name","like","%".$city_index."%")->find();
+
+            if($res){
+                $map['cid']=['eq',$res['cid']];
+            }
+
+
         }
 
-
+        
         $this->assign("arr",$arr);
 
         $this->assign("city",$city);
@@ -143,7 +153,7 @@ class Culture extends BaseHome
     {
         //游记
 
-        $title=input("title");
+       
 
         // if($title){
         //     $map['title']=["like","%".$title."%"];
@@ -211,6 +221,14 @@ class Culture extends BaseHome
 
 
 
+        }else{
+            $city_index=session('city_index');
+
+          
+            $map['addr']=["like","%".$city_index."%"];
+           
+
+
         }
 
 
@@ -220,22 +238,22 @@ class Culture extends BaseHome
 
         $this->assign("area",$area); 
 
-        $city_index=session("city_index");
+       
         
-        $publish=db("publish")->where(["status"=>1,"recom"=>1])->where("addr","like","%".$city_index."%")->where($map)->order(["sort asc","id desc"])->select();
+        $publish=db("publish")->where(["status"=>1,"recom"=>1])->where($map)->order(["sort asc","id desc"])->select();
 
         $this->assign("publish",$publish);
 
-        $publishs=db("publish")->where(["status"=>1,"recom"=>0])->where("addr","like","%".$city_index."%")->where($map)->order(["sort asc","id desc"])->select();
+        $publishs=db("publish")->where(["status"=>1,"recom"=>0])->where($map)->order(["sort asc","id desc"])->select();
 
         $this->assign("publishs",$publishs);
 
         //攻略
-        $strat=db("strat")->where(["status"=>1,"recome"=>1])->where("addr","like","%".$city_index."%")->where($map)->order(["sort asc","id desc"])->select();
+        $strat=db("strat")->where(["status"=>1,"recome"=>1])->where($map)->order(["sort asc","id desc"])->select();
 
         $this->assign("strat",$strat);
 
-        $strats=db("strat")->where(["status"=>1,"recome"=>0])->where("addr","like","%".$city_index."%")->where($map)->order(["sort asc","id desc"])->select();
+        $strats=db("strat")->where(["status"=>1,"recome"=>0])->where($map)->order(["sort asc","id desc"])->select();
 
         $this->assign("strats",$strats);
 

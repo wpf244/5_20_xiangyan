@@ -48,6 +48,16 @@ class Food extends BaseHome
                 }
             }
 
+        }else{
+            $city_index=session('city_index');
+
+            $res=db("spot_city")->where("name","like","%".$city_index."%")->find();
+
+            if($res){
+                $map['cid']=['eq',$res['id']];
+            }
+
+
         }
 
         $this->assign("arr",$arr);

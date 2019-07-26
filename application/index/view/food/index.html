@@ -57,7 +57,7 @@
 					<h6>不限</h6><input type="radio" id="area_1" name="tid" value="0">
 				</label>
 			  {volist name="city" id="v" key="k"}	 
-				<label for="area_2" onchange="submitForm();" class="choice_lb p_12 flex_between bd_btm">
+				<label for="area_{$k+1}" onchange="submitForm();" class="choice_lb p_12 flex_between bd_btm">
 					<h6>{$v.name}</h6><input type="radio" name="cid" id="area_{$k+1}" {if condition="$arr.cid eq $v.id"} checked {/if}  value="{$v.id}">
 				</label>
 			{/volist}
@@ -73,7 +73,7 @@
 					<h6>不限</h6><input type="radio" id="kind_1" name="tid" value="0">
 				</label>
 				{volist name="type" id="vt" key="kt"}	
-				<label for="kind_2" onchange="submitForm();" class="choice_lb p_12 flex_between bd_btm">
+				<label for="kind_{$kt+1}" onchange="submitForm();" class="choice_lb p_12 flex_between bd_btm">
 					<h6>{$vt.name}</h6><input type="radio" id="kind_{$kt+1}" name="tid" {if condition="$arr.tid eq $vt.id"} checked {/if} value="{$vt.id}">
 				</label>
 				{/volist}
