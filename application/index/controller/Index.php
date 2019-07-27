@@ -10,6 +10,7 @@ class Index extends BaseHome
     {
         
       //  var_dump(111);exit;
+      session("citys",null);
         //轮播图
         $lb=db("lb")->where(["fid"=>2,"status"=>1])->order(["sort asc","id desc"])->select();
 

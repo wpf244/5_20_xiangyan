@@ -13,7 +13,7 @@ class Rural extends BaseHome
     
 
     
-
+     session("citys",null);
 
         $cid=input("cid");
 
