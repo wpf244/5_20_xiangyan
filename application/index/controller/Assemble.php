@@ -279,7 +279,6 @@ class Assemble extends BaseUser
         $this->assign("reg",$reg);
 
 
-        
         return $this->fetch();
     }
     /**
